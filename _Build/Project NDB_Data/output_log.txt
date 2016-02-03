@@ -1,0 +1,79 @@
+Initialize engine version: 5.3.1f1 (cc9cbbcc37b4)
+GfxDevice: creating device client; threaded=1
+Direct3D:
+    Version:  Direct3D 11.0 [level 11.0]
+    Renderer: NVIDIA GeForce GTX 750 (ID=0x1381)
+    Vendor:   NVIDIA
+    VRAM:     973 MB
+Begin MonoManager ReloadAssembly
+Platform assembly: D:\안단태\대학교\동아리\유피넬\유피넬 프로젝트\NDB\NDB 16.2.3\Builds\Project NDB_Data\Managed\UnityEngine.dll (this message is harmless)
+Loading D:\안단태\대학교\동아리\유피넬\유피넬 프로젝트\NDB\NDB 16.2.3\Builds\Project NDB_Data\Managed\UnityEngine.dll into Unity Child Domain
+Platform assembly: D:\안단태\대학교\동아리\유피넬\유피넬 프로젝트\NDB\NDB 16.2.3\Builds\Project NDB_Data\Managed\Assembly-CSharp.dll (this message is harmless)
+Loading D:\안단태\대학교\동아리\유피넬\유피넬 프로젝트\NDB\NDB 16.2.3\Builds\Project NDB_Data\Managed\Assembly-CSharp.dll into Unity Child Domain
+Platform assembly: D:\안단태\대학교\동아리\유피넬\유피넬 프로젝트\NDB\NDB 16.2.3\Builds\Project NDB_Data\Managed\UnityEngine.UI.dll (this message is harmless)
+Loading D:\안단태\대학교\동아리\유피넬\유피넬 프로젝트\NDB\NDB 16.2.3\Builds\Project NDB_Data\Managed\UnityEngine.UI.dll into Unity Child Domain
+Platform assembly: D:\안단태\대학교\동아리\유피넬\유피넬 프로젝트\NDB\NDB 16.2.3\Builds\Project NDB_Data\Managed\UnityEngine.Networking.dll (this message is harmless)
+Loading D:\안단태\대학교\동아리\유피넬\유피넬 프로젝트\NDB\NDB 16.2.3\Builds\Project NDB_Data\Managed\UnityEngine.Networking.dll into Unity Child Domain
+Platform assembly: D:\안단태\대학교\동아리\유피넬\유피넬 프로젝트\NDB\NDB 16.2.3\Builds\Project NDB_Data\Managed\UnityEngine.Networking.dll (this message is harmless)
+Loading D:\안단태\대학교\동아리\유피넬\유피넬 프로젝트\NDB\NDB 16.2.3\Builds\Project NDB_Data\Managed\UnityEngine.Networking.dll into Unity Child Domain
+Platform assembly: D:\안단태\대학교\동아리\유피넬\유피넬 프로젝트\NDB\NDB 16.2.3\Builds\Project NDB_Data\Managed\UnityEngine.UI.dll (this message is harmless)
+Loading D:\안단태\대학교\동아리\유피넬\유피넬 프로젝트\NDB\NDB 16.2.3\Builds\Project NDB_Data\Managed\UnityEngine.UI.dll into Unity Child Domain
+- Completed reload, in  0.050 seconds
+Platform assembly: D:\안단태\대학교\동아리\유피넬\유피넬 프로젝트\NDB\NDB 16.2.3\Builds\Project NDB_Data\Managed\System.Core.dll (this message is harmless)
+Platform assembly: D:\안단태\대학교\동아리\유피넬\유피넬 프로젝트\NDB\NDB 16.2.3\Builds\Project NDB_Data\Managed\System.dll (this message is harmless)
+<RI> Initializing input.
+XInput1_3.dll not found. Trying XInput9_1_0.dll instead...
+<RI> Input initialized.
+desktop: 1920x1080 60Hz; virtual: 1920x1080 at 0,0
+<RI> Initialized touch support.
+UnloadTime: 0.488735 ms
+Unloading 5 Unused Serialized files (Serialized files now loaded: 0)
+UnloadTime: 4.333650 ms
+
+Unloading 134 unused Assets to reduce memory usage. Loaded Objects now: 610.
+Total: 0.546096 ms (FindLiveObjects: 0.033070 ms CreateObjectMapping: 0.029265 ms MarkObjects: 0.405621 ms  DeleteObjects: 0.077553 ms)
+
+Unloading 2 Unused Serialized files (Serialized files now loaded: 0)
+UnloadTime: 0.584726 ms
+
+Unloading 5 unused Assets to reduce memory usage. Loaded Objects now: 812.
+Total: 0.497807 ms (FindLiveObjects: 0.028387 ms CreateObjectMapping: 0.023412 ms MarkObjects: 0.438106 ms  DeleteObjects: 0.007316 ms)
+
+Unloading 3 Unused Serialized files (Serialized files now loaded: 0)
+UnloadTime: 1.625411 ms
+
+Unloading 132 unused Assets to reduce memory usage. Loaded Objects now: 610.
+Total: 0.563362 ms (FindLiveObjects: 0.034240 ms CreateObjectMapping: 0.026631 ms MarkObjects: 0.432252 ms  DeleteObjects: 0.069944 ms)
+
+Unloading 2 Unused Serialized files (Serialized files now loaded: 0)
+UnloadTime: 0.628625 ms
+
+Unloading 5 unused Assets to reduce memory usage. Loaded Objects now: 812.
+Total: 0.577410 ms (FindLiveObjects: 0.035411 ms CreateObjectMapping: 0.031899 ms MarkObjects: 0.499271 ms  DeleteObjects: 0.009657 ms)
+
+Unloading 3 Unused Serialized files (Serialized files now loaded: 0)
+UnloadTime: 1.437526 ms
+
+Unloading 132 unused Assets to reduce memory usage. Loaded Objects now: 610.
+Total: 0.575947 ms (FindLiveObjects: 0.040679 ms CreateObjectMapping: 0.028972 ms MarkObjects: 0.433716 ms  DeleteObjects: 0.072286 ms)
+
+Unloading 2 Unused Serialized files (Serialized files now loaded: 0)
+UnloadTime: 0.596140 ms
+
+Unloading 5 unused Assets to reduce memory usage. Loaded Objects now: 812.
+Total: 0.504538 ms (FindLiveObjects: 0.038923 ms CreateObjectMapping: 0.030436 ms MarkObjects: 0.427277 ms  DeleteObjects: 0.007609 ms)
+
+Unloading 3 Unused Serialized files (Serialized files now loaded: 0)
+UnloadTime: 1.251397 ms
+
+Unloading 132 unused Assets to reduce memory usage. Loaded Objects now: 610.
+Total: 0.535560 ms (FindLiveObjects: 0.035118 ms CreateObjectMapping: 0.028972 ms MarkObjects: 0.393914 ms  DeleteObjects: 0.076675 ms)
+
+Unloading 2 Unused Serialized files (Serialized files now loaded: 0)
+UnloadTime: 0.592335 ms
+
+Unloading 5 unused Assets to reduce memory usage. Loaded Objects now: 812.
+Total: 0.474102 ms (FindLiveObjects: 0.028680 ms CreateObjectMapping: 0.023119 ms MarkObjects: 0.414108 ms  DeleteObjects: 0.007316 ms)
+
+Setting up 1 worker threads for Enlighten.
+  Thread -> id: 105c -> priority: 1 
