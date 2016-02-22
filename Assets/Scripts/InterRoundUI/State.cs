@@ -17,6 +17,6 @@ public class State : MonoBehaviour {
 	void Update ()
     {
         moneyText.text = "" + GameManager.gm.Money();
-        developerText.text = "" + Developer.dev.salaryCost;
+        developerText.text = "" + (Developer.dev.salaryCost * (GameManager.gm.basicTime - 10));
 	}
 }

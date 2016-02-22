@@ -17,13 +17,13 @@ public class Developer : MonoBehaviour {
     [HideInInspector] public int fireCost = -700;
     [HideInInspector] public int salaryCost = 0;        // 초당(per second) 지급되는 개발자 월급
 
-    private int serverLimitIncreasePerDeveloper = 1000; // 대체 무슨짓을 한건지 모르겠지만 public으로 하면 값이 2500이 됨
+    [HideInInspector] public int serverLimitIncreasePerDeveloper = 1000;
     [HideInInspector] public float macroDecreasePerDeveloper = 0.1f;
     [HideInInspector] public float userIncreasePerDeveloper = 0.2f;
     [HideInInspector] public int developerMonsterGenerationTime = 3;
 
 
-    void Awake()
+    void Start()
     {
         dev = this;
         gm = GameManager.gm;
