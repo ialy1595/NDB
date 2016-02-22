@@ -34,11 +34,11 @@ public class DaramBar : MonoBehaviour {
         }
 
         // NaN exception이 뜨지 않게 대충 초기화
-        DaramFunc.k = 1;
         DaramFunc.x = 0;
         DaramFunc.a = 0;
         DaramFunc.max = 1;
         DaramFunc.min = -1;
+        DaramFunc.solution = 2;
     }
 
 
