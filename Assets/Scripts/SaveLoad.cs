@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System;
+using System.Text.RegularExpressions;
 
 public class SaveLoad : MonoBehaviour {
 
@@ -16,11 +17,18 @@ public class SaveLoad : MonoBehaviour {
         return System.IO.File.Exists(Application.dataPath + "\\SaveFile.txt");
     }
 
-    public static void Load()
+    public static bool Load()
     {
         string text = System.IO.File.ReadAllText(Application.dataPath + "\\SaveFile.txt");
-        GameManager.gm.GameName = text.TrimStart('%');
-        int encodedlevel = int.Parse(text.TrimEnd());
-        GameManager.gm.clearedLevel = (~encodedlevel - 154321245) / 4203;
+        string pattern = @"^(.*)%(-?\d+)$";
+        Match match = Regex.Match(text, pattern);
+        if (match.Success)
+        {
+            GameManager.gm.GameName = match.Groups[1].Value;
+            int encodedlevel = int.Parse(match.Groups[2].Value);
+            GameManager.gm.clearedLevel = (~encodedlevel - 154321245) / 4203;
+            return true;
+        }
+        else return false;
     }
 }
