@@ -25,6 +25,7 @@ public class GameManager : MonoBehaviour {
     [HideInInspector] public float[] userDamagePerLevel; // 각 레벨(초보, 중수)의 유저의 수에 비례한 데미지 곱(나눗셈) 값
     [HideInInspector] public Quadric[] DaramFunction;    // 적정 다람쥐 계산하는 함수
     [HideInInspector] public int roundCount = 0;
+    [HideInInspector] public int clearedLevel = 0;
     [HideInInspector] public int timeLeft = 1;
     [HideInInspector] public string currentStageScene;
     [HideInInspector] public bool isPaused = false;
