@@ -27,6 +27,7 @@ public class SaveLoad : MonoBehaviour {
             GameManager.gm.GameName = match.Groups[1].Value;
             int encodedlevel = int.Parse(match.Groups[2].Value);
             GameManager.gm.clearedLevel = (~encodedlevel - 154321245) / 4203;
+            print(GameManager.gm.clearedLevel);
             return true;
         }
         else return false;
