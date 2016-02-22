@@ -8,6 +8,7 @@ using System.Collections.Generic;
 public class Daram : MonoBehaviour {
 
     public static List<Daram> All = new List<Daram>();
+    public static int DaramVariety = 1; // 현재 뿌려지는 다람쥐의 종류 개수 (레벨 차이는 고려 안함), 최솟값 1
     //public static int FindByType(string type, int level);
 
     public string Type;
@@ -110,14 +111,25 @@ public class Daram : MonoBehaviour {
             dir.y = (dir.y == yPos / Mathf.Abs(yPos)) ? 0 : dir.y;
     }
 
+    /// <param name="Type">"" = 종류에 관계없이</param>
     /// <param name="Level">0 = 레벨에 관계없이</param>
     public static int FindByType(string Type, int Level)
     {
         int sum = 0;
         foreach (Daram d in Daram.All)
-            if (d.Type == Type && (Level == 0 || d.Level == Level))
+            if ((Type == "" || d.Type == Type) && (Level == 0 || d.Level == Level))
                 sum++;
         return sum;
+    }
+
+    public static void CalculateDaramVariety()
+    {
+        List<string> types = new List<string>();
+        foreach (Daram d in Daram.All)
+            if (!(types.Contains(d.Type)))
+                types.Add(d.Type);
+
+        DaramVariety = Mathf.Max(types.Count, 1);
     }
 
     //All.Remove()를 쓰기 위해 비교연산자가 필요함.

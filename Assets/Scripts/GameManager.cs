@@ -91,6 +91,7 @@ public class GameManager : MonoBehaviour {
 
         DaramDeath += DaramDeath1;
         DaramDeath += DaramDeath2;
+        FameChange += Daram.CalculateDaramVariety;
         FameChange += FameDaram1;
         UserChange += UserLevel1;
         FameChange += CheckFameZero;
@@ -173,14 +174,18 @@ public class GameManager : MonoBehaviour {
 
         if (!isPaused)
         {
-            if (FameChange != null)
-                FameChange();
+            if (isInterRound)
+                if (FameChange != null)
+                    FameChange();
             if (!isInterRound)
             {
+                // 순서 바꾸지 마세요 코드 엉킴
                 if (EventCheck != null)
                     EventCheck();
                 if (DaramDeath != null)
                     DaramDeath();
+                if (FameChange != null)
+                    FameChange();
                 if (UserChat != null)
                     UserChat();
                 RoundEndCheck();
@@ -308,11 +313,11 @@ public class GameManager : MonoBehaviour {
     {
         // IsInterRound가 true이면 인기도는 변하지 않아도 함수는 작동함
         Quadric q = DaramFunction[User.level1];
-        q.k = 0.2f;
         q.x = Daram.All.Count;
         q.a = 10 + fame / 1000;
-        q.max = 5;
-        q.min = -5;
+        q.max = 5 + Daram.DaramVariety / 2;
+        q.min = -5 - Daram.DaramVariety;
+        q.solution = 10 * Daram.DaramVariety;
 
         if(!isInterRound) fame += (int) q.value;
     }
@@ -322,11 +327,11 @@ public class GameManager : MonoBehaviour {
     {
         // IsInterRound가 true이면 인기도는 변하지 않아도 함수는 작동함
         Quadric q = DaramFunction[User.level2];
-        q.k = 0.2f;
-        q.x = Daram.FindByType("Basic", 2);
+        q.x = Daram.FindByType("", 2);
         q.a = 5 + userCount[User.level2] / 100 + userCount[User.level1] / 2000;
-        q.max = 2;
-        q.min = -3;
+        q.max = 2 + Daram.DaramVariety / 3;
+        q.min = -3 - Daram.DaramVariety;
+        q.solution = 5 * Daram.DaramVariety;
 
         if(!isInterRound) fame += (int) q.value;
     }
@@ -359,6 +364,7 @@ public class GameManager : MonoBehaviour {
         userCount[User.level1] -= LevelUp;
         userCount[User.level2] += LevelUp;  // 일단 level2유저는 감소하지 않는걸로
     }
+
 
     //                      //
     //       기타 함수      //
