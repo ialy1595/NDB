@@ -8,13 +8,23 @@ using System.Collections;
 /// <summary>
 /// y = -k(x - a)^2 + max   (y >= min)
 /// </summary>
-public class Quadric {  
+public class Quadric {
 
-    public float k;     //계수
     public float x;     //실제 다람쥐 수
     public float a;     //적정 다람쥐 수
     public float max;   //인기도 최대 증가량
     public float min;   //인기도 최소 감소량
+
+    /// <summary>
+    /// 2차함수의 2차항계수
+    /// </summary>
+    public float eff
+    {
+        get
+        {
+            return k;
+        }
+    }
 
     /// <summary>
     /// 2차함수의 계산값
@@ -43,11 +53,17 @@ public class Quadric {
     /// </summary>
     public float solution
     {
+        set // max 는 변화 없이 k만 변화시킴
+        {
+            k = 4.0f * max / (value * value);
+        }
         get
         {
             return 2.0f * Mathf.Sqrt(max / k);
         }
     }
+
+    private float k;
 }
 
 
