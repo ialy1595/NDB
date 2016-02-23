@@ -43,7 +43,7 @@ public class Events : MonoBehaviour {
 
     void UnlockUpBasic()
     {
-        if (GameManager.gm.fame >= 10000)
+        if (GameManager.gm.fame >= 7500)
         {
             GameManager.gm.EventCheck -= UnlockUpBasic;
  
@@ -93,7 +93,7 @@ public class Events : MonoBehaviour {
 
     void MacroEvent()
     {
-        if (gm.UserAllCount() >= 20000 && Random.value < 1f/7201f)
+        if (gm.UserAllCount() >= 10000 && Random.value < 1f/7201f)
             Instantiate(MacroEvent_Box);
     }
 
@@ -110,7 +110,7 @@ public class Events : MonoBehaviour {
 
     void GettingFamous()
     {
-        if (gm.fame >= 30000)
+        if (gm.fame >= 12500)
         {
             Instantiate(GettingFamous_Box);
             gm.userCount[User.level1] += 1000 + 100 * Developer.dev.developerCount[Developer.dev.FindPostIDByName("Publicity")];

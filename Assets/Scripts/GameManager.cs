@@ -314,8 +314,8 @@ public class GameManager : MonoBehaviour {
     {
         // IsInterRound가 true이면 인기도는 변하지 않아도 함수는 작동함
         Quadric q = DaramFunction[User.level1];
-        q.x = Daram.All.Count;
-        q.a = 10 + fame / 1000;
+        q.x = Daram.FindByType("",1);
+        q.a = 10 + userCount[User.level1] / 500;
         q.max = 5 + Daram.DaramVariety / 2;
         q.min = -5 - Daram.DaramVariety;
         q.solution = 10 * Daram.DaramVariety;
@@ -329,7 +329,7 @@ public class GameManager : MonoBehaviour {
         // IsInterRound가 true이면 인기도는 변하지 않아도 함수는 작동함
         Quadric q = DaramFunction[User.level2];
         q.x = Daram.FindByType("", 2);
-        q.a = 5 + userCount[User.level2] / 100 + userCount[User.level1] / 2000;
+        q.a = 5 + userCount[User.level2] / 500 + userCount[User.level1] / 2000;
         q.max = 2 + Daram.DaramVariety / 3;
         q.min = -3 - Daram.DaramVariety;
         q.solution = 5 * Daram.DaramVariety;
@@ -486,7 +486,7 @@ public class GameManager : MonoBehaviour {
                 Developer.dev.CalculateCost();
                 ChangeMoneyBySalary((-Developer.dev.salaryCost));
             }
-            yield return new WaitForSeconds(1f);
+            yield return new WaitForSeconds(1.0f);
         }
     }
 
