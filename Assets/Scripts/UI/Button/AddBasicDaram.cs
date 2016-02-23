@@ -24,7 +24,7 @@ public class AddBasicDaram : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
     private bool pointerOn;
     //private int DaramCost;
     private int DaramHP;
-    private float DeveloperTime = 0;
+    //private float DeveloperTime = 0;
     private int DaramAmount = 1;
 
     void Start() {
@@ -74,7 +74,7 @@ public class AddBasicDaram : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
         {
             daramInfo.SetActive(false);
         }
-
+        /*
         if (daram.GetComponent<Daram>().Type == "Basic")
         {
             // 개발자 한명당 3초에 한마리씩 뿌림
@@ -92,7 +92,7 @@ public class AddBasicDaram : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
                 DeveloperTime = gm.time + (float)Developer.dev.developerMonsterGenerationTime / (float)Developer.dev.developerCount[Developer.dev.FindPostIDByName("DaramLv2")];
             }
         }
-
+        */
     }
 
     public void OnClick()

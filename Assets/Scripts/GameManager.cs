@@ -58,7 +58,6 @@ public class GameManager : MonoBehaviour {
     //public void pause(bool pause);
     //public int UserAllCount();
 
-    private Developer dev;
     private Music mus;
     private SE se;
 
@@ -104,7 +103,7 @@ public class GameManager : MonoBehaviour {
         FameChange += FameDaram1;
         UserChange += UserLevel1;
         FameChange += CheckFameZero;
-        RoundStartEvent += CheckDaramDeveloper;
+        //RoundStartEvent += CheckDaramDeveloper;
 
 
 
@@ -118,8 +117,6 @@ public class GameManager : MonoBehaviour {
         if (GMCreated == true)  // GM 중복생성 방지
             return;
         GMCreated = true;
-
-        dev = Developer.dev;
 
         if (SceneManager.GetActiveScene().name == "Test")
             OnLevelWasLoaded(0);    // Start 대신 저 안에 써주세요
@@ -384,7 +381,6 @@ public class GameManager : MonoBehaviour {
         if (FameDelta > 0)
         {
             userLevel1Increase = (int)(12 * Mathf.Log(fame + 1));     // y = k * log(x + 1)
-            userLevel1Increase += (int)(userLevel1Increase * Developer.dev.userIncreasePerDeveloper * Developer.dev.developerCount[Developer.dev.FindPostIDByName("Publicity")]);
             userCount[User.level1] += userLevel1Increase;
         }
         else
@@ -630,7 +626,7 @@ public class GameManager : MonoBehaviour {
         GameObject messageBox = Instantiate(GetComponentInChildren<Events>().NormalMessage_Box) as GameObject;
         messageBox.GetComponentInChildren<Text>().text = boxText;
     }
-
+    /*
     // 매 라운드 시작시마다 호출됨
     void CheckDaramDeveloper()
     {
@@ -643,6 +639,7 @@ public class GameManager : MonoBehaviour {
         Unlockables.SetBool("UnlockBasic2_Amount10", dev.developerCount[dev.FindPostIDByName("DaramLv2")] >= 3);
         Unlockables.SetBool("UnlockBasic2_Amount100", dev.developerCount[dev.FindPostIDByName("DaramLv2")] >= 9);
     }
+    */
 
 }
 

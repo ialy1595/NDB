@@ -75,7 +75,7 @@ public class Events : MonoBehaviour {
 
             GameManager.gm.userCount[User.level1] -= (int)( GameManager.gm.userCount[User.level1] * Random.Range(0.3f, 0.5f));
             GameManager.gm.userCount[User.level2] -= (int)(GameManager.gm.userCount[User.level2] * Random.Range(0.3f, 0.5f));
-            GameManager.gm.fame -= (int)(GameManager.gm.fame * (0.2 - 0.015 * Mathf.Min(10, Developer.dev.developerCount[Developer.dev.FindPostIDByName("Customer")])));
+            GameManager.gm.fame -= (int)(GameManager.gm.fame * 0.2 );
 
         }
     }
@@ -88,7 +88,7 @@ public class Events : MonoBehaviour {
             UserChat.CreateChat("ㄱㄱㄱ", 5);
             UserChat.CreateChat("이 게임 접으려는데 아이디 사실 분?", 5);
 
-            GameManager.gm.userCount[User.level1] -= 1500 + (int)(GameManager.gm.userCount[User.level1] * 0.1f) - 150 * Mathf.Min(10, Developer.dev.developerCount[Developer.dev.FindPostIDByName("Publicity")]);
+            GameManager.gm.userCount[User.level1] -= 1500 + (int)(GameManager.gm.userCount[User.level1] * 0.1f);
             GameManager.gm.userCount[User.level2] -= (int)(GameManager.gm.userCount[User.level2] * 0.1f);
 
             gm.EventCheck -= RivalGameRelease;
@@ -117,7 +117,7 @@ public class Events : MonoBehaviour {
         if (gm.fame >= 30000)
         {
             Instantiate(GettingFamous_Box);
-            gm.userCount[User.level1] += 1500 + 100 * Developer.dev.developerCount[Developer.dev.FindPostIDByName("Publicity")];
+            gm.userCount[User.level1] += 1500;
             gm.userCount[User.level2] += 100;
             UserChat.CreateChat(UserChat.GoodChat("와와"), 2);
             UserChat.CreateChat(UserChat.GoodChat("와와"), 3);

@@ -16,7 +16,7 @@ public class Daram : MonoBehaviour {
     public int Level;
     public int InitialHP;
     public int Speed;
-    public int Cost;
+    //public int Cost;
     public GameObject Carcass;
     public string feature;
 
