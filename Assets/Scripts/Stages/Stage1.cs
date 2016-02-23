@@ -11,8 +11,11 @@ public class Stage1 : MonoBehaviour {
         Unlockables.SetBool("UnlockBasic1", true);
         Unlockables.SetBool("UnlockBasic1_Amount1", true);
         Unlockables.SetBool("UnlockBasic2_Amount1", true);
-
         Unlockables.SetBool("UnlockRainbow1_Amount1", true);
+
+        Unlockables.SetInt("Basic1Health", 100);
+        Unlockables.SetInt("Basic2Health", 500);
+        Unlockables.SetInt("Rainbow1Health", 100);
 
         Unlockables.SetInt("Server", 1);
         Unlockables.SetInt("ServerEff", 5000);

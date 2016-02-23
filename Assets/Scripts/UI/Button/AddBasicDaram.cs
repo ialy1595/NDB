@@ -12,6 +12,7 @@ public class AddBasicDaram : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
     private GameManager gm;
     
     public GameObject daram;
+    public Daram Daram;
 
     public string ClickHotkey;
     public string AmountUpHotkey;
@@ -33,11 +34,13 @@ public class AddBasicDaram : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
     void Start() {
         gm = GameManager.gm;
         button = GetComponent<Button>();
-        DaramCost = daram.GetComponent<Daram>().Cost;
-        DaramHP = daram.GetComponent<Daram>().InitialHP;
+        Daram = daram.GetComponent<Daram>();
+
+        DaramCost = Daram.Cost;
+        DaramHP = Daram.InitialHP;
         daramInfo = transform.GetChild(0).gameObject;
         daramInfoText = daramInfo.GetComponentInChildren<Text>();
-        daramInfoText.text = daram.name + "\n\n가격 : " + DaramCost + "\n체력 : " + DaramHP + "\n특성 : " + daram.GetComponent<Daram>().feature;
+        daramInfoText.text = daram.name + "\n\n가격 : " + DaramCost + "\n체력 : " + DaramHP + "\n특성 : " + Daram.feature;
         pointerOn = false;
         DaramAmountText = transform.GetChild(2).GetComponentInChildren<Text>();
     }
@@ -45,25 +48,28 @@ public class AddBasicDaram : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
     void Update()
     {
         // 해금되었는지 확인
-        string key = "Unlock" + daram.GetComponent<Daram>().Type + daram.GetComponent<Daram>().Level;
+        string key = "Unlock" + Daram.Type + Daram.Level;
         if (Unlockables.GetBool(key) == true)
         {
             transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
             if (Input.GetKeyDown(ClickHotkey))
                 OnClick();
             if (Input.GetKeyDown(AmountUpHotkey))
-                if (DaramAmount != 100 && Unlockables.GetBool("Unlock" + daram.GetComponent<Daram>().Type + daram.GetComponent<Daram>().Level + "_Amount" + DaramAmount * 10) == true)
+                if (DaramAmount != 100 && Unlockables.GetBool("Unlock" + Daram.Type + Daram.Level + "_Amount" + DaramAmount * 10) == true)
                     DaramAmount *= 10;
             if (Input.GetKeyDown(AmountDownHotkey))
-                if (DaramAmount != 1 && Unlockables.GetBool("Unlock" + daram.GetComponent<Daram>().Type + daram.GetComponent<Daram>().Level + "_Amount" + DaramAmount / 10) == true)
+                if (DaramAmount != 1 && Unlockables.GetBool("Unlock" + Daram.Type + Daram.Level + "_Amount" + DaramAmount / 10) == true)
                     DaramAmount /= 10;
         }
         else
             transform.localScale = Vector3.zero;
 
+        Daram.InitialHP = Unlockables.GetInt(Daram.Type + Daram.Level + "Health");
+        DaramHP = Daram.InitialHP;
+
         DaramAmountText.text = DaramAmount.ToString();
 
-        if (GameManager.gm.isPaused || !button.interactable) return;
+        if (GameManager.gm.isPaused) return;
 
         if (Input.GetMouseButtonDown(0))
             LatestClick = gm.time;
@@ -89,17 +95,17 @@ public class AddBasicDaram : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
         }
  
 
-        if (daram.GetComponent<Daram>().Type == "Basic")
+        if (Daram.Type == "Basic")
         {
             // 개발자 한명당 3초에 한마리씩 뿌림
-            if (GameManager.gm.isInterRound == false && daram.GetComponent<Daram>().Level == 1
+            if (GameManager.gm.isInterRound == false && Daram.Level == 1
                 && Developer.dev.developerCount[Developer.dev.FindPostIDByName("DaramLv1")] != 0 && gm.time >= DeveloperTime)
             {
                 Create(1); // 개발자가 뿌리는 다람쥐는 돈이 들지 않음 (대신 개발자에게 따로 월급을 줌)
                 DeveloperTime = gm.time + Developer.dev.developerMonsterGenerationTime / Developer.dev.developerCount[Developer.dev.FindPostIDByName("DaramLv1")];
             }
 
-            if (GameManager.gm.isInterRound == false && daram.GetComponent<Daram>().Level == 2
+            if (GameManager.gm.isInterRound == false && Daram.Level == 2
                 && Developer.dev.developerCount[Developer.dev.FindPostIDByName("DaramLv2")] != 0 && gm.time >= DeveloperTime)
             {
                 Create(1); // 개발자가 뿌리는 다람쥐는 돈이 들지 않음 (대신 개발자에게 따로 월급을 줌)
@@ -170,12 +176,12 @@ public class AddBasicDaram : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
                 n_down = 10;
                 break;
         }
-        if (n_up != 0 && Unlockables.GetBool("Unlock" + daram.GetComponent<Daram>().Type + daram.GetComponent<Daram>().Level + "_Amount" + n_up) == true)
+        if (n_up != 0 && Unlockables.GetBool("Unlock" + Daram.Type + Daram.Level + "_Amount" + n_up) == true)
         {
             up.SetActive(true);
             up.GetComponentInChildren<Text>().text = n_up.ToString();
         }
-        if(n_down != 0 && Unlockables.GetBool("Unlock" + daram.GetComponent<Daram>().Type + daram.GetComponent<Daram>().Level + "_Amount" + n_down) == true)
+        if(n_down != 0 && Unlockables.GetBool("Unlock" + Daram.Type + Daram.Level + "_Amount" + n_down) == true)
         {
             down.SetActive(true);
             down.GetComponentInChildren<Text>().text = n_down.ToString();
