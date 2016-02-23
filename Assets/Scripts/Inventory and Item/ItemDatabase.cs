@@ -161,4 +161,33 @@ public class ItemDatabase : MonoBehaviour {
 
         isItemUsing[item.itemID] = false;
     }
+
+    IEnumerator MasterContract(Item item)
+    {
+        if (Unlockables.GetBool("UnlockDaram1") == true)
+        {
+            float startTime = GameManager.gm.time;
+            int numChangeOfUser = Mathf.Min(GameManager.gm.userCount[User.level1], 1000);
+            GameManager.gm.userCount[User.level2] += numChangeOfUser;
+
+            while (true)
+            {
+                yield return new WaitForSeconds(0.1f);
+                if (GameManager.gm.time - startTime > item.itemDuration)
+                {
+                    GameManager.gm.userCount[User.level2] -= Mathf.Min(numChangeOfUser, GameManager.gm.userCount[User.level2]);
+                    GameManager.gm.userCount[User.level1] += numChangeOfUser;
+                    break;
+                }
+            }
+        }
+        else
+        {
+            GameManager.gm.ShowMessageBox("중급 유저가 개방되지 않았으므로 효과가 없었다!");
+            yield return new WaitForSeconds(0f);
+        }
+
+        isItemUsing[item.itemID] = false;
+
+    }
 }
