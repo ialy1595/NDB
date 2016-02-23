@@ -21,6 +21,8 @@ public class Events : MonoBehaviour {
     public GameObject VarietyTutorial_Box;
     public GameObject FirstEmergency_Box;
     public GameObject ShutDownJe_Box;
+    public GameObject ViolenceTest_Box;
+    public GameObject FreeServer_Box;
 
     public GameObject NormalMessage_Box;
 
@@ -41,6 +43,8 @@ public class Events : MonoBehaviour {
         gm.EventCheck += GettingFamous;
         gm.EventCheck += EmergencyTutorial;
         gm.EventCheck += ShutDownJe;
+        gm.EventCheck += ViolenceTest;
+        gm.EventCheck += FreeServer;
 
         gm.RoundStartEvent += DaramUpDownTutorial;
         gm.RoundStartEvent += SlimeParty;
@@ -121,6 +125,7 @@ public class Events : MonoBehaviour {
             Instantiate(GettingFamous_Box);
             gm.userCount[User.level1] += 1500 + 100 * Developer.dev.developerCount[Developer.dev.FindPostIDByName("Publicity")];
             gm.userCount[User.level2] += 100;
+            LogText.WriteLog("게임이 유명해지고 있다!!");
             UserChat.CreateChat(UserChat.GoodChat("와와"), 2);
             UserChat.CreateChat(UserChat.GoodChat("와와"), 3);
             UserChat.CreateChat(UserChat.GoodChat("와와"), 2);
@@ -147,6 +152,7 @@ public class Events : MonoBehaviour {
             GameObject.Find("AddBasicDaram").GetComponent<AddBasicDaram>().daram = SlimeParty_Slime;
             SlimeParty_Slime = temp;
 
+            LogText.WriteLog("점기점검 중 뭔가 문제가 있었던 것 같습니다..");
             Instantiate(SlimeParty_Box);
             SPStarted = true;
         }
@@ -232,10 +238,39 @@ public class Events : MonoBehaviour {
         if (false)
         {
             gm.ChangeMoneyInRound(-3000);
+            LogText.WriteLog("게임에 셧다운제가 도입되었습니다.");
             UserChat.CreateChat("안녕 나 셧다운제야..", 3);
             UserChat.CreateChat("여성부 OUT!", 0.5f);  // 판사님 저는 아무것도 보지 못했습니다
             Instantiate(ShutDownJe_Box);
             gm.EventCheck -= ShutDownJe;
+        }
+    }
+
+    void ViolenceTest()
+    {
+        if (false)
+        {
+            gm.fame += 5000;
+            gm.userCount[User.level1] += 1000;
+            LogText.WriteLog("폭력성 실험을 통해 게임의 인지도가 상승했다!");
+            UserChat.CreateChat("이게 그 유명한 " + gm.GameName + "인가요??", 3);
+            Instantiate(ViolenceTest_Box);
+            gm.EventCheck -= ViolenceTest;
+        }
+    }
+
+    void FreeServer()
+    {
+        if (false)
+        {
+            gm.fame -= 5000;
+            if(gm.userCount[User.level2] > 2000)
+                gm.userCount[User.level2] -= 2000;
+            LogText.WriteLog("프리서버가 생겼다는 소문이 퍼지고 있다.");
+            UserChat.CreateChat("여러분 현질 필요없는 게임이 생겼대요!!", 3);
+            UserChat.CreateChat(UserChat.BadChat("슬슬 이 게임도 뜰 때가 됬나.."), 4);
+            Instantiate(FreeServer_Box);
+            gm.EventCheck -= FreeServer;
         }
     }
 }
