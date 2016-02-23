@@ -20,6 +20,7 @@ public class Events : MonoBehaviour {
     public GameObject EmergencyTutorial_Box;
     public GameObject VarietyTutorial_Box;
     public GameObject FirstEmergency_Box;
+    public GameObject ShutDownJe_Box;
 
     public GameObject NormalMessage_Box;
 
@@ -39,6 +40,7 @@ public class Events : MonoBehaviour {
         gm.EventCheck += TreeOfSavior;
         gm.EventCheck += GettingFamous;
         gm.EventCheck += EmergencyTutorial;
+        gm.EventCheck += ShutDownJe;
 
         gm.RoundStartEvent += DaramUpDownTutorial;
         gm.RoundStartEvent += SlimeParty;
@@ -225,4 +227,15 @@ public class Events : MonoBehaviour {
         }
     }
 
+    void ShutDownJe()
+    {
+        if (false)
+        {
+            gm.ChangeMoneyInRound(-3000);
+            UserChat.CreateChat("안녕 나 셧다운제야..", 3);
+            UserChat.CreateChat("여성부 OUT!", 0.5f);  // 판사님 저는 아무것도 보지 못했습니다
+            Instantiate(ShutDownJe_Box);
+            gm.EventCheck -= ShutDownJe;
+        }
+    }
 }
