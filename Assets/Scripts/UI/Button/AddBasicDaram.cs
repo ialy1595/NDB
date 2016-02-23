@@ -112,6 +112,7 @@ public class AddBasicDaram : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
             Vector2 pos = GameManager.gm.RandomPosition();
             Instantiate(daram, pos, Quaternion.identity);
         }
+        GameManager.gm.SetSE((int)SE.SEType.Pop);
     }
 
     public void OnPointerEnter(PointerEventData eventData)

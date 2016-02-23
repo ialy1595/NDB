@@ -3,6 +3,7 @@ using UnityEngine.SceneManagement;
 using System.Collections;
 using UnityEngine.UI;
 using System.Linq;
+using System.ComponentModel;
 
 public class GameManager : MonoBehaviour {
 
@@ -58,11 +59,14 @@ public class GameManager : MonoBehaviour {
     //public int UserAllCount();
 
     private Developer dev;
-    
+    private Music mus;
+    private SE se;
+
     private static bool GMCreated = false;
 
     void Awake()
     {
+
         if (GMCreated == true)  // GM 중복생성 방지
         {
             Destroy(gameObject);
@@ -75,6 +79,9 @@ public class GameManager : MonoBehaviour {
         gm = this;
         if (SceneManager.GetActiveScene().name == "Test")
             currentStageScene = "Test";
+
+        mus = GetComponentInChildren<Music>();
+        se = GetComponentInChildren<SE>();
 
         //UserCount, UserDamagePerLevel 초기화
         userCount = Enumerable.Repeat(0, User.Count).ToArray();
@@ -105,21 +112,25 @@ public class GameManager : MonoBehaviour {
 
     void Start()
     {
-        dev = Developer.dev;
         gm.time = Time.time;
-
+        SetBGM(0);
         if (GMCreated == true)  // GM 중복생성 방지
             return;
         GMCreated = true;
 
-        if(SceneManager.GetActiveScene().name == "Test")
+        dev = Developer.dev;
+
+        if (SceneManager.GetActiveScene().name == "Test")
             OnLevelWasLoaded(0);    // Start 대신 저 안에 써주세요
+
 
         Random.seed = (int)Time.time;
     }
 
     void OnLevelWasLoaded(int level)
     {
+        SetBGM(level);
+
         // 라운드 시작시마다 실행
         if (isInterRound == false)
         {
@@ -215,7 +226,24 @@ public class GameManager : MonoBehaviour {
         print("다람쥐 개수 : " + Daram.All.Count);
     }
 
+    public void SetBGM(int level)
+    {
+        if (mus == null) mus = GetComponentInChildren<Music>();
 
+        foreach (Music.MusicType mtype in System.Enum.GetValues(typeof(Music.MusicType)))
+        {
+            if (level == (int)mtype)
+            {
+                mus.setAudio(level);
+                break;
+            }
+        }
+    }
+
+    public void SetSE(int index)
+    {
+        se.SetSE(index);
+    }
     
 
     public int UserAllCount()
@@ -440,6 +468,8 @@ public class GameManager : MonoBehaviour {
             money += delta;
             usedMoney += Mathf.Abs(delta);
         }
+        
+        
     }
 
     /// <summary>
@@ -461,6 +491,7 @@ public class GameManager : MonoBehaviour {
     public void ChangeMoneyInterRound(int delta)
     {
         money += delta;
+        SetSE((int)SE.SEType.Perchase);
     }
 
     //인기도에 의해 정기적으로 버는 소득

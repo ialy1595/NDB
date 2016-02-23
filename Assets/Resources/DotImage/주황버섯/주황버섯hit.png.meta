@@ -1,6 +1,11 @@
 fileFormatVersion: 2
+<<<<<<< HEAD
 guid: 925af6900157e4e4f9167ed671483acf
 timeCreated: 1456213847
+=======
+guid: 51fbc1658ad73214d8310fd9f2273ad8
+timeCreated: 1456204689
+>>>>>>> soungAdding
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName: {}

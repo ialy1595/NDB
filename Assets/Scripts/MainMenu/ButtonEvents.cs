@@ -12,6 +12,7 @@ public class ButtonEvents : MonoBehaviour {
 
     public void ExitGame()
     {
+        GameManager.gm.SetSE((int)SE.SEType.Click_Cute);
 #if UNITY_EDITOR
         EditorApplication.isPlaying = false;
 #else 
@@ -26,6 +27,7 @@ public class ButtonEvents : MonoBehaviour {
             bool successed = SaveLoad.Load();
             if (successed)
             {
+                GameManager.gm.SetSE((int)SE.SEType.Click_Cute);
                 SceneManager.LoadScene("ChooseStages");
 
             }
@@ -44,6 +46,7 @@ public class ButtonEvents : MonoBehaviour {
 
     public void GameCredit()
     {
+        GameManager.gm.SetSE((int)SE.SEType.Click_Cute);
         SceneManager.LoadScene("Credit");
     }
 }
