@@ -13,6 +13,9 @@ public class AddBasicDaram : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
     
     public GameObject daram;
 
+    public string ClickHotkey;
+    public string AmountUpHotkey;
+    public string AmountDownHotkey;
 
     private GameObject daramInfo;
     private Text daramInfoText;
@@ -44,7 +47,17 @@ public class AddBasicDaram : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
         // 해금되었는지 확인
         string key = "Unlock" + daram.GetComponent<Daram>().Type + daram.GetComponent<Daram>().Level;
         if (Unlockables.GetBool(key) == true)
+        {
             transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
+            if (Input.GetKeyDown(ClickHotkey))
+                OnClick();
+            if (Input.GetKeyDown(AmountUpHotkey))
+                if (DaramAmount != 100 && Unlockables.GetBool("Unlock" + daram.GetComponent<Daram>().Type + daram.GetComponent<Daram>().Level + "_Amount" + DaramAmount * 10) == true)
+                    DaramAmount *= 10;
+            if (Input.GetKeyDown(AmountDownHotkey))
+                if (DaramAmount != 1 && Unlockables.GetBool("Unlock" + daram.GetComponent<Daram>().Type + daram.GetComponent<Daram>().Level + "_Amount" + DaramAmount / 10) == true)
+                    DaramAmount /= 10;
+        }
         else
             transform.localScale = Vector3.zero;
 
@@ -54,7 +67,7 @@ public class AddBasicDaram : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
 
         if (Input.GetMouseButtonDown(0))
             LatestClick = gm.time;
-        else if (Input.GetMouseButton(0) && pointerOn && !QuantityControlOn && gm.time - LatestClick > 0.15f )
+        else if (Input.GetMouseButton(0) && pointerOn && !QuantityControlOn && gm.time - LatestClick > 0.1f )
         {
             QuantityControlStart();
         }

@@ -4,6 +4,8 @@ using System.Collections;
 
 public class Emergency : MonoBehaviour {
 
+    public string Hotkey;
+
     private GameManager gm;
     void Start()
     {
@@ -25,8 +27,13 @@ public class Emergency : MonoBehaviour {
     void Update()
     {
         if (Unlockables.GetBool("Emergency") == true)
+        {
             transform.localScale = new Vector3(0.5f, 0.5f, 1.0f);
+            if (Input.GetKeyDown(Hotkey))
+                OnClick();
+        }
         else
             transform.localScale = Vector3.zero;
+        
     }
 }

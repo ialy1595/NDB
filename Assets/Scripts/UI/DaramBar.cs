@@ -8,6 +8,7 @@ public class DaramBar : MonoBehaviour {
     public GameObject Arrow;
     public int UserLevel;   // User 클래스 참조
     public float MaxDiff;     // 게이지 Top에서 Bottom까지의 다람쥐 수
+    public bool DetailedInfo = true;
 
     private const int BarHeight = 140;
     private Slider slider;
@@ -55,12 +56,18 @@ public class DaramBar : MonoBehaviour {
 
         if (DaramFunc.diff >= 0) // 다람쥐 수가 적정 수준 이상이면 화살표가 아래를 향함
         {
-            slider.value = DaramFunc.solution / MaxDiff + 0.1f * Mathf.Sin(3.0f * GameManager.gm.time);
+            if (DetailedInfo == false)
+                slider.value = DaramFunc.solution / MaxDiff + 0.1f * Mathf.Sin(3.0f * GameManager.gm.time);
+            else
+                slider.value = DaramFunc.diff / MaxDiff;
             arrowrect.localScale = new Vector3(1, -1, 1);
         }
         else // 다람쥐 수가 적정 수준보다 적으면 화살표가 위를 향함
         {
-            slider.value = (-1) * DaramFunc.solution / MaxDiff - 0.1f * Mathf.Sin(3.0f * GameManager.gm.time);
+            if (DetailedInfo == false)
+                slider.value = (-1) * DaramFunc.solution / MaxDiff - 0.1f * Mathf.Sin(3.0f * GameManager.gm.time);
+            else
+                slider.value = DaramFunc.diff / MaxDiff;
             arrowrect.localScale = new Vector3(1, 1, 1);
         }
     }
