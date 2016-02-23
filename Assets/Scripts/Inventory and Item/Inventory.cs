@@ -139,8 +139,8 @@ public class Inventory : MonoBehaviour {
                                 {
                                     Debug.Log("doubleClicked");
 
-                                    database.useItem(clickedItem);
-                                    RemoveItem(clickedItemIndex);
+                                    if(database.useItem(clickedItem) == true)
+                                        RemoveItem(clickedItemIndex);
                                 }
 
                                 isOneClicked = false;

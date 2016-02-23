@@ -63,8 +63,7 @@ public class Events : MonoBehaviour {
         if (GameManager.gm.UserAllCount() > Unlockables.GetInt("UserLimit")) {
 
             Instantiate(UserLimitExcess_Box);
-            LogText.WriteLog("서버가 충당 가능한 유저 수를 초과했습니다.");
-            LogText.WriteLog("유저들이 접속 불량을 호소합니다. (유저 수와 인기도가 감소합니다.)");
+            LogText.WriteLog("서버가 게임의 인기를 감당하지 못하고 폭파되었습니다.");
             
             
             //유저채팅 추가
@@ -81,7 +80,6 @@ public class Events : MonoBehaviour {
         if (Random.value < 1f/14401f) {
             Instantiate(RivalGameRelease_Box);
             LogText.WriteLog("경쟁작 '전설의 어둠'이 베타 테스트를 시작했다!");
-            LogText.WriteLog("(유저 수가 감소합니다.)");
             UserChat.CreateChat("전설의 어둠하러 갑시다.", 5);
             UserChat.CreateChat("ㄱㄱㄱ", 5);
             UserChat.CreateChat("이 게임 접으려는데 아이디 사실 분?", 5);
@@ -104,6 +102,8 @@ public class Events : MonoBehaviour {
         if (gm.time >= 200)
         {
             Instantiate(TreeOfSavior_Box);
+            UserChat.CreateChat("우리 모두 갓나무 하러 갑시다!!", 4);
+            UserChat.CreateChat("우리 모두 갓나무 하러 갑시다!!", 4);
             gm.EventCheck -= TreeOfSavior;
         }
     }
@@ -115,6 +115,9 @@ public class Events : MonoBehaviour {
             Instantiate(GettingFamous_Box);
             gm.userCount[User.level1] += 1000 + 100 * Developer.dev.developerCount[Developer.dev.FindPostIDByName("Publicity")];
             gm.userCount[User.level2] += 100;
+            UserChat.CreateChat(UserChat.GoodChat("와와"), 2);
+            UserChat.CreateChat(UserChat.GoodChat("와와"), 3);
+            UserChat.CreateChat(UserChat.GoodChat("와와"), 2);
             gm.EventCheck -= GettingFamous;
         }
     }
@@ -128,6 +131,7 @@ public class Events : MonoBehaviour {
         }
     }
 
+    private bool SPStarted = false;
     void SlimeParty()
     {
         if (gm.roundCount == 2)  // 일단은 2라운드때 무조건
@@ -138,6 +142,14 @@ public class Events : MonoBehaviour {
             SlimeParty_Slime = temp;
 
             Instantiate(SlimeParty_Box);
+            SPStarted = true;
+        }
+        if (SPStarted == true && gm.isInterRound == false)
+        {
+            UserChat.CreateChat("아니 이게 무슨..!", 2);
+            UserChat.CreateChat("메이플 하고싶다", 3);
+            UserChat.CreateChat(UserChat.BadChat("내 다람쥐 어디갔어!!"), 2);
+            SPStarted = false;
         }
         if (gm.roundCount == 3)  // 3라운드에 해제
         {

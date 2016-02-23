@@ -21,7 +21,25 @@ public class ButtonEvents : MonoBehaviour {
 
     public void GameStart()
     {
-        SetGameNameBox.SetActive(true);
+        if (SaveLoad.HasSave())
+        {
+            bool successed = SaveLoad.Load();
+            if (successed)
+            {
+                SceneManager.LoadScene("ChooseStages");
+
+            }
+            else
+            {
+                SetGameNameBox.SetActive(true);
+            }
+        }
+        else
+        {
+            SetGameNameBox.SetActive(true);
+            
+        }
+        
     }
 
     public void GameCredit()
