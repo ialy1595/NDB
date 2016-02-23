@@ -9,6 +9,7 @@ public class EventBox : MonoBehaviour {
         transform.SetParent(GameObject.Find("Canvas").transform);
         GetComponent<RectTransform>().localPosition = Vector3.zero;
         gameObject.transform.localScale = Vector3.one;
+        GameManager.gm.SetSE((int)SE.SEType.Dingaling);
         GameManager.gm.Pause(true);
     }
 

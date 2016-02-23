@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.Collections;
-using UnityEngine.SceneManagement;
+//using UnityEngine.SceneManagement;
 
 public class ButtonEvents : MonoBehaviour {
 
@@ -9,6 +9,7 @@ public class ButtonEvents : MonoBehaviour {
 
     public void ExitGame()
     {
+        GameManager.gm.SetSE((int)SE.SEType.Click_Cute);
         Application.Quit();
     }
 
@@ -19,6 +20,7 @@ public class ButtonEvents : MonoBehaviour {
             bool successed = SaveLoad.Load();
             if (successed)
             {
+                GameManager.gm.SetSE((int)SE.SEType.Click_Cute);
                 SceneManager.LoadScene("ChooseStages");
 
             }
@@ -37,6 +39,7 @@ public class ButtonEvents : MonoBehaviour {
 
     public void GameCredit()
     {
+        GameManager.gm.SetSE((int)SE.SEType.Click_Cute);
         SceneManager.LoadScene("Credit");
     }
 }
