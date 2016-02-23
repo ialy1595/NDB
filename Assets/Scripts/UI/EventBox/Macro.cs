@@ -3,6 +3,9 @@ using System.Collections;
 
 public class Macro : MonoBehaviour {
 
+    private float ActivityEnd;
+    private float NextActivity = 0;
+
     public void KillMacro()
     {
         // 버그 담당 GM이 일할 곳. 수정바람.
@@ -22,18 +25,19 @@ public class Macro : MonoBehaviour {
         GameManager.gm.fame -= 1000;
         // 디버깅 팀의 개발자 한 명당 매크로 지속시간이 10초씩 줄어듭니다.
         ActivityEnd = GameManager.gm.time + 100f;// -10f * (float)Mathf.Min(10, Developer.dev.developerCount[Developer.dev.FindPostIDByName("Debugging")]);
+        Debug.Log(ActivityEnd);
+        Debug.Log(GameManager.gm.time);
         GameManager.gm.DaramDeath += MacroActivity;
         LogText.WriteLog("매크로가 게임에 판을 치고 있다.");
     }
-
-    private float ActivityEnd;
-    private float NextActivity = 0;
+    
     void MacroActivity()
     {
         if (GameManager.gm.time >= ActivityEnd)
+        {
             GameManager.gm.DaramDeath -= MacroActivity;
             LogText.WriteLog("매크로가 잡혔다.");
-
+        }
         if (GameManager.gm.time >= NextActivity)
         {
             if(Daram.All.Count != 0)

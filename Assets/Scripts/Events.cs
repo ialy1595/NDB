@@ -99,7 +99,7 @@ public class Events : MonoBehaviour {
 
     void MacroEvent()
     {
-        if (gm.UserAllCount() >= 10000 && Random.value < 1f/7201f)
+        if (gm.UserAllCount() >= 10000 && Random.value < 1f/4201f)
             Instantiate(MacroEvent_Box);
     }
 
