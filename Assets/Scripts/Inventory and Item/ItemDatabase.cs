@@ -164,7 +164,7 @@ public class ItemDatabase : MonoBehaviour {
 
     IEnumerator MasterContract(Item item)
     {
-        if (Unlockables.GetBool("UnlockDaram1") == true)
+        if (Unlockables.GetBool("UnlockBasic2") == true)
         {
             float startTime = GameManager.gm.time;
             int numChangeOfUser = Mathf.Min(GameManager.gm.userCount[User.level1], 1000);

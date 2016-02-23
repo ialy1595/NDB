@@ -18,15 +18,19 @@ public class Events : MonoBehaviour {
     public GameObject FirstTutorial_Box;
     public GameObject InterRoundTutorial_Box;
     public GameObject EmergencyTutorial_Box;
+    public GameObject VarietyTutorial_Box;
+    public GameObject FirstEmergency_Box;
 
     public GameObject NormalMessage_Box;
 
     public static GameObject InterRoundTutorialBox;
+    public static GameObject FirstEmergencyBox;
 
     void Start ()
     {
         gm = GameManager.gm;
         InterRoundTutorialBox = InterRoundTutorial_Box;
+        FirstEmergencyBox = FirstEmergency_Box;
 
         gm.EventCheck += UnlockUpBasic;
         gm.EventCheck += UserLimitExcess;
@@ -36,14 +40,14 @@ public class Events : MonoBehaviour {
         gm.EventCheck += GettingFamous;
         gm.EventCheck += EmergencyTutorial;
 
-    gm.RoundStartEvent += DaramUpDownTutorial;
+        gm.RoundStartEvent += DaramUpDownTutorial;
         gm.RoundStartEvent += SlimeParty;
         gm.RoundStartEvent += FirstTutorial;
     }
 
     void UnlockUpBasic()
     {
-        if (GameManager.gm.fame >= 5000)
+        if (GameManager.gm.fame >= 10000)
         {
             GameManager.gm.EventCheck -= UnlockUpBasic;
  
@@ -54,7 +58,7 @@ public class Events : MonoBehaviour {
             gm.FameChange += gm.FameDaram2;
             gm.UserChange += gm.UserLevel2;
             gm.EventCheck += UserChat.uc.Daram2Number;
-            Unlockables.SetBool("UnlockDaram2", true);
+            Unlockables.SetBool("UnlockBasic2", true);
             
         }
     }
@@ -110,10 +114,10 @@ public class Events : MonoBehaviour {
 
     void GettingFamous()
     {
-        if (gm.fame >= 10000)
+        if (gm.fame >= 30000)
         {
             Instantiate(GettingFamous_Box);
-            gm.userCount[User.level1] += 1000 + 100 * Developer.dev.developerCount[Developer.dev.FindPostIDByName("Publicity")];
+            gm.userCount[User.level1] += 1500 + 100 * Developer.dev.developerCount[Developer.dev.FindPostIDByName("Publicity")];
             gm.userCount[User.level2] += 100;
             UserChat.CreateChat(UserChat.GoodChat("와와"), 2);
             UserChat.CreateChat(UserChat.GoodChat("와와"), 3);
@@ -124,7 +128,7 @@ public class Events : MonoBehaviour {
 
     void DaramUpDownTutorial()
     {
-        if (Unlockables.GetBool("UnlockDaram1_Amount10") || Unlockables.GetBool("UnlockDaram2_Amount10"))
+        if (Unlockables.GetBool("UnlockBasic1_Amount10") || Unlockables.GetBool("UnlockBasic2_Amount10"))
         {
             Instantiate(DaramUpDownTutorial_Box);
             gm.RoundStartEvent -= DaramUpDownTutorial;
@@ -134,7 +138,7 @@ public class Events : MonoBehaviour {
     private bool SPStarted = false;
     void SlimeParty()
     {
-        if (gm.roundCount == 2)  // 일단은 2라운드때 무조건
+        if(false) //if (gm.roundCount == 2)  // 2스테이지 어딘가에 쓸 예정
         {
             // 다람쥐와 슬라임을 스왑함
             GameObject temp = GameObject.Find("AddBasicDaram").GetComponent<AddBasicDaram>().daram;
@@ -151,7 +155,7 @@ public class Events : MonoBehaviour {
             UserChat.CreateChat(UserChat.BadChat("내 다람쥐 어디갔어!!"), 2);
             SPStarted = false;
         }
-        if (gm.roundCount == 3)  // 3라운드에 해제
+        if(false) //if(gm.roundCount == 3)  // 3라운드에 해제
         {
             // 다람쥐와 슬라임을 스왑함
             GameObject temp = GameObject.Find("AddBasicDaram").GetComponent<AddBasicDaram>().daram;
@@ -169,13 +173,18 @@ public class Events : MonoBehaviour {
         gm.RoundStartEvent -= FirstTutorial;
     }
 
+    private int ETRound;
     void EmergencyTutorial()
     {
-        if (gm.fame >= 20000 && 15 <= gm.timeLeft && gm.timeLeft <= 25)
+        if (gm.fame >= 15000 && 15 <= gm.timeLeft && gm.timeLeft <= 25)
         {
+            EFFame = gm.fame;
+            gm.FameChange += EmergencyFame;
             gm.DaramDeath += EmergencyDeath;
             StartCoroutine("ET");
             gm.EventCheck -= EmergencyTutorial;
+            gm.EventCheck += VarietyTutorial;
+            ETRound = gm.roundCount;
         }
     }
 
@@ -192,11 +201,28 @@ public class Events : MonoBehaviour {
             alternative = true;
     }
 
+    private static int EFFame = 0;
+    public static void EmergencyFame()
+    {
+        EFFame -= 3;
+        GameManager.gm.fame = EFFame;
+    }
+
     IEnumerator ET()
     {
         yield return new WaitForSeconds(0.5f);
         Unlockables.SetBool("Emergency", true);
         Instantiate(EmergencyTutorial_Box);
+    }
+
+    void VarietyTutorial()
+    {
+        if (gm.UserAllCount() >= 10000 && gm.roundCount != ETRound)
+        {
+            Unlockables.SetBool("UnlockRainbow1", true);
+            Instantiate(VarietyTutorial_Box);
+            gm.EventCheck -= VarietyTutorial;
+        }
     }
 
 }

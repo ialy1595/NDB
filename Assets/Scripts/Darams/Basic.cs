@@ -11,7 +11,6 @@ public class Basic : Daram {
     void Start()
     {
         Anim = GetComponent<Animator>();
-        Type = "Basic";
         base.Start();
     }
 

@@ -62,6 +62,7 @@ public class GameManager : MonoBehaviour {
     private Music mus;
     private SE se;
 
+    private bool FirstEmergency = true;    //튜토리얼용
     private static bool GMCreated = false;
 
     void Awake()
@@ -161,6 +162,7 @@ public class GameManager : MonoBehaviour {
 
             if (isEmergency)
             {
+                FameChange -= Events.EmergencyFame;
                 DaramDeath -= Events.EmergencyDeath;    // 튜토리얼용 함수
                 basicTime = timeLeft += 10;
                 isEmergency = false;
@@ -171,6 +173,11 @@ public class GameManager : MonoBehaviour {
         {
             if (roundCount == 1)
                Instantiate(Events.InterRoundTutorialBox);
+            if (isEmergency == true && FirstEmergency)
+            {
+                Instantiate(Events.FirstEmergencyBox);
+                FirstEmergency = false;
+            }
         }
     }
 
@@ -344,9 +351,9 @@ public class GameManager : MonoBehaviour {
         Quadric q = DaramFunction[User.level1];
         q.x = Daram.FindByType("",1);
         q.a = 9 + userCount[User.level1] / 1000;
-        q.max = 5 + Daram.DaramVariety / 2;
+        q.max = 5 + Daram.VarietyModifier / 2.0f;
         q.min = -5 - Daram.DaramVariety;
-        q.solution = 10 * Daram.DaramVariety;
+        q.solution = 5 + 5 * Daram.VarietyModifier;
 
         if(!isInterRound) fame += (int) q.value;
     }
@@ -358,9 +365,9 @@ public class GameManager : MonoBehaviour {
         Quadric q = DaramFunction[User.level2];
         q.x = Daram.FindByType("", 2);
         q.a = 5 + userCount[User.level2] / 500 + userCount[User.level1] / 2000;
-        q.max = 2 + Daram.DaramVariety / 3;
+        q.max = 2 + Daram.VarietyModifier / 3.0f;
         q.min = -3 - Daram.DaramVariety;
-        q.solution = 5 * Daram.DaramVariety;
+        q.solution = 3 + 3 * Daram.VarietyModifier;
 
         if(!isInterRound) fame += (int) q.value;
     }
@@ -630,11 +637,11 @@ public class GameManager : MonoBehaviour {
         if (roundCount == 1)    // 시작할때 developerCount 초기화가 안되어 있어서 예외처리함 
             return;
         
-        Unlockables.SetBool("UnlockDaram1_Amount10", dev.developerCount[dev.FindPostIDByName("DaramLv1")] >= 3);
-        Unlockables.SetBool("UnlockDaram1_Amount100", dev.developerCount[dev.FindPostIDByName("DaramLv1")] >= 9);
+        Unlockables.SetBool("UnlockBasic1_Amount10", dev.developerCount[dev.FindPostIDByName("DaramLv1")] >= 3);
+        Unlockables.SetBool("UnlockBasic1_Amount100", dev.developerCount[dev.FindPostIDByName("DaramLv1")] >= 9);
 
-        Unlockables.SetBool("UnlockDaram2_Amount10", dev.developerCount[dev.FindPostIDByName("DaramLv2")] >= 3);
-        Unlockables.SetBool("UnlockDaram2_Amount100", dev.developerCount[dev.FindPostIDByName("DaramLv2")] >= 9);
+        Unlockables.SetBool("UnlockBasic2_Amount10", dev.developerCount[dev.FindPostIDByName("DaramLv2")] >= 3);
+        Unlockables.SetBool("UnlockBasic2_Amount100", dev.developerCount[dev.FindPostIDByName("DaramLv2")] >= 9);
     }
 
 }

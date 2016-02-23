@@ -69,7 +69,7 @@ public class RoundEventDatabase : MonoBehaviour {
                 StopCoroutine(ExpEvent());
 
             gm.FameDaram1();
-            if (Unlockables.GetBool("UnlockDaram1") == true)
+            if (Unlockables.GetBool("UnlockBasic2") == true)
             {
                 gm.FameDaram2();
                 if (GiveDelay(1.0f, ref userUpdateTime))
@@ -134,7 +134,7 @@ public class RoundEventDatabase : MonoBehaviour {
             if (GiveDelay(1.0f, ref userUpdateTime))
             {
                 gm.userCount[User.level1] -= (int)(userLevel1Decrease * gm.userLevel1Increase);
-                if (Unlockables.GetBool("UnlockDaram1") == true)
+                if (Unlockables.GetBool("UnlockBasic2") == true)
                     gm.UserLevel2();
             }
 
@@ -154,7 +154,7 @@ public class RoundEventDatabase : MonoBehaviour {
                 gm.UserLevel1();
 
             gm.FameDaram1();
-            if (Unlockables.GetBool("UnlockDaram1") == true)
+            if (Unlockables.GetBool("UnlockBasic2") == true)
                 gm.FameDaram2();
 
             yield return StartCoroutine(WaitFor.Frames(1)); // 1프레임 당 한번 = 100%

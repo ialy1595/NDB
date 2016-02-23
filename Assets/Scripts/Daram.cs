@@ -9,6 +9,7 @@ public class Daram : MonoBehaviour {
 
     public static List<Daram> All = new List<Daram>();
     public static int DaramVariety = 1; // 현재 뿌려지는 다람쥐의 종류 개수 (레벨 차이는 고려 안함), 최솟값 1
+    public static float VarietyModifier = 1;    // 다람쥐의 종류별 비율까지 고려한 보정값
     //public static int FindByType(string type, int level);
 
     public string Type;
@@ -124,12 +125,35 @@ public class Daram : MonoBehaviour {
 
     public static void CalculateDaramVariety()
     {
-        List<string> types = new List<string>();
+        List<DaramDatabase> db = new List<DaramDatabase>();
+     
         foreach (Daram d in Daram.All)
-            if (!(types.Contains(d.Type)))
-                types.Add(d.Type);
+        {
+            bool exist = false;
+            for(int i = 0; i < db.Count; i++)
+            {
+                if (db[i].type == d.Type)
+                {
+                    exist = true;
+                    db[i].num++;
+                    break;
+                }
+            }
+            if (!exist)
+            {
+                db.Add(new DaramDatabase());
+                db[db.Count - 1].type = d.Type;
+                db[db.Count - 1].num = 1;
+            }
+        }
 
-        DaramVariety = Mathf.Max(types.Count, 1);
+        DaramVariety = Mathf.Max(db.Count, 1);
+
+        float max = 0;
+        foreach (DaramDatabase dd in db)
+            if (dd.num > max)
+                max = dd.num;
+        VarietyModifier = Mathf.Max(Daram.All.Count / max, 1.0f);
     }
 
     //All.Remove()를 쓰기 위해 비교연산자가 필요함.
@@ -147,4 +171,13 @@ public class Daram : MonoBehaviour {
     {
         return base.GetHashCode();
     }
+
+
 }
+
+class DaramDatabase
+{
+    public string type;
+    public int num;
+}
+
