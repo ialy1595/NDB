@@ -315,7 +315,7 @@ public class GameManager : MonoBehaviour {
         // IsInterRound가 true이면 인기도는 변하지 않아도 함수는 작동함
         Quadric q = DaramFunction[User.level1];
         q.x = Daram.FindByType("",1);
-        q.a = 10 + userCount[User.level1] / 500;
+        q.a = 9 + userCount[User.level1] / 1000;
         q.max = 5 + Daram.DaramVariety / 2;
         q.min = -5 - Daram.DaramVariety;
         q.solution = 10 * Daram.DaramVariety;
@@ -486,7 +486,7 @@ public class GameManager : MonoBehaviour {
                 Developer.dev.CalculateCost();
                 ChangeMoneyBySalary((-Developer.dev.salaryCost));
             }
-            yield return new WaitForSeconds(1.0f);
+            yield return new WaitForSeconds(2.0f); // 2.0f로 설정해야 1초에 한 번씩 나감(왜 그런지는 모르겠지만)
         }
     }
 
