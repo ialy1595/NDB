@@ -26,10 +26,10 @@ public class DaramBar : MonoBehaviour {
         switch (UserLevel)
         {
             case User.level1:
-                UnlockKey = "UnlockDaram1";
+                UnlockKey = "UnlockBasic1";
                 break;
             case User.level2:
-                UnlockKey = "UnlockDaram2";
+                UnlockKey = "UnlockBasic2";
                 break;
         }
 

@@ -12,7 +12,6 @@ public class Slime : Daram
     void Start()
     {
         Anim = GetComponent<Animator>();
-        Type = "Basic";
         base.Start();
     }
 
