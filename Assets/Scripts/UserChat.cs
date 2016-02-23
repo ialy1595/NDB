@@ -208,12 +208,12 @@ public class UserChat : MonoBehaviour {
 
     }
 
-    public string BadChat(string str)
+    public static string BadChat(string str)
     {
         return "<color=#ff0069>" + str + "</color>";
     }
 
-    public string GoodChat(string str)
+    public static string GoodChat(string str)
     {
         return "<color=#76ff94>" + str + "</color>";
     }

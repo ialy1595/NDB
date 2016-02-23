@@ -17,8 +17,8 @@ public class SetGameName : MonoBehaviour {
         if (name == null || name == "" || name.Length > 10)
             return;
         GameManager.gm.GameName = name;
-        GameManager.gm.currentStageScene = "Stage1";
-        SceneManager.LoadScene("Stage1");
+        SaveLoad.Save();
+        SceneManager.LoadScene("ChooseStages");
         Destroy(this);
     }
 
