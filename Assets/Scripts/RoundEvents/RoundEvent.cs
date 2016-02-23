@@ -3,7 +3,7 @@ using System.Collections;
 
 [System.Serializable]
 public class RoundEvent{
-
+    /*
     public string eventName;
     public string eventFuncName;
     public int eventID;
@@ -31,4 +31,5 @@ public class RoundEvent{
     {
 
     }
+    */
 }

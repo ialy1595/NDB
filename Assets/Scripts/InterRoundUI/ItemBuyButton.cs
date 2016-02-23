@@ -19,5 +19,6 @@ public class ItemBuyButton : MonoBehaviour {
     public void OnClick()
     {
         inventory.AddItem(buyingitem);
+        ItemCheckup.itemChkup.RefreshTooltip();
     }
 }

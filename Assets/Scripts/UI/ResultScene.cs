@@ -30,14 +30,17 @@ public class ResultScene : EventBox {
         yield return new WaitForSeconds(0.5f);
         resultText.text = resultText.text + "\n이번 라운드에 쓴 돈 :  " + GameManager.gm.usedMoney;
         yield return new WaitForSeconds(0.5f);
+        /*
         resultText.text = resultText.text + "\n지급한 개발자 월급 : " + GameManager.gm.salaryMoney;
         yield return new WaitForSeconds(0.5f);
-
+        */
         GameManager.gm.InitiateMoney();
         resultText.text = resultText.text + "\n합계 : " + GameManager.gm.Money();
+        /*
         yield return new WaitForSeconds(0.5f);
         if (GameManager.gm.roundEventName == "") GameManager.gm.roundEventName = "없음";
         resultText.text = resultText.text + "\n이번 라운드에 적용된 행사 < " + GameManager.gm.roundEventName + " >";
+         * */
 
         
 
@@ -53,7 +56,7 @@ public class ResultScene : EventBox {
     {
         GameManager.gm.Pause(true);
         GameManager.gm.currentStageScene = SceneManager.GetActiveScene().name;
-        GameManager.gm.roundEventName = "";
+        //GameManager.gm.roundEventName = "";
         StopAllCoroutines();
         SceneManager.LoadScene("InterRound");
     }
