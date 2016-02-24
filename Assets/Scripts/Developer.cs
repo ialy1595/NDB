@@ -52,6 +52,7 @@ public class Developer : MonoBehaviour {
             developerCount[i] = 0;
             useableDeveloperCount[i] = 0;
         }
+        developerCount[FindPostIDByName("Debugging")] = 1;
         CalculateCost();
 
     }
