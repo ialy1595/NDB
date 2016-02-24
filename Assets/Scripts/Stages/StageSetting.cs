@@ -25,9 +25,13 @@ public class StageSetting : MonoBehaviour {
     public void Stage1Start()
     {
         CommonSettings();
+        gm = GameManager.gm;
 
         Unlockables.SetInt("Server", 1);
         Unlockables.SetInt("ServerEff", 5000);
+
+        gm.bugResponeTimeMin = 8;
+        gm.bugResponeTimeMax = 12;
 
     }
 
@@ -53,6 +57,8 @@ public class StageSetting : MonoBehaviour {
         gm.FameChange += gm.FameDaram2;
         gm.UserChange += gm.UserLevel2;
         gm.EventCheck += UserChat.uc.Daram2Number;
+        gm.bugResponeTimeMin = 3;
+        gm.bugResponeTimeMax = 6;
         Vector2 pos = GameManager.gm.RandomPosition();
     }
 

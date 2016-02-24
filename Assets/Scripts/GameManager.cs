@@ -16,7 +16,9 @@ public class GameManager : MonoBehaviour {
     public static GameObject _Gamemanager;
     ///
 
-    public GameObject resultScene; 
+    public GameObject resultScene;
+
+    public GameObject bug;
 
     private int money = 10000;         // initialMoney, earnedMoney, usedMoney가 실시간으로 반영된 돈
     [HideInInspector] public int earnedMoney = 0;   // 라운드 중에 번 돈(해고로 받은 돈 포함)
@@ -28,8 +30,13 @@ public class GameManager : MonoBehaviour {
     [HideInInspector] public float time = 0;        // 일시정지를 보정한 시간
     [HideInInspector] public int basicTime;
     [HideInInspector] public int fame = 0;
-    [HideInInspector] public int enemyFame = 0;
-    [HideInInspector] public float enemyDifficulty = 1;
+
+    [HideInInspector]
+    public int enemyFame = 0;
+    public float enemyDifficulty = 1;
+    public bool isenemyFameIncresing = true; // 아이템 등 외부 요인에 따라 오르고 안 오르고를 조정
+    public float enemyFameOuterConstant = 0; // 아이템 등 외부 요인에 따른 변경 상수
+
     [HideInInspector] public int userLevel1Increase;
     [HideInInspector] public int[] userCount;
     [HideInInspector] public float[] userDamagePerLevel; // 각 레벨(초보, 중수)의 유저의 수에 비례한 데미지 곱(나눗셈) 값
@@ -45,11 +52,16 @@ public class GameManager : MonoBehaviour {
     [HideInInspector] public string GameName = "";      // 우리가 운영하는 게임의 이름
     //                public string roundEventName = ""; // 그 라운드에 적용된 행사
 
+    [HideInInspector] public int bugResponeTimeMin;
+    [HideInInspector] public int bugResponeTimeMax;     //min~max 사이 초 후에 나옴
+
     [HideInInspector] public float fieldCenterX;
     [HideInInspector] public float fieldCenterY;
     [HideInInspector] public float fieldWidth;
     [HideInInspector] public float fieldHeight;
-    
+
+    public bool[] isTutorialCleared = new bool[100];
+
     public GameObject StartScene;
 
     // 어떤 이벤트가 발생하여 지속 효과를 넣어줄 때 사용
@@ -66,6 +78,11 @@ public class GameManager : MonoBehaviour {
     //public Vector2 RandomPosition();
     //public void pause(bool pause);
     //public int UserAllCount();
+
+    private int preBugResponTime;   //이전에 버그가 생성되었던 시간
+    private int bugResponTime;      // 버그 생성 텀
+    private bool bugMaking = false;
+
 
     private Music mus;
     private SE se;
@@ -112,6 +129,7 @@ public class GameManager : MonoBehaviour {
         DaramDeath += EnemyFameChange;  // 인기도 계산 전에 실행되야 함
         FameChange += Daram.CalculateDaramVariety;
         FameChange += FameDaram1;
+        FameChange += FameBug;
         UserChange += UserLevel1;
         FameChange += CheckFameZero;
         //RoundStartEvent += CheckDaramDeveloper;
@@ -139,12 +157,15 @@ public class GameManager : MonoBehaviour {
     void OnLevelWasLoaded(int level)
     {
         SetBGM(level);
-
         // 라운드 시작시마다 실행
         if (isInterRound == false)
         {
-            if(!isEmergency)
+            if (!isEmergency)
+            {
                 SetRoundTime();
+                preBugResponTime = timeLeft-5;
+                SetBugResponeTime();
+            }
             InitiateMoney();
 
 
@@ -218,6 +239,7 @@ public class GameManager : MonoBehaviour {
                 if (UserChat != null)
                     UserChat();
                 RoundEndCheck();
+                MakeBug();
             }
         }
 
@@ -247,13 +269,39 @@ public class GameManager : MonoBehaviour {
     // GameManager를 리셋합니다
     public static void ResetGM()
     {
+        
         GMCreated = false;
         GameObject oldGM = gm.gameObject;
         gm = ((GameObject)(Instantiate(_Gamemanager))).GetComponent<GameManager>();
         Destroy(oldGM);
         gm.gameObject.name = "GameManager";
+        
     }
     */
+
+        //버그 생성
+    public void MakeBug()
+    {
+        int nowTime = timeLeft;
+        if (bugMaking == false && preBugResponTime - nowTime >= bugResponTime)
+        {
+            bugMaking = true;
+            preBugResponTime = nowTime;
+            SetBugResponeTime();
+            Vector2 pos = GameManager.gm.RandomPosition();
+            Instantiate(bug, pos, Quaternion.identity);
+            bugMaking = false;
+        }
+    }
+
+    //버그 생성 텀 셋
+    public void SetBugResponeTime()
+    {
+        bugResponTime = Random.Range(bugResponeTimeMin, bugResponeTimeMax + 1);
+        Debug.Log(bugResponTime);
+    }
+
+
     public void SetBGM(int level)
     {
         if (mus == null) mus = GetComponentInChildren<Music>();
@@ -369,12 +417,16 @@ public class GameManager : MonoBehaviour {
     // 이 함수는 인기도 계산 전에 실행되기 위해 DaramChange 이벤트에 들어가 있습니다
     public void EnemyFameChange()
     {
-        enemyDifficulty += (1 + fame / 50000.0f) / 12000.0f;
+        if (isenemyFameIncresing)
+        {
+            enemyDifficulty += (1 + fame / 50000.0f) / 12000.0f;
 
-        if (enemyFame < fame)
-            enemyFame += (int)(((fame - enemyFame) / 6000.0f + 1) * enemyDifficulty);
-        else
-            enemyFame += (int)((enemyDifficulty - 1) - (enemyFame - fame) / 12000.0f);
+            if (enemyFame < fame)
+                enemyFame += (int)(((fame - enemyFame) / 6000.0f + 1) * enemyDifficulty);
+            else
+                enemyFame += (int)((enemyDifficulty - 1) - (enemyFame - fame) / 12000.0f);
+        }
+        enemyFame += (int)enemyFameOuterConstant;
     }
 
     public void FameDaram1()
@@ -402,6 +454,17 @@ public class GameManager : MonoBehaviour {
         q.solution = 5 * Daram.VarietyModifier;
 
         if(!isInterRound) fame += (int) q.value;
+    }
+
+    public void FameBug()
+    {
+        int sum = 0;
+        foreach(BugUser bu in BugUser.Bugs)
+        {
+            sum += bu.LiveTime()*bu.LiveTime();
+        }
+        sum *= 5;     //이 수치는 추후 조정할 것.
+        if (!isInterRound) fame -= sum;
     }
 
     //                      //

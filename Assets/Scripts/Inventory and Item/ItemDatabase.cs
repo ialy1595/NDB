@@ -25,13 +25,13 @@ public class ItemDatabase : MonoBehaviour {
         itemDatabase.Add(new Item("노란비서", 6, 1000, 0f, "개발자들이 집에 가버립니다! 라운드의 남은 시간이 10초 감소합니다.", YellowPaper));
 
         //attack & defend Item
-        /*
+
         itemDatabase.Add(new Item("접속 장애", 7, 500, 3f, "3초간 경쟁작의 인기도가 오르지 않습니다.", AttackRival0));
         itemDatabase.Add(new Item("청소년 유해매체", 8, 1000, 5f, "5초간 경쟁작의 인기도가 오르지 않습니다.", AttackRival0));
-        itemDatabase.Add(new Item("DDos", 9, 3000, 0f, "경쟁작의 인기도를 초기화시킵니다. \n 50% 확률로 실패합니다.", ResetRival));
+        itemDatabase.Add(new Item("DDos", 9, 8000, 0f, "경쟁작의 인기도를 초기화시킵니다. \n 50% 확률로 실패합니다.", ResetRival));
         itemDatabase.Add(new Item("악성 루머", 10, 1000, 3f, "3초간 경쟁작의 인기도를 감소시킵니다.", AttackRival1));
         itemDatabase.Add(new Item("표절 신고", 11, 2000, 5f, "5초간 경쟁작의 인기도를 감소시킵니다.", AttackRival1));
-        */
+
         specialItemDatabase.Add(new Item("용마제구검", 0, 0, 0f, "인스타에 찍어서 올리자!\n #겜스타그램#좋아요.", DragonSword));
 
         isItemUsing = new bool[itemDatabase.Count];
@@ -199,5 +199,54 @@ public class ItemDatabase : MonoBehaviour {
 
         isItemUsing[item.itemID] = false;
 
+    }
+
+    IEnumerator AttackRival0(Item item)
+    {
+        float startTime = GameManager.gm.time;
+
+        GameManager.gm.isenemyFameIncresing = false;
+
+        while (true)
+        {
+            if (GameManager.gm.time - startTime > item.itemDuration)
+                break;
+
+            yield return new WaitForSeconds(0.1f);
+        }
+
+        GameManager.gm.isenemyFameIncresing = true;
+        isItemUsing[item.itemID] = false;
+    }
+
+    IEnumerator AttackRival1(Item item)
+    {
+        float startTime = GameManager.gm.time;
+
+        GameManager.gm.isenemyFameIncresing = false;
+        GameManager.gm.enemyFameOuterConstant = -2;
+        while (true)
+        {
+            if (GameManager.gm.time - startTime > item.itemDuration)
+                break;
+
+
+            yield return new WaitForSeconds(0.1f);
+        }
+
+        GameManager.gm.isenemyFameIncresing = true;
+        GameManager.gm.enemyFameOuterConstant = 0;
+
+        isItemUsing[item.itemID] = false;
+    }
+
+    IEnumerator ResetRival(Item item)
+    {
+        if((int)Random.Range(1,11) % 2 == 0)
+            GameManager.gm.enemyFame = 0;
+
+        yield return new WaitForSeconds(0f);
+
+        isItemUsing[item.itemID] = false;
     }
 }
