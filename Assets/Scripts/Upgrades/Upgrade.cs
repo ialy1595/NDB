@@ -52,4 +52,14 @@ public class Upgrade
     {
 
     }
+
+    public override bool Equals(object obj)
+    {
+        if (obj == null)
+            return false;
+        else if (((Upgrade)obj).upgradeID == upgradeID)
+            return true;
+        else
+            return false;
+    }
 }

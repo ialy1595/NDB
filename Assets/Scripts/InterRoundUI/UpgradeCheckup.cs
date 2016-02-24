@@ -28,8 +28,11 @@ public class UpgradeCheckup : MonoBehaviour {
         MakeUpgradeList();
     }
 
-    void MakeUpgradeList()
+    public void MakeUpgradeList()
     {
+        foreach (GameObject go in upgradeList)
+            Destroy(go);
+        upgradeList.Clear();
         SetListSize(upgradeScrollPanelrect);
         foreach (Upgrade Upgrade in database.upgradeDatabase)
         {
