@@ -94,7 +94,7 @@ public class AddBasicDaram : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
             daramInfo.SetActive(false);
         }
  
-
+        /*
         if (Daram.Type == "Basic")
         {
             // 개발자 한명당 3초에 한마리씩 뿌림
@@ -112,6 +112,7 @@ public class AddBasicDaram : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
                 DeveloperTime = gm.time + (float)Developer.dev.developerMonsterGenerationTime / (float)Developer.dev.developerCount[Developer.dev.FindPostIDByName("DaramLv2")];
             }
         }
+        */
 
     }
 

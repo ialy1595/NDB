@@ -40,7 +40,7 @@ public class UpgradeDatabase : MonoBehaviour {
                 Unlockables.SetBool(upgrade.upgradeInternalName, !Unlockables.GetBool(upgrade.upgradeInternalName));   // bool 값을 반전시킴
                 upgradeDatabase.Remove(upgrade);
                 upgradeDatabase.Remove(upgrade);
-                UpgradeCheckup._this.MakeUpgradeList();
+                UpgradeCheckup.upgradeChkup.MakeUpgradeList();
             }
             else
             {
