@@ -241,7 +241,7 @@ public class GameManager : MonoBehaviour {
         print("다람쥐 개수 : " + Daram.All.Count);
         print("경쟁작 인기도 : " + enemyFame);
     }
-
+    /*
     // GameManager를 리셋합니다
     public static void ResetGM()
     {
@@ -251,7 +251,7 @@ public class GameManager : MonoBehaviour {
         Destroy(oldGM);
         gm.gameObject.name = "GameManager";
     }
-
+    */
     public void SetBGM(int level)
     {
         if (mus == null) mus = GetComponentInChildren<Music>();

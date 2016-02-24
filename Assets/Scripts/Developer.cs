@@ -123,6 +123,11 @@ public class Developer : MonoBehaviour {
             CalculateCost();
             //if (post.postFuncName == "Server") ExpandUserLimit();
         }
+        else
+        {
+            GameManager.gm.ShowMessageBox("돈이 부족합니다.");
+            return;
+        }
         // 나중에 돈이 부족하거나 개발자가 제한보다 많으면 경고 메시지 띄우기
     }
 
@@ -133,6 +138,11 @@ public class Developer : MonoBehaviour {
             developerCount[post.postID]--;
             CalculateCost();
             //if (post.postFuncName == "Server") ReduceUserLimit();
+        }
+        else if (gm.Money() < fireCost)
+        {
+            GameManager.gm.ShowMessageBox("돈이 부족합니다.");
+            return;
         }
         // 나중에 개발자가 부족하면 경고 메시지 띄우기
     }

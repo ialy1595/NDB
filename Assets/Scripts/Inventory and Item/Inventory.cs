@@ -34,13 +34,14 @@ public class Inventory : MonoBehaviour {
     void Start ()
     {
         inventorySize = slotX * slotY;
-
-        for (int i = 0; i < inventorySize; i++)
+        if (slots.Count == 0 && inventory.Count == 0)
         {
-            slots.Add(new Item());
-            inventory.Add(new Item());
+            for (int i = 0; i < inventorySize; i++)
+            {
+                slots.Add(new Item());
+                inventory.Add(new Item());
+            }
         }
-
         database = GameObject.Find("Database").GetComponent<ItemDatabase>();
 	}
 
@@ -97,7 +98,7 @@ public class Inventory : MonoBehaviour {
 
                 slots[i] = inventory[i];
 
-                if (slots[i].itemName != null)
+                if (slots[i].itemName != null && slots[i].itemName != "")
                 {
                     GUI.DrawTexture(slotRect, slots[i].itemImage);
 
@@ -195,7 +196,7 @@ public class Inventory : MonoBehaviour {
 
         for (int i = 0; i < inventorySize; i++)
         {
-            if (inventory[i].itemName == null)
+            if (inventory[i].itemName == null || inventory[i].itemName == "")
             {
                 for (int j = 0; j < database.itemDatabase.Count; j++)
                 {
