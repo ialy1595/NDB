@@ -1,10 +1,12 @@
 fileFormatVersion: 2
 guid: b6e4f7e019c3f594facf78861be05c95
-timeCreated: 1453749527
+timeCreated: 1456334361
 licenseType: Free
 MonoImporter:
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - Stage2StartScene: {instanceID: 0}
+  - bug: {fileID: 140814, guid: 2895e701984767c4d94050f4557a9c8a, type: 2}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

@@ -11,6 +11,8 @@ public class Developer : MonoBehaviour {
     [HideInInspector] public List<Post> postDatabase = new List<Post>();  // 부서에 대한 정보를 담고 있음;
 
     [HideInInspector] public int[] developerCount;      // 각 부서에 몇 명의 개발자가 투입되었는지에 대한 정보를 담고 있음
+    [HideInInspector] public int[] useableDeveloperCount;         //현재 사용 가능한 개발자 수
+
     // [HideInInspector] public Post temp;                 // 부서 이전 시 개발자가 원래 있던 부서를 기억
 
     [HideInInspector] public int hireCost = 2000;
@@ -43,12 +45,15 @@ public class Developer : MonoBehaviour {
         */
         //developerCount 초기화
         developerCount = Enumerable.Repeat(0, dev.postDatabase.Count).ToArray();
-        
+        useableDeveloperCount = Enumerable.Repeat(0, dev.postDatabase.Count).ToArray();
+
         for (int i = 0; i < dev.postDatabase.Count; i++)
         {
             developerCount[i] = 0;
+            useableDeveloperCount[i] = 0;
         }
         CalculateCost();
+
     }
 
     /*
@@ -136,6 +141,37 @@ public class Developer : MonoBehaviour {
         }
         // 나중에 개발자가 부족하면 경고 메시지 띄우기
     }
+
+    //라운드 시작할 때 사용 가능한 개발자 수 맞춰주는거
+    public void InitiateUseableDeveloper()
+    {
+        for (int i = 0; i < dev.postDatabase.Count; i++)
+        {
+            useableDeveloperCount[i] = developerCount[i];
+        }
+    }
+
+    //버그gm 투입. 투입 되면 ture, 안되면 false 반환
+    public bool UseDeveloper(Post post)
+    {
+        if(useableDeveloperCount[post.postID]>0)
+        {
+            useableDeveloperCount[post.postID]--;
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    //버그gm 반환
+    public void FinishDeveloper(Post post)
+    {
+        useableDeveloperCount[post.postID]++;
+    }
+
+
     /*
     // 개발자의 부서를 이동하는 함수. from은 원래 있던 부서, to는 새로 이동할 부서입니다.
     public void MoveDeveloper(Post from, Post to)
@@ -183,5 +219,11 @@ public class Post
     public int DeveloperInPost()
     {
         return Developer.dev.developerCount[this.postID];
+    }
+
+    //이 부서에 투입된 사용가능한 개발자 수를 반환합니다.
+    public int UseableDeveloperInPost()
+    {
+        return Developer.dev.useableDeveloperCount[this.postID];
     }
 }

@@ -49,7 +49,7 @@ public class GameManager : MonoBehaviour {
     [HideInInspector] public float fieldCenterY;
     [HideInInspector] public float fieldWidth;
     [HideInInspector] public float fieldHeight;
-
+    
     public GameObject StartScene;
 
     // 어떤 이벤트가 발생하여 지속 효과를 넣어줄 때 사용
@@ -146,6 +146,8 @@ public class GameManager : MonoBehaviour {
             if(!isEmergency)
                 SetRoundTime();
             InitiateMoney();
+
+
 
             StartCoroutine("UserChangeCall");
             StartCoroutine(MoneyGainByFame());

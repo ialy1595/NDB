@@ -53,6 +53,7 @@ public class StageSetting : MonoBehaviour {
         gm.FameChange += gm.FameDaram2;
         gm.UserChange += gm.UserLevel2;
         gm.EventCheck += UserChat.uc.Daram2Number;
+        Vector2 pos = GameManager.gm.RandomPosition();
     }
 
 }
