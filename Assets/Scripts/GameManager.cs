@@ -55,6 +55,7 @@ public class GameManager : MonoBehaviour {
     [HideInInspector] public float fieldWidth;
     [HideInInspector] public float fieldHeight;
 
+    public bool[] isTutorialCleared = new bool[100];
 
     public GameObject StartScene;
 
