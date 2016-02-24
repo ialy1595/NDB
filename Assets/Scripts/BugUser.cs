@@ -48,6 +48,7 @@ public class BugUser : MonoBehaviour {
                     else
                     {
                         //사용 가능한 개발자가 없다고 메시지점
+                        GameManager.gm.ShowMessageBox("사용 가능한 GM이 없습니다.");
                     }
                 }
                 
