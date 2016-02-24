@@ -14,6 +14,8 @@ public class UpgradeDatabase : MonoBehaviour {
         gm = GameManager.gm;
 
         upgradeDatabase.Add(new Upgrade("서버 증설", 0, 2500, 1, "이 설명은 예외처리함", "Server", "UserLimit", "현재 최대 유저 수", 1, 2.0f));
+        upgradeDatabase.Add(new Upgrade("Lv.1 다람쥐 체력 증가", 1, 1000, 1, "Basic Lv.1 다람쥐의 체력을 50 증가시킵니다.", "Basic1Health", "현재 최대 체력", 50, 2.0f));
+        upgradeDatabase.Add(new Upgrade("Lv.2 다람쥐 체력 증가", 2, 2000, 1, "Basic Lv.2 다람쥐의 체력을 250 증가시킵니다.", "Basic1Health", "현재 최대 체력", 250, 4.0f));
     }
 
 

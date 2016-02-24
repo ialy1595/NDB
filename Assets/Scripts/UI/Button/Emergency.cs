@@ -34,6 +34,5 @@ public class Emergency : MonoBehaviour {
         }
         else
             transform.localScale = Vector3.zero;
-        
     }
 }

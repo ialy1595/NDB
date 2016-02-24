@@ -14,7 +14,7 @@ public class Daram : MonoBehaviour {
 
     public string Type;
     public int Level;
-    public int InitialHP;
+    [HideInInspector] public int InitialHP; // 다람쥐 초기 체력은 Stage1.cs에서 조정하세요
     public int Speed;
     //public int Cost;
     public GameObject Carcass;

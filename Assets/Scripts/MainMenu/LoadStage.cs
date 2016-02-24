@@ -9,6 +9,11 @@ public class LoadStage : MonoBehaviour {
     {
         GameManager.gm.currentStageScene = stageName;
         GameManager.gm.SetSE((int)SE.SEType.Click_Cute);
+        GameManager.ResetGM();
+        if (stageName == "Stage1")
+            GameManager.gm.GetComponentInChildren<StageSetting>().Stage1Start();
+        else
+            GameManager.gm.GetComponentInChildren<StageSetting>().Stage2Start();
         SceneManager.LoadScene(stageName);
     }
 }

@@ -30,7 +30,7 @@ public class Upgrade
         upgradeQuantityName = quantityname;
         upgradeQuantity = quantity;
         upgradeModifier = modifier;
-        upgradeTooltipName = upgradeQuantityName;
+        upgradeTooltipName = upgradeInternalName;
     }
 
     public Upgrade(string name, int ID, int price, int dev, string desc, string unlockable, string tooltipname, string quantityname,  int quantity = 0, float modifier = 1.0f)

@@ -9,6 +9,13 @@ public class GameManager : MonoBehaviour {
 
     public static GameManager gm;
 
+    /// <summary>
+    /// GameManager 리셋시에만 사용됩니다
+    /// </summary>
+    public GameObject Gamemanager;
+    public static GameObject _Gamemanager;
+    ///
+
     public GameObject resultScene; 
 
     private int money = 10000;         // initialMoney, earnedMoney, usedMoney가 실시간으로 반영된 돈
@@ -19,8 +26,10 @@ public class GameManager : MonoBehaviour {
     [HideInInspector] public int salaryMoney = 0;   // 라운드 중 나가는 개발자 월급
     [HideInInspector] public float timePerEarnedMoney = 1f; //돈이 벌리는 시간 간격
     [HideInInspector] public float time = 0;        // 일시정지를 보정한 시간
-    [HideInInspector] public int basicTime = 40;
+    [HideInInspector] public int basicTime;
     [HideInInspector] public int fame = 0;
+    [HideInInspector] public int enemyFame = 0;
+    [HideInInspector] public float enemyDifficulty = 1;
     [HideInInspector] public int userLevel1Increase;
     [HideInInspector] public int[] userCount;
     [HideInInspector] public float[] userDamagePerLevel; // 각 레벨(초보, 중수)의 유저의 수에 비례한 데미지 곱(나눗셈) 값
@@ -77,6 +86,7 @@ public class GameManager : MonoBehaviour {
         DontDestroyOnLoad(this);    // 씬이 넘어가도 파괴되지 않음
 
         gm = this;
+        _Gamemanager = Gamemanager;
         if (SceneManager.GetActiveScene().name == "Test")
             currentStageScene = "Test";
 
@@ -99,6 +109,7 @@ public class GameManager : MonoBehaviour {
 
         DaramDeath += DaramDeath1;
         DaramDeath += DaramDeath2;
+        DaramDeath += EnemyFameChange;  // 인기도 계산 전에 실행되야 함
         FameChange += Daram.CalculateDaramVariety;
         FameChange += FameDaram1;
         UserChange += UserLevel1;
@@ -228,6 +239,17 @@ public class GameManager : MonoBehaviour {
         print("Level 1 : " + userCount[User.level1]);
         print("Level 2 : " + userCount[User.level2]);
         print("다람쥐 개수 : " + Daram.All.Count);
+        print("경쟁작 인기도 : " + enemyFame);
+    }
+
+    // GameManager를 리셋합니다
+    public static void ResetGM()
+    {
+        GMCreated = false;
+        GameObject oldGM = gm.gameObject;
+        gm = ((GameObject)(Instantiate(_Gamemanager))).GetComponent<GameManager>();
+        Destroy(oldGM);
+        gm.gameObject.name = "GameManager";
     }
 
     public void SetBGM(int level)
@@ -342,6 +364,17 @@ public class GameManager : MonoBehaviour {
     //        인기도        //
     //                      //
 
+    // 이 함수는 인기도 계산 전에 실행되기 위해 DaramChange 이벤트에 들어가 있습니다
+    public void EnemyFameChange()
+    {
+        enemyDifficulty += (1 + fame / 50000.0f) / 12000.0f;
+
+        if (enemyFame < fame)
+            enemyFame += (int)(((fame - enemyFame) / 6000.0f + 1) * enemyDifficulty);
+        else
+            enemyFame += (int)((enemyDifficulty - 1) - (enemyFame - fame) / 12000.0f);
+    }
+
     public void FameDaram1()
     {
         // IsInterRound가 true이면 인기도는 변하지 않아도 함수는 작동함
@@ -350,7 +383,7 @@ public class GameManager : MonoBehaviour {
         q.a = 9 + userCount[User.level1] / 1000;
         q.max = 5 + Daram.VarietyModifier / 2.0f;
         q.min = -5 - Daram.DaramVariety;
-        q.solution = 5 + 5 * Daram.VarietyModifier;
+        q.solution = 10 * Daram.VarietyModifier;
 
         if(!isInterRound) fame += (int) q.value;
     }
@@ -363,8 +396,8 @@ public class GameManager : MonoBehaviour {
         q.x = Daram.FindByType("", 2);
         q.a = 5 + userCount[User.level2] / 500 + userCount[User.level1] / 2000;
         q.max = 2 + Daram.VarietyModifier / 3.0f;
-        q.min = -3 - Daram.DaramVariety;
-        q.solution = 3 + 3 * Daram.VarietyModifier;
+        q.min = -3 - Daram.DaramVariety / 2.0f;
+        q.solution = 5 * Daram.VarietyModifier;
 
         if(!isInterRound) fame += (int) q.value;
     }
@@ -553,7 +586,7 @@ public class GameManager : MonoBehaviour {
     }
 
     public void SetRoundTime() {
-        timeLeft = basicTime;
+        timeLeft = basicTime = 40;
         roundCount++;
         // 실제 라운드가 진행되는 시간은 (basicTime - 10) 초입니다.
         // 라운드 또는 스테이지별로 진행 시간을 바꾸고 싶으면 라운드가 끝난 직후에 다음 라운드의 basicTime 값을 직접 설정해주세요.
