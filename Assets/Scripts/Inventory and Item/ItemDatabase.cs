@@ -11,19 +11,29 @@ public class ItemDatabase : MonoBehaviour {
     //아이템 데이터베이스는 여기에 추가
     void Start()
     {
+
         //itemDatabase.Add(new Item("아이템이름", ID, 가격, 지속시간, "설명", 함수명));
-        itemDatabase.Add(new Item("도토리", 0, 100, 5f, "도토리를 먹은 다람쥐들이 일시적으로 무적이 됩니다. \n (아이템 사용 시 필드 상에 있는 다람쥐들에만 적용)", Dotory));
-        itemDatabase.Add(new Item("녹용", 1, 200, 5f, "녹용을 먹은 유저들이 일시적으로 강해집니다", Nokyong));
-        itemDatabase.Add(new Item("초보자용 갑주", 2, 500, 5f, "초보 유저가 중수 유저로 변화하는 정도가 일시적으로 증가합니다.", NoviceArmor));
+
+        //normal Item
+
+        itemDatabase.Add(new Item("도토리", 0, 100, 5f, "도토리를 먹은 다람쥐들이 5초간 무적이 됩니다. \n (아이템 사용 시 필드 상에 있는 다람쥐들에만 적용)", Dotory));
+        itemDatabase.Add(new Item("녹용", 1, 200, 5f, "녹용을 먹은 유저들이 5초간 강해져 더 빠르게 다람쥐를 잡습니다.", Nokyong));
+        itemDatabase.Add(new Item("초보자용 갑주", 2, 500, 5f, "초보 유저가 중수 유저로 5초간 더 빨리 증가합니다.", NoviceArmor));
         itemDatabase.Add(new Item("아싸고도리", 3, 1000, 0f, "사행성 아이템!\n 인기도가 랜덤하게 증가 또는 감소합니다.", AssaGodory));
-        //itemDatabase.Add(new Item("백세주", 3, 400, "개발자들이 술을 먹어서 일시적으로 다람쥐를 뿌리지 않습니다."));
         itemDatabase.Add(new Item("집행검", 4, 9999, 0f, "득템! 인기도가 1000 증가합니다.", JipHangSword));
         itemDatabase.Add(new Item("용마제구검 제작서", 5, 2000, 0f, "10% 확률로 용마제구검 제작에 성공합니다.", DragonSwordPaper));
         itemDatabase.Add(new Item("노란비서", 6, 1000, 0f, "개발자들이 집에 가버립니다! 라운드의 남은 시간이 10초 감소합니다.", YellowPaper));
-        itemDatabase.Add(new Item("호박 마차", 7, 1000, 0f, "어머나! 12시가 넘어서 유저들이 본래 모습으로 돌아갑니다.\n (모든 중수, 고수 유저가 초보 유저로 바뀝니다.)", Pumpkin));
-        itemDatabase.Add(new Item("달인의 계약", 8, 888, 10f, "초보 유저들이 달인의 계약을 먹고 잠시동안 중수 유저로 변합니다.", MasterContract));
 
+        //attack & defend Item
+        /*
+        itemDatabase.Add(new Item("접속 장애", 7, 500, 3f, "3초간 경쟁작의 인기도가 오르지 않습니다.", AttackRival0));
+        itemDatabase.Add(new Item("청소년 유해매체", 8, 1000, 5f, "5초간 경쟁작의 인기도가 오르지 않습니다.", AttackRival0));
+        itemDatabase.Add(new Item("DDos", 9, 3000, 0f, "경쟁작의 인기도를 초기화시킵니다. \n 50% 확률로 실패합니다.", ResetRival));
+        itemDatabase.Add(new Item("악성 루머", 10, 1000, 3f, "3초간 경쟁작의 인기도를 감소시킵니다.", AttackRival1));
+        itemDatabase.Add(new Item("표절 신고", 11, 2000, 5f, "5초간 경쟁작의 인기도를 감소시킵니다.", AttackRival1));
+        */
         specialItemDatabase.Add(new Item("용마제구검", 0, 0, 0f, "인스타에 찍어서 올리자!\n #겜스타그램#좋아요.", DragonSword));
+
         isItemUsing = new bool[itemDatabase.Count];
         isItemUsing.Initialize();
     }
