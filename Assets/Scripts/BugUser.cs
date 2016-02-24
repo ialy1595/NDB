@@ -1,8 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class BugUser : MonoBehaviour {
-
+    
+    public static List<BugUser> Bugs = new List<BugUser>();
     private bool fixing = false;
     public int fixTime;
     private int fixStartTime;
@@ -22,6 +24,7 @@ public class BugUser : MonoBehaviour {
             if (fixStartTime - nowTime >= fixTime)
             {
                 Developer.dev.FinishDeveloper(modifyingDeveloper);
+                Bugs.Remove(this);
                 Destroy(gameObject);
             }
         }
@@ -36,6 +39,7 @@ public class BugUser : MonoBehaviour {
                 {
                     if (Developer.dev.UseDeveloper(modifyingDeveloper))
                     {
+                        fixStartTime = GameManager.gm.timeLeft;
                         Anim.SetTrigger("Fix");
                         fixing = true;
                     }
@@ -48,11 +52,11 @@ public class BugUser : MonoBehaviour {
             }
         }
 	}
-    /*
-    //인기도 떨어뜨리기
-    private void Bugging()
+    
+    public int LiveTime()
     {
-
+        int nowTime = GameManager.gm.timeLeft;
+        return startTime - nowTime;
     }
-    */
+
 }

@@ -112,6 +112,7 @@ public class GameManager : MonoBehaviour {
         DaramDeath += EnemyFameChange;  // 인기도 계산 전에 실행되야 함
         FameChange += Daram.CalculateDaramVariety;
         FameChange += FameDaram1;
+        FameChange += FameBug;
         UserChange += UserLevel1;
         FameChange += CheckFameZero;
         //RoundStartEvent += CheckDaramDeveloper;
@@ -402,6 +403,17 @@ public class GameManager : MonoBehaviour {
         q.solution = 5 * Daram.VarietyModifier;
 
         if(!isInterRound) fame += (int) q.value;
+    }
+
+    public void FameBug()
+    {
+        int sum = 0;
+        foreach(BugUser bu in BugUser.Bugs)
+        {
+            sum += bu.LiveTime()*bu.LiveTime();
+        }
+        sum *= 100;     //이 수치는 추후 조정할 것.
+        if (!isInterRound) fame -= sum;
     }
 
     //                      //
