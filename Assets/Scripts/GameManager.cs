@@ -16,7 +16,9 @@ public class GameManager : MonoBehaviour {
     public static GameObject _Gamemanager;
     ///
 
-    public GameObject resultScene; 
+    public GameObject resultScene;
+
+    public GameObject bug;
 
     private int money = 10000;         // initialMoney, earnedMoney, usedMoney가 실시간으로 반영된 돈
     [HideInInspector] public int earnedMoney = 0;   // 라운드 중에 번 돈(해고로 받은 돈 포함)
@@ -45,6 +47,9 @@ public class GameManager : MonoBehaviour {
     [HideInInspector] public string GameName = "";      // 우리가 운영하는 게임의 이름
     //                public string roundEventName = ""; // 그 라운드에 적용된 행사
 
+    [HideInInspector] public int bugResponeTimeMin;
+    [HideInInspector] public int bugResponeTimeMax;     //min~max 사이 초 후에 나옴
+
     [HideInInspector] public float fieldCenterX;
     [HideInInspector] public float fieldCenterY;
     [HideInInspector] public float fieldWidth;
@@ -66,6 +71,11 @@ public class GameManager : MonoBehaviour {
     //public Vector2 RandomPosition();
     //public void pause(bool pause);
     //public int UserAllCount();
+
+    private int preBugResponTime;   //이전에 버그가 생성되었던 시간
+    private int bugResponTime;      // 버그 생성 텀
+    private bool bugMaking = false;
+
 
     private Music mus;
     private SE se;
@@ -140,12 +150,15 @@ public class GameManager : MonoBehaviour {
     void OnLevelWasLoaded(int level)
     {
         SetBGM(level);
-
         // 라운드 시작시마다 실행
         if (isInterRound == false)
         {
-            if(!isEmergency)
+            if (!isEmergency)
+            {
                 SetRoundTime();
+                preBugResponTime = timeLeft-5;
+                SetBugResponeTime();
+            }
             InitiateMoney();
 
 
@@ -219,6 +232,7 @@ public class GameManager : MonoBehaviour {
                 if (UserChat != null)
                     UserChat();
                 RoundEndCheck();
+                MakeBug();
             }
         }
 
@@ -255,6 +269,30 @@ public class GameManager : MonoBehaviour {
         gm.gameObject.name = "GameManager";
     }
     */
+
+        //버그 생성
+    public void MakeBug()
+    {
+        int nowTime = timeLeft;
+        if (bugMaking == false && preBugResponTime - nowTime >= bugResponTime)
+        {
+            bugMaking = true;
+            preBugResponTime = nowTime;
+            SetBugResponeTime();
+            Vector2 pos = GameManager.gm.RandomPosition();
+            Instantiate(bug, pos, Quaternion.identity);
+            bugMaking = false;
+        }
+    }
+
+    //버그 생성 텀 셋
+    public void SetBugResponeTime()
+    {
+        bugResponTime = Random.Range(bugResponeTimeMin, bugResponeTimeMax + 1);
+        Debug.Log(bugResponTime);
+    }
+
+
     public void SetBGM(int level)
     {
         if (mus == null) mus = GetComponentInChildren<Music>();
@@ -412,7 +450,7 @@ public class GameManager : MonoBehaviour {
         {
             sum += bu.LiveTime()*bu.LiveTime();
         }
-        sum *= 100;     //이 수치는 추후 조정할 것.
+        sum *= 5;     //이 수치는 추후 조정할 것.
         if (!isInterRound) fame -= sum;
     }
 
