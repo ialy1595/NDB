@@ -15,6 +15,7 @@ public class BugUser : MonoBehaviour {
      void Start () {
         Anim = GetComponent<Animator>();
         startTime = GameManager.gm.timeLeft;
+        Bugs.Add(this);
     }
 
 	void FixedUpdate () {
@@ -23,7 +24,7 @@ public class BugUser : MonoBehaviour {
             int nowTime = GameManager.gm.timeLeft;
             if (fixStartTime - nowTime >= fixTime)
             {
-                Developer.dev.FinishDeveloper(modifyingDeveloper);
+                //Developer.dev.FinishDeveloper(modifyingDeveloper);
                 Bugs.Remove(this);
                 Destroy(gameObject);
             }
@@ -37,13 +38,13 @@ public class BugUser : MonoBehaviour {
                 //충돌한 오브젝트가 이 오브젝트랑 일치할때
                 if (hit.collider != null && hit.collider.gameObject == gameObject)
                 {
-                    if (Developer.dev.UseDeveloper(modifyingDeveloper))
+                    //if (Developer.dev.UseDeveloper(modifyingDeveloper))
                     {
                         fixStartTime = GameManager.gm.timeLeft;
                         Anim.SetTrigger("Fix");
                         fixing = true;
                     }
-                    else
+                    //else
                     {
                         //사용 가능한 개발자가 없다고 메시지점
                     }
@@ -55,6 +56,7 @@ public class BugUser : MonoBehaviour {
     
     public int LiveTime()
     {
+        if (fixing) return 0;
         int nowTime = GameManager.gm.timeLeft;
         return startTime - nowTime;
     }
