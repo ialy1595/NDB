@@ -9,6 +9,7 @@ public class UpgradeCheckup : MonoBehaviour {
     static public UpgradeCheckup upgradeChkup;
 
     private GameObject upgradePanel;
+    private GameObject upgradePanel2;
     private GameObject upgradeScrollPanel;
     private Text upgradeStatusText;
     private UpgradeDatabase database;
@@ -22,6 +23,7 @@ public class UpgradeCheckup : MonoBehaviour {
         upgradeChkup = this;
         database = GameManager.gm.GetComponentInChildren<UpgradeDatabase>();
         upgradePanel = GameObject.Find("UpgradePanel");
+        upgradePanel2 = GameObject.Find("UpgradePanel2");
         upgradeScrollPanel = GameObject.Find("UpgradeScrollPanel");
         upgradeStatusText = GameObject.Find("UpgradeStatus").GetComponentInChildren<Text>();
         upgradeScrollPanelrect = upgradeScrollPanel.GetComponent<RectTransform>();
@@ -57,7 +59,7 @@ public class UpgradeCheckup : MonoBehaviour {
     public void ShowUpgrades()
     {
         //이유는 모르겠지만 처음에 위치 조정을 안해주면 스크롤바랑 이미지 표시가 이상해짐
-        upgradePanel.GetComponent<ScrollRect>().verticalScrollbar.value = 0;
+        upgradePanel2.GetComponent<ScrollRect>().verticalScrollbar.value = 0;
         upgradeScrollPanelrect.localPosition = new Vector2(upgradeScrollPanelrect.localPosition.x, -upgradeScrollPanelrect.rect.height / 2);
         upgradePanel.SetActive(true);
         RefreshTooltip();
@@ -65,7 +67,7 @@ public class UpgradeCheckup : MonoBehaviour {
 
     void SetListSize(RectTransform rect)
     {
-        rect.sizeDelta = new Vector2(rect.rect.width, database.upgradeDatabase.Count * 120f + 70f);
+        rect.sizeDelta = new Vector2(rect.rect.width, database.upgradeDatabase.Count * 120f + 20f);
     }
 
     // 새로고침 할 수 있게 변경함
