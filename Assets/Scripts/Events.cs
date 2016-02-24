@@ -15,10 +15,7 @@ public class Events : MonoBehaviour {
     public GameObject DaramUpDownTutorial_Box;
     public GameObject SlimeParty_Box;
     public GameObject SlimeParty_Slime;
-    public GameObject FirstTutorial_Box;
-    public GameObject InterRoundTutorial_Box;
-    public GameObject EmergencyTutorial_Box;
-    public GameObject VarietyTutorial_Box;
+
     public GameObject FirstEmergency_Box;
     public GameObject ShutDownJe_Box;
     public GameObject ViolenceTest_Box;
@@ -30,31 +27,47 @@ public class Events : MonoBehaviour {
     public static GameObject InterRoundTutorialBox;
     public static GameObject FirstEmergencyBox;
 
-    void Start ()
+    private bool[] isStageOnceLoaded = new bool[2];
+
+
+    public GameObject Tutorial1_Box;
+    public GameObject Tutorial2_Box;
+    public GameObject InterRoundTutorial_Box;
+    public GameObject EmergencyTutorial_Box;
+    public GameObject VarietyTutorial_Box;
+
+
+    void Start()
     {
         gm = GameManager.gm;
         InterRoundTutorialBox = InterRoundTutorial_Box;
         FirstEmergencyBox = FirstEmergency_Box;
 
         gm.EventCheck += UserLimitExcess;
-        gm.EventCheck += RivalGameRelease;
+        //gm.EventCheck += RivalGameRelease; //갓나무 하나만
         gm.EventCheck += MacroEvent;
         gm.EventCheck += TreeOfSavior;
         gm.EventCheck += GettingFamous;
         gm.EventCheck += ShutDownJe;
         gm.EventCheck += ViolenceTest;
         gm.EventCheck += FreeServer;
-        
+
         gm.RoundStartEvent += SlimeParty;
 
-        if (gm.currentStageScene == "Stage1")
+    }
+
+    void OnLevelWasLoaded(int level)
+    {
+        
+        if (gm.currentStageScene == "Stage1" && !isStageOnceLoaded[0])
         {
             gm.EventCheck += UnlockUpBasic;
             gm.EventCheck += EmergencyTutorial;
             gm.RoundStartEvent += DaramUpDownTutorial;
-            gm.RoundStartEvent += FirstTutorial;
-        }
+            gm.RoundStartEvent += Tutorial1;
 
+            isStageOnceLoaded[0] = !isStageOnceLoaded[0];
+        }
     }
 
     public void UnlockUpBasic()
@@ -180,11 +193,28 @@ public class Events : MonoBehaviour {
         }
             
     }
+ 
+    /* Tutorials */
 
-    public void FirstTutorial()
+    public void Tutorial1()
     {
-        Instantiate(FirstTutorial_Box);
-        gm.RoundStartEvent -= FirstTutorial;
+        Instantiate(Tutorial1_Box);
+        gm.RoundStartEvent -= Tutorial1;
+        gm.EventCheck += Tutorial2;
+    }
+
+    public void Tutorial2()
+    {
+        if (Daram.All.Count < 10)
+        {
+            gm.timeLeft = gm.basicTime;
+        }
+
+        else
+        {
+            Instantiate(Tutorial2_Box);
+            gm.EventCheck -= Tutorial2;
+        }
     }
 
     private int ETRound;

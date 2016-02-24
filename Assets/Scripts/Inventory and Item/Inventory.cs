@@ -198,6 +198,7 @@ public class Inventory : MonoBehaviour {
         {
             if (inventory[i].itemName == null || inventory[i].itemName == "")
             {
+                Debug.Log("null");
                 for (int j = 0; j < database.itemDatabase.Count; j++)
                 {
                     if (database.itemDatabase[j].itemID == item.itemID)

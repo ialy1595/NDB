@@ -26,6 +26,7 @@ public class Fame : MonoBehaviour {
     {
         slider = GetComponent<Slider>();
         maxValue = (int)slider.maxValue;
+        GetComponentInChildren<Text>().text = "<"+ GameManager.gm.GameName + ">\n인기도";
     }
 
     void Update()
