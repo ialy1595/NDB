@@ -32,4 +32,14 @@ public class SaveLoad : MonoBehaviour {
         }
         else return false;
     }
+
+    public static void DeleteSave()
+    {
+        string file = Application.dataPath + "\\SaveFile.txt";
+        if (System.IO.File.Exists(file))
+        {
+            System.IO.File.Delete(file);
+        }
+        else return;
+    }
 }
