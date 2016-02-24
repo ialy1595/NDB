@@ -28,8 +28,13 @@ public class GameManager : MonoBehaviour {
     [HideInInspector] public float time = 0;        // 일시정지를 보정한 시간
     [HideInInspector] public int basicTime;
     [HideInInspector] public int fame = 0;
-    [HideInInspector] public int enemyFame = 0;
-    [HideInInspector] public float enemyDifficulty = 1;
+
+    [HideInInspector]
+    public int enemyFame = 0;
+    public float enemyDifficulty = 1;
+    public bool isenemyFameIncresing = true; // 아이템 등 외부 요인에 따라 오르고 안 오르고를 조정
+    public float enemyFameOuterConstant = 0; // 아이템 등 외부 요인에 따른 변경 상수
+
     [HideInInspector] public int userLevel1Increase;
     [HideInInspector] public int[] userCount;
     [HideInInspector] public float[] userDamagePerLevel; // 각 레벨(초보, 중수)의 유저의 수에 비례한 데미지 곱(나눗셈) 값
@@ -49,6 +54,7 @@ public class GameManager : MonoBehaviour {
     [HideInInspector] public float fieldCenterY;
     [HideInInspector] public float fieldWidth;
     [HideInInspector] public float fieldHeight;
+
 
     public GameObject StartScene;
 
@@ -369,12 +375,16 @@ public class GameManager : MonoBehaviour {
     // 이 함수는 인기도 계산 전에 실행되기 위해 DaramChange 이벤트에 들어가 있습니다
     public void EnemyFameChange()
     {
-        enemyDifficulty += (1 + fame / 50000.0f) / 12000.0f;
+        if (isenemyFameIncresing)
+        {
+            enemyDifficulty += (1 + fame / 50000.0f) / 12000.0f;
 
-        if (enemyFame < fame)
-            enemyFame += (int)(((fame - enemyFame) / 6000.0f + 1) * enemyDifficulty);
-        else
-            enemyFame += (int)((enemyDifficulty - 1) - (enemyFame - fame) / 12000.0f);
+            if (enemyFame < fame)
+                enemyFame += (int)(((fame - enemyFame) / 6000.0f + 1) * enemyDifficulty);
+            else
+                enemyFame += (int)((enemyDifficulty - 1) - (enemyFame - fame) / 12000.0f);
+        }
+        enemyFame += (int)enemyFameOuterConstant;
     }
 
     public void FameDaram1()

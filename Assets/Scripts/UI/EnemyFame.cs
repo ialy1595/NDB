@@ -2,7 +2,8 @@
 using System.Collections;
 using UnityEngine.UI;
 
-public class Fame : MonoBehaviour {
+public class EnemyFame : MonoBehaviour
+{
 
     private Slider slider;
     public Image background;
@@ -26,59 +27,58 @@ public class Fame : MonoBehaviour {
     {
         slider = GetComponent<Slider>();
         maxValue = (int)slider.maxValue;
-        GetComponentInChildren<Text>().text = "<"+ GameManager.gm.GameName + ">\n인기도";
     }
 
     void Update()
     {
         // 인기도가 슬라이더의 최댓값을 넘을 때마다 색이 바뀌면서 다시 차오름
-        slider.value = GameManager.gm.fame % maxValue;
-        if (GameManager.gm.fame / maxValue < 1)
+        slider.value = GameManager.gm.enemyFame % maxValue;
+        if (GameManager.gm.enemyFame / maxValue < 1)
         {
             background.color = white;
             fill.color = red;
         }
-        else if ((GameManager.gm.fame / maxValue) % 10 == 1)
+        else if ((GameManager.gm.enemyFame / maxValue) % 10 == 1)
         {
             background.color = red;
             fill.color = orange;
         }
-        else if ((GameManager.gm.fame / maxValue) % 10 == 2)
+        else if ((GameManager.gm.enemyFame / maxValue) % 10 == 2)
         {
             background.color = orange;
             fill.color = yellow;
         }
-        else if ((GameManager.gm.fame / maxValue) % 10 == 3)
+        else if ((GameManager.gm.enemyFame / maxValue) % 10 == 3)
         {
             background.color = yellow;
             fill.color = green;
         }
-        else if ((GameManager.gm.fame / maxValue) % 10 == 4)
+        else if ((GameManager.gm.enemyFame / maxValue) % 10 == 4)
         {
             background.color = green;
             fill.color = emerald;
         }
-        else if ((GameManager.gm.fame / maxValue) % 10 == 5)
+        else if ((GameManager.gm.enemyFame / maxValue) % 10 == 5)
         {
             background.color = emerald;
             fill.color = skyblue;
         }
-        else if ((GameManager.gm.fame / maxValue) % 10 == 6)
+        else if ((GameManager.gm.enemyFame / maxValue) % 10 == 6)
         {
             background.color = skyblue;
             fill.color = blue;
         }
-        else if ((GameManager.gm.fame / maxValue) % 10 == 7)
+        else if ((GameManager.gm.enemyFame / maxValue) % 10 == 7)
         {
             background.color = blue;
             fill.color = violet;
         }
-        else if ((GameManager.gm.fame / maxValue) % 10 == 8)
+        else if ((GameManager.gm.enemyFame / maxValue) % 10 == 8)
         {
             background.color = violet;
             fill.color = purple;
         }
-        else if ((GameManager.gm.fame / maxValue) % 10 == 9)
+        else if ((GameManager.gm.enemyFame / maxValue) % 10 == 9)
         {
             background.color = purple;
             fill.color = pink;
