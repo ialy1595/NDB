@@ -23,7 +23,7 @@ public class GameManager : MonoBehaviour {
     [HideInInspector] public float earnedMoneyModifier = 1.0f;  // 번돈 의 계수 (긴급점검 등으로 낮아짐)
     [HideInInspector] public int initialMoney = 0;  // 라운드 시작 시의 돈
     [HideInInspector] public int usedMoney = 0;     // GM이 라운드 중에 사용한 돈
-    [HideInInspector] public int salaryMoney = 0;   // 라운드 중 나가는 개발자 월급
+    //                public int salaryMoney = 0;   // 라운드 중 나가는 개발자 월급
     [HideInInspector] public float timePerEarnedMoney = 1f; //돈이 벌리는 시간 간격
     [HideInInspector] public float time = 0;        // 일시정지를 보정한 시간
     [HideInInspector] public int basicTime;
@@ -39,11 +39,11 @@ public class GameManager : MonoBehaviour {
     [HideInInspector] public int timeLeft = 1;
     [HideInInspector] public string currentStageScene;
     [HideInInspector] public bool isPaused = false;
-    [HideInInspector] public bool isRoundEventOn = false;
+    //                public bool isRoundEventOn = false;
     //                public bool isInterRound;         // InterRound때 일시정지는 되어 있음, 대기시간 10초도 InterRound 취급
     [HideInInspector] public bool isEmergency = false;  // 긴급점검일때 true
     [HideInInspector] public string GameName = "";      // 우리가 운영하는 게임의 이름
-    [HideInInspector] public string roundEventName = ""; // 그 라운드에 적용된 행사
+    //                public string roundEventName = ""; // 그 라운드에 적용된 행사
 
     [HideInInspector] public float fieldCenterX;
     [HideInInspector] public float fieldCenterY;
@@ -149,7 +149,7 @@ public class GameManager : MonoBehaviour {
 
             StartCoroutine("UserChangeCall");
             StartCoroutine(MoneyGainByFame());
-            StartCoroutine(MoneyLoseBySalary());
+            //StartCoroutine(MoneyLoseBySalary());
 
             if (StartScene != null)
                 Instantiate(StartScene);
@@ -483,7 +483,7 @@ public class GameManager : MonoBehaviour {
         earnedMoney = 0;
         initialMoney = Money();
         usedMoney = 0;
-        salaryMoney = 0;
+        //salaryMoney = 0;
         earnedMoneyModifier = 1.0f;
     }
 
@@ -507,7 +507,7 @@ public class GameManager : MonoBehaviour {
         
         
     }
-
+    /*
     /// <summary>
     /// 현재 돈(gm.money)에 인자 delta만큼의 값을 더합니다.
     /// 월급은 돈의 감소이므로 delta에 음수를 넣어주세요.
@@ -518,6 +518,7 @@ public class GameManager : MonoBehaviour {
         money += delta;
         salaryMoney += Mathf.Abs(delta);
     }
+     * */
 
     /// <summary>
     /// 현재 돈(gm.money)에 인자 delta만큼의 값을 더합니다.
@@ -542,7 +543,7 @@ public class GameManager : MonoBehaviour {
             yield return new WaitForSeconds(timePerEarnedMoney);
         }
     }
-
+    /*
     // 초당(per second) 지급되는 개발자 월급
     IEnumerator MoneyLoseBySalary()
     {
@@ -556,7 +557,7 @@ public class GameManager : MonoBehaviour {
             yield return new WaitForSeconds(2.0f); // 2.0f로 설정해야 1초에 한 번씩 나감(왜 그런지는 모르겠지만)
         }
     }
-
+    */
     public int CalculateMoney(float multiConstant)
     {
         return (int)(multiConstant * 2 * Mathf.Pow( Mathf.Log(fame + 1, 2f), 1.3f));
@@ -597,12 +598,13 @@ public class GameManager : MonoBehaviour {
         if (timeLeft <= -1) {   // 0으로 하면 마지막 1초가 보여지지 않아서 -1로 수정
             //print("stageEnded");
             timeLeft = 0;
-
+            /*
             //라운드 행사 제거를 위해 한번 더 확인
             isRoundEventOn = false;
+             * */
             if (EventCheck != null)
                 EventCheck();
-
+            
             Instantiate(resultScene); // 결과창을 Instantiate하는 방법으로 변경
             // 방법을 변경한 이유는 결과창이 맨 위에 뜨도록 하기 위해서임.
         }

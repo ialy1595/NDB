@@ -6,12 +6,14 @@ using System.Collections.Generic;
 public class ItemCheckup : MonoBehaviour {
 
     public GameObject itemListTemplate;
+    public static ItemCheckup itemChkup;
 
     public int numOfShowingItem = 3;
 
     private GameObject itemPanel;
     private GameObject itemScrollPanel;
     private RectTransform itemscrollPanelrect;
+    private Text itemStatusText;
 
     private Inventory inventory;
     private ItemDatabase database;
@@ -24,14 +26,17 @@ public class ItemCheckup : MonoBehaviour {
     // Use this for initialization
     void Start()
     {
+        itemChkup = this;
         inventory = GameManager.gm.GetComponentInChildren<Inventory>();
         database = GameManager.gm.GetComponentInChildren<ItemDatabase>();
         itemPanel = GameObject.Find("ItemPanel");
         itemScrollPanel = GameObject.Find("ItemScrollPanel");
+        itemStatusText = GameObject.Find("ItemStatus").GetComponentInChildren<Text>();
         itemscrollPanelrect = itemScrollPanel.GetComponent<RectTransform>();
         itemPanel.GetComponent<Transform>().localScale = new Vector3(1, 1, 1);
         itemPanel.SetActive(false);
         MakeItemList();
+        itemStatusText.text = "남은 돈 : " + GameManager.gm.Money();
     }
 
     void MakeItemList()
@@ -66,10 +71,16 @@ public class ItemCheckup : MonoBehaviour {
         itemPanel.GetComponent<ScrollRect>().verticalScrollbar.value = 0;
         itemscrollPanelrect.localPosition = new Vector2(itemscrollPanelrect.localPosition.x, -itemscrollPanelrect.rect.height / 2);
         itemPanel.SetActive(true);
+        itemStatusText.text = "남은 돈 : " + GameManager.gm.Money();
     }
 
     void SetListSize(RectTransform rect) {
-        rect.sizeDelta = new Vector2(rect.rect.width, numOfShowingItem * 120f + 20f);
+        rect.sizeDelta = new Vector2(rect.rect.width, numOfShowingItem * 120f + 70f);
+    }
+
+    public void RefreshTooltip()
+    {
+        itemStatusText.text = "남은 돈 : " + GameManager.gm.Money();
     }
 
     void SetRandomItemID()

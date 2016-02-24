@@ -4,7 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class RoundEventCheckup : MonoBehaviour {
-
+    /*
     public GameObject roundEventListTemplate;
     public int numOfShowingRoundEvent = 3;
 
@@ -44,7 +44,7 @@ public class RoundEventCheckup : MonoBehaviour {
             GameObject newEvent = Instantiate(roundEventListTemplate, new Vector3(0f, (eventScrollPanelrect.rect.height / 2) -120f * i - 20f, 0f), Quaternion.identity) as GameObject;
             newEvent.name = roundEvent.eventName;
 
-            /* 다른 children이 추가되면 아래 코드에서 에러가 발생할 수도? */
+            
             newEvent.GetComponentInChildren<Image>().sprite = Sprite.Create(roundEvent.eventImage, new Rect(0, 0, imageIconSize, imageIconSize), new Vector2(0f, 0f));
             newEvent.transform.SetParent(eventScrollPanel.transform, false);
 
@@ -88,4 +88,5 @@ public class RoundEventCheckup : MonoBehaviour {
             RandomRoundEventID.Add(i);
         }
     }
+    */
 }

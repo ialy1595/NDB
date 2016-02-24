@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine.UI;
 
 public class DeveloperCheckup : MonoBehaviour {
-
+    /*
     public GameObject postListTemplate;
     public static DeveloperCheckup devChkup;
 
@@ -45,7 +45,7 @@ public class DeveloperCheckup : MonoBehaviour {
             GameObject newPost = Instantiate(postListTemplate, new Vector3(0f, (developerScrollPanelrect.rect.height / 2) - 120f * post.postID - 20f, 0f), Quaternion.identity) as GameObject;
             newPost.name = post.postFuncName;
 
-            /* 다른 children이 추가되면 아래 코드에서 에러가 발생할 수도? */
+            
             //newPost.GetComponentInChildren<Image>().sprite = Sprite.Create(post.postImage, new Rect(0, 0, imageIconSize, imageIconSize), new Vector2(0f, 0f));
             // 이미지는 리소스가 생기면 사용할 예정
             newPost.transform.SetParent(developerScrollPanel.transform, false);
@@ -126,4 +126,5 @@ public class DeveloperCheckup : MonoBehaviour {
         database.temp = null;
         RefreshPostButtons2();
     }
+     * */
 }

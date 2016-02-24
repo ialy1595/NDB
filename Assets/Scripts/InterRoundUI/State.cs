@@ -19,7 +19,8 @@ public class State : MonoBehaviour {
 	void Update ()
     {
         moneyText.text = "" + GameManager.gm.Money();
-        developerText.text = "" + (Developer.dev.salaryCost * (GameManager.gm.basicTime - 10));
+        //developerText.text = "" + (Developer.dev.salaryCost * (GameManager.gm.basicTime - 10));
+        developerText.text = "" + Developer.dev.FindPostByPostID(Developer.dev.FindPostIDByName("Debugging")).DeveloperInPost();
         if (GameManager.gm.isEmergency)
             title.text = "긴급 점검";
         else

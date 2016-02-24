@@ -6,10 +6,11 @@ using System.Collections.Generic;
 public class UpgradeCheckup : MonoBehaviour {
 
     public GameObject UpgradeListTemplate;
-    static public UpgradeCheckup _this;
+    static public UpgradeCheckup upgradeChkup;
 
     private GameObject upgradePanel;
     private GameObject upgradeScrollPanel;
+    private Text upgradeStatusText;
     private UpgradeDatabase database;
     private RectTransform upgradeScrollPanelrect;
     private int imageIconSize = 256;
@@ -18,14 +19,16 @@ public class UpgradeCheckup : MonoBehaviour {
 
     void Start()
     {
-        _this = this;
+        upgradeChkup = this;
         database = GameManager.gm.GetComponentInChildren<UpgradeDatabase>();
         upgradePanel = GameObject.Find("UpgradePanel");
         upgradeScrollPanel = GameObject.Find("UpgradeScrollPanel");
+        upgradeStatusText = GameObject.Find("UpgradeStatus").GetComponentInChildren<Text>();
         upgradeScrollPanelrect = upgradeScrollPanel.GetComponent<RectTransform>();
         upgradePanel.GetComponent<Transform>().localScale = new Vector3(1, 1, 1);
         upgradePanel.SetActive(false);
         MakeUpgradeList();
+        upgradeStatusText.text = "남은 돈 : " + GameManager.gm.Money();
     }
 
     public void MakeUpgradeList()
@@ -62,7 +65,7 @@ public class UpgradeCheckup : MonoBehaviour {
 
     void SetListSize(RectTransform rect)
     {
-        rect.sizeDelta = new Vector2(rect.rect.width, database.upgradeDatabase.Count * 120f + 20f);
+        rect.sizeDelta = new Vector2(rect.rect.width, database.upgradeDatabase.Count * 120f + 70f);
     }
 
     // 새로고침 할 수 있게 변경함
@@ -85,6 +88,7 @@ public class UpgradeCheckup : MonoBehaviour {
                 go.GetComponentInChildren<Text>().text = tooltip;
             }
         }
+        upgradeStatusText.text = "남은 돈 : " + GameManager.gm.Money();
     }
 
     void Update()
