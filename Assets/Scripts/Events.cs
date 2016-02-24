@@ -26,12 +26,13 @@ public class Events : MonoBehaviour {
 
     public static GameObject InterRoundTutorialBox;
     public static GameObject FirstEmergencyBox;
-
+    public static GameObject BugTutorialBox;
     private bool[] isStageOnceLoaded = new bool[2];
 
 
     public GameObject Tutorial1_Box;
     public GameObject Tutorial2_Box;
+    public GameObject BugTutorial_Box;
     public GameObject InterRoundTutorial_Box;
     public GameObject EmergencyTutorial_Box;
     public GameObject VarietyTutorial_Box;
@@ -40,6 +41,7 @@ public class Events : MonoBehaviour {
     void Start()
     {
         gm = GameManager.gm;
+        BugTutorialBox = BugTutorial_Box;
         InterRoundTutorialBox = InterRoundTutorial_Box;
         FirstEmergencyBox = FirstEmergency_Box;
 

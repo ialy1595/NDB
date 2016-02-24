@@ -152,6 +152,7 @@ public class GameManager : MonoBehaviour {
 
 
         Random.seed = (int)Time.time;
+        isTutorialCleared.Initialize();
     }
 
     void OnLevelWasLoaded(int level)
@@ -290,6 +291,12 @@ public class GameManager : MonoBehaviour {
             SetBugResponeTime();
             Vector2 pos = GameManager.gm.RandomPosition();
             Instantiate(bug, pos, Quaternion.identity);
+
+            if (isTutorialCleared[4] /*bug = 4 */ == false)
+            {
+                Instantiate(Events.BugTutorialBox);
+            }
+
             bugMaking = false;
         }
     }

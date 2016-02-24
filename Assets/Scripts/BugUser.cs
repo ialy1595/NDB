@@ -31,8 +31,8 @@ public class BugUser : MonoBehaviour {
         }
         else
         {
-            if (Input.GetMouseButtonDown(0))
-            {
+            if (Input.GetMouseButtonDown(0) && !GameManager.gm.isPaused)
+            {        
                 Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
                 RaycastHit2D hit = Physics2D.GetRayIntersection(ray, Mathf.Infinity);
                 //충돌한 오브젝트가 이 오브젝트랑 일치할때
@@ -42,6 +42,7 @@ public class BugUser : MonoBehaviour {
                     {
                         fixStartTime = GameManager.gm.timeLeft;
                         Anim.SetTrigger("Fix");
+                        GameManager.gm.SetSE((int)SE.SEType.Click_Retro);
                         fixing = true;
                     }
                     else

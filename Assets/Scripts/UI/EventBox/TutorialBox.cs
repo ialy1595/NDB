@@ -39,9 +39,11 @@ public class TutorialBox : MonoBehaviour {
                 GameManager.gm.isTutorialCleared[tutorialStep] = true;
                 Destroy(gameObject);
             }
-
-            GameManager.gm.SetSE((int)SE.SEType.Dingaling);
-            tutorials[cnt].GetComponent<RectTransform>().localScale = new Vector3(1, 1, 1);
+            else
+            {
+                GameManager.gm.SetSE((int)SE.SEType.Dingaling);
+                tutorials[cnt].GetComponent<RectTransform>().localScale = new Vector3(1, 1, 1);
+            }
         }
     }
 }
