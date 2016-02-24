@@ -9,6 +9,13 @@ public class GameManager : MonoBehaviour {
 
     public static GameManager gm;
 
+    /// <summary>
+    /// GameManager 리셋시에만 사용됩니다
+    /// </summary>
+    public GameObject Gamemanager;
+    public static GameObject _Gamemanager;
+    ///
+
     public GameObject resultScene; 
 
     private int money = 10000;         // initialMoney, earnedMoney, usedMoney가 실시간으로 반영된 돈
@@ -80,6 +87,7 @@ public class GameManager : MonoBehaviour {
         DontDestroyOnLoad(this);    // 씬이 넘어가도 파괴되지 않음
 
         gm = this;
+        _Gamemanager = Gamemanager;
         if (SceneManager.GetActiveScene().name == "Test")
             currentStageScene = "Test";
 
@@ -235,6 +243,16 @@ public class GameManager : MonoBehaviour {
         print("Level 2 : " + userCount[User.level2]);
         print("다람쥐 개수 : " + Daram.All.Count);
         print("경쟁작 인기도 : " + enemyFame);
+    }
+
+    // GameManager를 리셋합니다
+    public static void ResetGM()
+    {
+        GMCreated = false;
+        GameObject oldGM = gm.gameObject;
+        gm = ((GameObject)(Instantiate(_Gamemanager))).GetComponent<GameManager>();
+        Destroy(oldGM);
+        gm.gameObject.name = "GameManager";
     }
 
     public void SetBGM(int level)

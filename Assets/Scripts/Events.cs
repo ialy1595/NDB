@@ -23,6 +23,7 @@ public class Events : MonoBehaviour {
     public GameObject ShutDownJe_Box;
     public GameObject ViolenceTest_Box;
     public GameObject FreeServer_Box;
+    public GameObject Stage1Clear_Box;
 
     public GameObject NormalMessage_Box;
 
@@ -35,23 +36,28 @@ public class Events : MonoBehaviour {
         InterRoundTutorialBox = InterRoundTutorial_Box;
         FirstEmergencyBox = FirstEmergency_Box;
 
-        gm.EventCheck += UnlockUpBasic;
         gm.EventCheck += UserLimitExcess;
         gm.EventCheck += RivalGameRelease;
         gm.EventCheck += MacroEvent;
         gm.EventCheck += TreeOfSavior;
         gm.EventCheck += GettingFamous;
-        gm.EventCheck += EmergencyTutorial;
         gm.EventCheck += ShutDownJe;
         gm.EventCheck += ViolenceTest;
         gm.EventCheck += FreeServer;
-
-        gm.RoundStartEvent += DaramUpDownTutorial;
+        
         gm.RoundStartEvent += SlimeParty;
-        gm.RoundStartEvent += FirstTutorial;
+
+        if (gm.currentStageScene == "Stage1")
+        {
+            gm.EventCheck += UnlockUpBasic;
+            gm.EventCheck += EmergencyTutorial;
+            gm.RoundStartEvent += DaramUpDownTutorial;
+            gm.RoundStartEvent += FirstTutorial;
+        }
+
     }
 
-    void UnlockUpBasic()
+    public void UnlockUpBasic()
     {
         if (GameManager.gm.fame >= 10000)
         {
@@ -133,7 +139,7 @@ public class Events : MonoBehaviour {
         }
     }
 
-    void DaramUpDownTutorial()
+    public void DaramUpDownTutorial()
     {
         if (Unlockables.GetBool("UnlockBasic1_Amount10") || Unlockables.GetBool("UnlockBasic2_Amount10"))
         {
@@ -175,14 +181,14 @@ public class Events : MonoBehaviour {
             
     }
 
-    void FirstTutorial()
+    public void FirstTutorial()
     {
         Instantiate(FirstTutorial_Box);
         gm.RoundStartEvent -= FirstTutorial;
     }
 
     private int ETRound;
-    void EmergencyTutorial()
+    public void EmergencyTutorial()
     {
         if (gm.fame >= 15000 && 15 <= gm.timeLeft && gm.timeLeft <= 25)
         {
@@ -230,6 +236,7 @@ public class Events : MonoBehaviour {
             Unlockables.SetBool("UnlockRainbow1", true);
             Instantiate(VarietyTutorial_Box);
             gm.EventCheck -= VarietyTutorial;
+            gm.EventCheck += Stage1Clear;
         }
     }
 
@@ -271,6 +278,15 @@ public class Events : MonoBehaviour {
             UserChat.CreateChat(UserChat.BadChat("슬슬 이 게임도 뜰 때가 됬나.."), 4);
             Instantiate(FreeServer_Box);
             gm.EventCheck -= FreeServer;
+        }
+    }
+
+    public void Stage1Clear()
+    {
+        if (gm.UserAllCount() >= 15000)
+        {
+            Instantiate(Stage1Clear_Box);
+            gm.EventCheck -= Stage1Clear;
         }
     }
 }
