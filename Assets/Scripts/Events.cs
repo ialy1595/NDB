@@ -39,7 +39,7 @@ public class Events : MonoBehaviour {
         FirstEmergencyBox = FirstEmergency_Box;
 
         gm.EventCheck += UserLimitExcess;
-        gm.EventCheck += RivalGameRelease;
+        //gm.EventCheck += RivalGameRelease; //갓나무 하나만
         gm.EventCheck += MacroEvent;
         gm.EventCheck += TreeOfSavior;
         gm.EventCheck += GettingFamous;
