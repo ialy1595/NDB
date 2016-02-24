@@ -30,7 +30,7 @@ public class UserChat : MonoBehaviour {
         if (_Canvas == null)
             _Canvas = GameObject.Find("Canvas");
         GameObject obj = (GameObject) Instantiate(_ChatText, Vector3.zero, Quaternion.identity);
-        obj.transform.SetParent(_Canvas.transform);
+        obj.transform.SetParent(_Canvas.transform, false);
         obj.GetComponent<RectTransform>().position = pos;
         obj.GetComponent<Text>().text = text;
         obj.GetComponent<SelfDestroyScript>().ChangeFate(lifetime);
