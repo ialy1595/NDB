@@ -34,7 +34,6 @@ public class Inventory : MonoBehaviour {
     void Start ()
     {
         inventorySize = slotX * slotY;
-
         for (int i = 0; i < inventorySize; i++)
         {
             slots.Add(new Item());
@@ -197,6 +196,7 @@ public class Inventory : MonoBehaviour {
         {
             if (inventory[i].itemName == null)
             {
+                Debug.Log("null");
                 for (int j = 0; j < database.itemDatabase.Count; j++)
                 {
                     if (database.itemDatabase[j].itemID == item.itemID)

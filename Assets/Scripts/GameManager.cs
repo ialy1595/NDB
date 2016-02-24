@@ -245,11 +245,13 @@ public class GameManager : MonoBehaviour {
     // GameManager를 리셋합니다
     public static void ResetGM()
     {
+        
         GMCreated = false;
         GameObject oldGM = gm.gameObject;
         gm = ((GameObject)(Instantiate(_Gamemanager))).GetComponent<GameManager>();
         Destroy(oldGM);
         gm.gameObject.name = "GameManager";
+        
     }
 
     public void SetBGM(int level)

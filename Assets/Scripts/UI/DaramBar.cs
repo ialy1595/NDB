@@ -7,6 +7,7 @@ public class DaramBar : MonoBehaviour {
     //public GameObject PositiveArea;
     public GameObject Arrow;
     public int UserLevel;   // User 클래스 참조
+    public string DaramType;
     public float MaxDiff;     // 게이지 Top에서 Bottom까지의 다람쥐 수
     public bool DetailedInfo = true;
     public bool ArrowDirection;
@@ -25,6 +26,8 @@ public class DaramBar : MonoBehaviour {
         arrowrect = Arrow.GetComponent<RectTransform>();
         DaramFunc = GameManager.gm.DaramFunction[UserLevel];
 
+        SetUnlockKey();
+        /*
         switch (UserLevel)
         {
             case User.level1:
@@ -34,6 +37,7 @@ public class DaramBar : MonoBehaviour {
                 UnlockKey = "UnlockBasic2";
                 break;
         }
+        */
 
         // NaN exception이 뜨지 않게 대충 초기화
         DaramFunc.x = 0;
@@ -103,4 +107,18 @@ public class DaramBar : MonoBehaviour {
             */
 
         }
+
+    void SetUnlockKey()
+    {
+        if (UserLevel == User.level1)
+        {
+            if (DaramType == "Basic") UnlockKey = "UnlockBasic1";
+            else if (DaramType == "Rainbow") UnlockKey = "UnlockRainbow1";
+        }
+        else if (UserLevel == User.level2)
+        {
+            if (DaramType == "Basic") UnlockKey = "UnlockBasic2";
+            else if(DaramType == "Rainbow") UnlockKey = "UnlockRainbow2";
+        }
+    }
 }

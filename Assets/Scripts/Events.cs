@@ -30,7 +30,9 @@ public class Events : MonoBehaviour {
     public static GameObject InterRoundTutorialBox;
     public static GameObject FirstEmergencyBox;
 
-    void Start ()
+    private bool[] isStageOnceLoaded = new bool[2];
+
+    void Start()
     {
         gm = GameManager.gm;
         InterRoundTutorialBox = InterRoundTutorial_Box;
@@ -44,17 +46,23 @@ public class Events : MonoBehaviour {
         gm.EventCheck += ShutDownJe;
         gm.EventCheck += ViolenceTest;
         gm.EventCheck += FreeServer;
-        
+
         gm.RoundStartEvent += SlimeParty;
 
-        if (gm.currentStageScene == "Stage1")
+    }
+
+    void OnLevelWasLoaded(int level)
+    {
+        
+        if (gm.currentStageScene == "Stage1" && !isStageOnceLoaded[0])
         {
             gm.EventCheck += UnlockUpBasic;
             gm.EventCheck += EmergencyTutorial;
             gm.RoundStartEvent += DaramUpDownTutorial;
             gm.RoundStartEvent += FirstTutorial;
-        }
 
+            isStageOnceLoaded[0] = !isStageOnceLoaded[0];
+        }
     }
 
     public void UnlockUpBasic()
