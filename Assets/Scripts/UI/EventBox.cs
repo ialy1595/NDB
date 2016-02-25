@@ -5,6 +5,7 @@ using System.Collections;
 public class EventBox : MonoBehaviour {
 
     public GameObject Description = null;
+    public bool DisableHotkey = false;
 
     protected void Start()
     {
@@ -24,7 +25,12 @@ public class EventBox : MonoBehaviour {
 
     void Update()
     {
-        if (!GameManager.gm.isPaused) GameManager.gm.Pause(true);
+        if (!GameManager.gm.isPaused)
+        {
+            GameManager.gm.Pause(true);
+            if (Input.GetKeyDown(KeyCode.KeypadEnter) == true && DisableHotkey == false)
+                OnClick();
+        }
     }
 
     public void OnClick()

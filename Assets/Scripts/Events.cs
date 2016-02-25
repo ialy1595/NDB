@@ -28,6 +28,7 @@ public class Events : MonoBehaviour {
     public GameObject ViolenceTest_Box;
     public GameObject FreeServer_Box;
     public GameObject Stage1Clear_Box;
+    public GameObject NewClassChoice_Box;
 
     public GameObject NormalMessage_Box;
 
@@ -85,6 +86,7 @@ public class Events : MonoBehaviour {
 
             gm.EventCheck += ViolenceTest;
             gm.EventCheck += FreeServer;
+            gm.EventCheck += CheckConstantDecrease;
 
             gm.RoundStartEvent += GodLaunch;
             gm.RoundStartEvent += SlimeParty;
@@ -302,7 +304,11 @@ public class Events : MonoBehaviour {
         {
             Unlockables.SetBool("UnlockRainbow1", true);
             Unlockables.SetBool("UnlockRainbow2", true);
-            Instantiate(VarietyTutorial_Box);
+            UpgradeDatabase ud = GameObject.Find("Database").GetComponent<UpgradeDatabase>();
+            ud.upgradeDatabase.Add(new Upgrade("LV.1 무지개 다람쥐 많이 뿌리기", 5, 3000, 1, "Rainbow Lv.1 다람쥐를 한번에 10마리씩 뿌릴 수 있는 능력이 추가됩니다.", "UnlockRainbow1_Amount10"));
+            ud.upgradeDatabase.Add(new Upgrade("LV.2 무지개 다람쥐 많이 뿌리기", 6, 5000, 1, "Rainbow Lv.2 다람쥐를 한번에 10마리씩 뿌릴 수 있는 능력이 추가됩니다.", "UnlockRainbow2_Amount10"));
+        
+        Instantiate(VarietyTutorial_Box);
             gm.EventCheck -= VarietyTutorial;
             gm.EventCheck += Stage1Clear;
         }
@@ -358,6 +364,29 @@ public class Events : MonoBehaviour {
         }
     }
 
+    private int count = 0;
+    private int prevFame = 0;
+    private float CCDCool = 0;
+    void CheckConstantDecrease()
+    {
+        int deltafame = gm.fame - prevFame;
+        prevFame = gm.fame;
+
+        if (CCDCool > gm.time)
+            return;
+
+        if (deltafame < -2)
+            count++;
+        else
+            count = 0;
+
+        if (count == 300)
+        {
+            Instantiate(NewClassChoice_Box);
+            count = 0;
+            CCDCool = gm.time + 41; // 라운드마다 최대 한번
+        }
+    }
 
     void GodLaunch()
     {
@@ -399,4 +428,5 @@ public class Events : MonoBehaviour {
             GDThreshold++;
         }
     }
+
 }

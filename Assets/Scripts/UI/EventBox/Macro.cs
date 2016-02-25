@@ -8,6 +8,11 @@ public class Macro : MonoBehaviour {
 
     public GameObject MacroWork;
 
+    void Start()
+    {
+        GetComponent<EventBox>().DisableHotkey = true;
+    }
+
     public void KillMacroByMoney()
     {
         if (GameManager.gm.Money() >= 3000)
@@ -23,13 +28,11 @@ public class Macro : MonoBehaviour {
     public void KillMacroByGM()
     {
         // 버그 담당 GM이 일할 곳. 수정바람.
-        float startTime;
         Post modifyingDeveloper = Developer.dev.FindPostByPostID(Developer.dev.FindPostIDByName("Debugging"));
         if (Developer.dev.UseDeveloper(modifyingDeveloper))
         {
             LogText.WriteLog("버그gm을 투입해 열심히 매크로를 잡는중...(10초 소요)");
-            startTime = GameManager.gm.time;
-            
+            Instantiate(MacroWork).GetComponent<MacroWork>().modifyingDeveloper = modifyingDeveloper; 
         }
         else
             GameManager.gm.ShowMessageBox("버그gm이 부족합니다.");

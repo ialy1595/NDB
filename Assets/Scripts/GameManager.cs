@@ -525,7 +525,7 @@ public class GameManager : MonoBehaviour {
         {
             sum += 3.0f * Mathf.Log10(1+bu.LiveTime());
         }
-        sum *= 5.0f;     //이 수치는 추후 조정할 것.
+        sum *= 3.0f;     //이 수치는 추후 조정할 것.
         if (!isInterRound) fame -= (int)Mathf.Round(sum);
     }
 
@@ -556,9 +556,9 @@ public class GameManager : MonoBehaviour {
         int LevelUp = 0;
 
         if (FameDelta > 0)
-            LevelUp = (int)(5.0f + (float)userCount[User.level1] / 1500.0f);
+            LevelUp = (int)(5.0f + (float)userCount[User.level1] / 1000.0f);
         else
-            LevelUp = (int)((float)userCount[User.level1] / 3000.0f);
+            LevelUp = (int)((float)userCount[User.level1] / 2000.0f);
         userCount[User.level1] -= LevelUp;
         userCount[User.level2] += LevelUp;  // 일단 level2유저는 감소하지 않는걸로
     }
