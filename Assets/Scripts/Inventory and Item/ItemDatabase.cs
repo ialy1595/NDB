@@ -4,6 +4,7 @@ using System.Collections.Generic;
 
 public class ItemDatabase : MonoBehaviour {
     public List<Item> itemDatabase = new List<Item>();
+    public List<Item> rivalItemDatabase = new List<Item>();
     private List<Item> specialItemDatabase = new List<Item>();
 
     public bool[] isItemUsing;
@@ -24,14 +25,11 @@ public class ItemDatabase : MonoBehaviour {
         itemDatabase.Add(new Item("용마제구검 제작서", 5, 2000, 0f, "10% 확률로 용마제구검 제작에 성공합니다.", DragonSwordPaper));
         itemDatabase.Add(new Item("노란비서", 6, 1000, 0f, "개발자들이 집에 가버립니다! 라운드의 남은 시간이 10초 감소합니다.", YellowPaper));
 
-        //attack & defend Item
-        /*
-        itemDatabase.Add(new Item("접속 장애", 7, 500, 3f, "3초간 경쟁작의 인기도가 오르지 않습니다.", AttackRival0));
-        itemDatabase.Add(new Item("청소년 유해매체", 8, 1000, 5f, "5초간 경쟁작의 인기도가 오르지 않습니다.", AttackRival0));
-        itemDatabase.Add(new Item("DDos", 9, 8000, 0f, "경쟁작의 인기도를 초기화시킵니다. \n 50% 확률로 실패합니다.", ResetRival));
-        itemDatabase.Add(new Item("악성 루머", 10, 1000, 3f, "3초간 경쟁작의 인기도를 감소시킵니다.", AttackRival1));
-        itemDatabase.Add(new Item("표절 신고", 11, 2000, 5f, "5초간 경쟁작의 인기도를 감소시킵니다.", AttackRival1));
-        */
+        rivalItemDatabase.Add(new Item("접속 장애", 7, 500, 3f, "3초간 경쟁작의 인기도가 오르지 않습니다.", AttackRival0));
+        rivalItemDatabase.Add(new Item("청소년 유해매체", 8, 1000, 5f, "5초간 경쟁작의 인기도가 오르지 않습니다.", AttackRival0));
+        rivalItemDatabase.Add(new Item("랜섬웨어", 9, 8000, 0f, "경쟁작의 인기도를 초기화시킵니다. \n 50% 확률로 실패합니다.", ResetRival));
+        rivalItemDatabase.Add(new Item("악성 루머", 10, 1000, 3f, "3초간 경쟁작의 인기도를 감소시킵니다.", AttackRival1));
+
         specialItemDatabase.Add(new Item("용마제구검", 0, 0, 0f, "인스타에 찍어서 올리자!\n #겜스타그램#좋아요.", DragonSword));
 
         isItemUsing = new bool[itemDatabase.Count];

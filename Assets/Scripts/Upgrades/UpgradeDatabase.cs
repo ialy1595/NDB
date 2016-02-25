@@ -49,7 +49,8 @@ public class UpgradeDatabase : MonoBehaviour {
             {
                 Unlockables.SetBool(upgrade.upgradeInternalName, !Unlockables.GetBool(upgrade.upgradeInternalName));   // bool 값을 반전시킴
                 upName = upgrade.upgradeName;
-                State.state.refreshUpgrade(upName);
+                GameManager.gm.appliedUpgrades = GameManager.gm.appliedUpgrades + upName + "\n";
+                State.state.refreshUpgrade();
                 int tempID = upgrade.upgradeID;
                 upgradeDatabase.Remove(upgrade);
                 //upgradeDatabase.Remove(upgrade);
