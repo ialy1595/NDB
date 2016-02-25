@@ -30,7 +30,7 @@ public class Fame : MonoBehaviour {
         maxValue = (int)slider.maxValue;
         fameName = GameObject.Find("FameNameText").GetComponent<Text>();
         fameValue = GameObject.Find("FameText").GetComponent<Text>();
-        fameName.text = "<"+ GameManager.gm.GameName + ">\n인기도";
+        fameName.text = "<<color=#ffffff>"+ GameManager.gm.GameName + "</color>>\n인기도";
     }
 
     void Update()

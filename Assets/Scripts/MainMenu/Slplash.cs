@@ -20,10 +20,11 @@ public class Slplash : MonoBehaviour {
     public void OnClick()
     {
         currentNum++;
-        if(currentNum > lastNum)
+        audio.Play();
+        if (currentNum > lastNum)
         {
             SceneManager.LoadScene("MainMenu");
-            audio.Play();
+
         }
         else
         {

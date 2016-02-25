@@ -29,6 +29,12 @@ public class EnemyFame : MonoBehaviour
         slider = GetComponent<Slider>();
         maxValue = (int)slider.maxValue;
         fameValue = GameObject.Find("EnemyFameText").GetComponent<Text>();
+
+        if (Unlockables.GetBool("RivalGameOn") == false)
+        {
+            this.gameObject.SetActive(false);
+        }
+
     }
 
     void Update()
