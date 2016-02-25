@@ -50,6 +50,7 @@ public class GameManager : MonoBehaviour {
     //                public bool isInterRound;         // InterRound때 일시정지는 되어 있음, 대기시간 10초도 InterRound 취급
     [HideInInspector] public bool isEmergency = false;  // 긴급점검일때 true
     [HideInInspector] public string GameName = "";      // 우리가 운영하는 게임의 이름
+    [HideInInspector] public string appliedUpgrades = "";
     //                public string roundEventName = ""; // 그 라운드에 적용된 행사
 
     
@@ -400,7 +401,6 @@ public class GameManager : MonoBehaviour {
     {
         roundBugResponeTimeMin = 3.0f * bugResponeTimeMin / (2.0f + (float)roundCount);
         roundBugResponeTimeMax = 3.0f * bugResponeTimeMax / (2.0f + (float)roundCount);
-
     }
 
 
@@ -525,7 +525,7 @@ public class GameManager : MonoBehaviour {
         {
             sum += 3.0f * Mathf.Log10(1+bu.LiveTime());
         }
-        sum *= 10.0f;     //이 수치는 추후 조정할 것.
+        sum *= 5.0f;     //이 수치는 추후 조정할 것.
         if (!isInterRound) fame -= (int)Mathf.Round(sum);
     }
 

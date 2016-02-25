@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
+using UnityEngine.SceneManagement;
 
 public class Events : MonoBehaviour {
 
@@ -16,6 +17,8 @@ public class Events : MonoBehaviour {
     public GameObject SlimeParty_Box;
     public GameObject SlimeParty_Box2;
     public GameObject SlimeParty_Slime;
+
+    public GameObject GodLaunch_Box;
     public GameObject GodFreedom_Box;
     public GameObject GodBug_Box;
     public GameObject GodDemo_Box;
@@ -63,7 +66,7 @@ public class Events : MonoBehaviour {
 
     void OnLevelWasLoaded(int level)
     {
-
+        if (SceneManager.GetActiveScene().name == "MainMenu" || SceneManager.GetActiveScene().name == "ChooseStages" || SceneManager.GetActiveScene().name == "Credit") return;
         if (gm.currentStageScene == "Stage1" && !isStageOnceLoaded[0])
         {
             gm.EventCheck += TreeOfSavior;
@@ -83,6 +86,7 @@ public class Events : MonoBehaviour {
             gm.EventCheck += ViolenceTest;
             gm.EventCheck += FreeServer;
 
+            gm.RoundStartEvent += GodLaunch;
             gm.RoundStartEvent += SlimeParty;
 
             isStageOnceLoaded[1] = !isStageOnceLoaded[1];
@@ -354,11 +358,17 @@ public class Events : MonoBehaviour {
         }
     }
 
+
+    void GodLaunch()
+    {
+        Instantiate(GodLaunch_Box);
+        gm.RoundStartEvent -= GodLaunch;
+    }
     void GodFreedom()
     {
         if (Random.value < 1f / 12001f)
         {
-            gm.fame += 3000;
+            gm.enemyFame += 3000;
             Instantiate(GodFreedom_Box);
             LogText.WriteLog("갓나무가 방대한 자유도로 인기를 끌고 있다.");
             gm.EventCheck -= GodFreedom;
