@@ -280,33 +280,7 @@ public class GameManager : MonoBehaviour {
     }
     */
 
-        //버그 생성
-    public void MakeBug()
-    {
-        int nowTime = timeLeft;
-        if (bugMaking == false && preBugResponTime - nowTime >= bugResponTime)
-        {
-            bugMaking = true;
-            preBugResponTime = nowTime;
-            SetBugResponeTime();
-            Vector2 pos = GameManager.gm.RandomPosition();
-            Instantiate(bug, pos, Quaternion.identity);
-
-            if (isTutorialCleared[4] /*bug = 4 */ == false)
-            {
-                Instantiate(Events.BugTutorialBox);
-            }
-
-            bugMaking = false;
-        }
-    }
-
-    //버그 생성 텀 셋
-    public void SetBugResponeTime()
-    {
-        bugResponTime = Random.Range(bugResponeTimeMin, bugResponeTimeMax + 1);
-        Debug.Log(bugResponTime);
-    }
+    
 
 
     public void SetBGM(int level)
@@ -350,8 +324,38 @@ public class GameManager : MonoBehaviour {
         }
     }
 
+#region 버그관련함수들   
+    //버그 생성
+    public void MakeBug()
+    {
+        int nowTime = timeLeft;
+        if (bugMaking == false && preBugResponTime - nowTime >= bugResponTime)
+        {
+            bugMaking = true;
+            preBugResponTime = nowTime;
 
-#region 게임 시뮬레이션 관련 함수입니다
+            SetBugResponeTime();
+            Vector2 pos = GameManager.gm.RandomPosition();
+            Instantiate(bug, pos, Quaternion.identity);
+            Debug.Log(preBugResponTime);
+            if (isTutorialCleared[4] /*bug = 4 */ == false)
+            {
+                Instantiate(Events.BugTutorialBox);
+            }
+
+            bugMaking = false;
+        }
+    }
+
+    //버그 생성 텀 셋
+    public void SetBugResponeTime()
+    {
+        bugResponTime = Random.Range(bugResponeTimeMin, bugResponeTimeMax + 1);
+    }
+
+#endregion
+
+    #region 게임 시뮬레이션 관련 함수입니다
 
     //                      //
     //  다람쥐가 죽는 정도   //
@@ -468,9 +472,9 @@ public class GameManager : MonoBehaviour {
         int sum = 0;
         foreach(BugUser bu in BugUser.Bugs)
         {
-            sum += bu.LiveTime()*bu.LiveTime();
+            sum += bu.LiveTime();
         }
-        sum *= 5;     //이 수치는 추후 조정할 것.
+        sum *= 10;     //이 수치는 추후 조정할 것.
         if (!isInterRound) fame -= sum;
     }
 

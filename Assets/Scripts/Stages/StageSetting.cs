@@ -57,8 +57,8 @@ public class StageSetting : MonoBehaviour {
         gm.FameChange += gm.FameDaram2;
         gm.UserChange += gm.UserLevel2;
         gm.EventCheck += UserChat.uc.Daram2Number;
-        gm.bugResponeTimeMin = 3;
-        gm.bugResponeTimeMax = 6;
+        gm.bugResponeTimeMin = 4;
+        gm.bugResponeTimeMax = 7;
         Vector2 pos = GameManager.gm.RandomPosition();
     }
 

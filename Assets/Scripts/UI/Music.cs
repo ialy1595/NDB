@@ -7,9 +7,10 @@ public class Music : MonoBehaviour {
 
     public enum MusicType //buildSetting에 맞춰서
     {
-        MainMenu = 0,
-        InterRound = 3,
-        InGame = 4,
+        MainMenu = 1,
+        InterRound = 4,
+        InGame = 5,
+        InGame2 = 6,
     }
 
     public List<AudioClip> bgms = new List<AudioClip>();
