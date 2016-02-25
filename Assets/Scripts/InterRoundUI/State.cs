@@ -7,7 +7,7 @@ public class State : MonoBehaviour {
     public static State state;
     private Text moneyText;
     private Text developerText;
-    private static Text upgradeText;
+    private Text upgradeText;
     private Text title;
 
 	// Use this for initialization
@@ -17,8 +17,9 @@ public class State : MonoBehaviour {
         developerText = GameObject.Find("DeveloperState").GetComponent<Text>();
         upgradeText = GameObject.Find("UpgradeState").GetComponent<Text>();
         title = GameObject.Find("MainTitle").GetComponent<Text>();
+        refreshUpgrade();
     }
-	
+
 	// Update is called once per frame
 	void Update ()
     {
@@ -30,11 +31,15 @@ public class State : MonoBehaviour {
         else
             title.text = "정기 점검";
 	}
-    public void refreshUpgrade(string upgrade)
+    public void refreshUpgrade()
     {
-        if (upgradeText.text == "<없음>")
-            upgradeText.text = upgrade;
+        if (GameManager.gm.appliedUpgrades == "")
+        {
+            upgradeText.text = "<없음>";
+        }
         else
-            upgradeText.text += "\n" + upgrade;
+        {
+            upgradeText.text = GameManager.gm.appliedUpgrades;
+        }
     }
 }

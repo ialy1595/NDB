@@ -8,7 +8,8 @@ public class ItemCheckup : MonoBehaviour {
     public GameObject itemListTemplate;
     public static ItemCheckup itemChkup;
 
-    public int numOfShowingItem = 3;
+    public int numOfShowingNormalItem = 3;
+    public int numOfShowingTotalItem;
 
     private GameObject itemPanel;
     private GameObject itemScrollPanel;
@@ -37,19 +38,34 @@ public class ItemCheckup : MonoBehaviour {
         itemPanel.SetActive(false);
         MakeItemList();
         itemStatusText.text = "남은 돈 : " + GameManager.gm.Money();
+        numOfShowingTotalItem = numOfShowingNormalItem;
     }
 
     void MakeItemList()
     {
         SetRandomItemID();
+
+        if (Unlockables.GetBool("RivalGameOn")) numOfShowingTotalItem = numOfShowingNormalItem + 1;
+
         SetListSize(itemscrollPanelrect);
+
         List<GameObject> itemList = new List<GameObject>();
 
-        for (int i=0; i<numOfShowingItem; i++)
+        for (int i=0; i<numOfShowingTotalItem; i++)
         {
-            int randomID = Random.Range(0, randomItemID.Count);
-            Item item = database.itemDatabase[randomItemID[randomID]];
-            randomItemID.RemoveAt(randomID);
+            int randomID;
+            Item item;
+            if (i >= numOfShowingNormalItem)
+            {
+                randomID = Random.Range(0, database.rivalItemDatabase.Count);
+                item = database.rivalItemDatabase[randomID];
+            }
+            else
+            {
+                randomID = Random.Range(0, randomItemID.Count);
+                item = database.itemDatabase[randomItemID[randomID]];
+                randomItemID.RemoveAt(randomID);
+            }
 
             GameObject newItem = Instantiate(itemListTemplate, new Vector3(0f, (itemscrollPanelrect.rect.height / 2) - 120f * i - 20f, 0f), Quaternion.identity) as GameObject;
             newItem.name = item.itemName;
@@ -63,6 +79,12 @@ public class ItemCheckup : MonoBehaviour {
 
             itemList.Add(newItem);
         }
+
+        if (Unlockables.GetBool("RivalGameOn"))
+        {
+            int randomID = Random.Range(0, database.rivalItemDatabase.Count);
+            Item item = database.rivalItemDatabase[randomID];
+        }
     }
 
     public void ShowItems()
@@ -75,7 +97,7 @@ public class ItemCheckup : MonoBehaviour {
     }
 
     void SetListSize(RectTransform rect) {
-        rect.sizeDelta = new Vector2(rect.rect.width, numOfShowingItem * 120f + 70f);
+        rect.sizeDelta = new Vector2(rect.rect.width, numOfShowingTotalItem * 120f + 70f);
     }
 
     public void RefreshTooltip()

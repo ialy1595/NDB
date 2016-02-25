@@ -14,7 +14,7 @@ public class StageClear : MonoBehaviour {
         {
             GameManager.gm.clearedLevel = int.Parse(match.Groups[1].Value);
             SaveLoad.Save();
-            GameManager.gm.SetBGM(0);
+            GameManager.gm.SetBGM(1);
             SceneManager.LoadScene("ChooseStages");
         }
         else

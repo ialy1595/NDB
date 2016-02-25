@@ -16,7 +16,7 @@ public class Inventory : MonoBehaviour {
 
     private ItemDatabase database;
     private int inventorySize;
-    private bool showInventory = false;
+    public bool showInventory = false;
 
     private float slotPosX = 40f;
     private float slotPosY = 40f;

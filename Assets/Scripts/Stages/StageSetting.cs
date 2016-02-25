@@ -38,6 +38,7 @@ public class StageSetting : MonoBehaviour {
 
         Unlockables.SetInt("Server", 1);
         Unlockables.SetInt("ServerEff", 5000);
+        Unlockables.SetBool("RivalGameOn", false);
         
     }
 
@@ -52,6 +53,7 @@ public class StageSetting : MonoBehaviour {
         Unlockables.SetBool("UnlockBasic2_Amount10", true);
         Unlockables.SetBool("UnlockRainbow1_Amount10", true);
         Unlockables.SetBool("Emergency", true);
+        Unlockables.SetBool("RivalGameOn", true);
 
         Unlockables.SetInt("Basic1Health", 300);
         Unlockables.SetInt("Basic2Health", 750);
