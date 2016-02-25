@@ -463,12 +463,12 @@ public class GameManager : MonoBehaviour {
     {
         if (isenemyFameIncresing)
         {
-            enemyDifficulty += (1 + fame / 50000.0f) / 12000.0f;
+            enemyDifficulty += (1.0f + (float)fame / 50000.0f) / 12000.0f;
 
             if (enemyFame < fame)
-                enemyFame += (int)(((fame - enemyFame) / 6000.0f + 1) * enemyDifficulty);
+                enemyFame += (int)(((float)(fame - enemyFame) / 6000.0f + 1.0f) * enemyDifficulty);
             else
-                enemyFame += (int)((enemyDifficulty - 1) - (enemyFame - fame) / 12000.0f);
+                enemyFame += (int)((enemyDifficulty - 1.0f) - (float)(enemyFame - fame) / 12000.0f);
         }
         enemyFame += (int)enemyFameOuterConstant;
     }
@@ -478,10 +478,10 @@ public class GameManager : MonoBehaviour {
         // IsInterRound가 true이면 인기도는 변하지 않아도 함수는 작동함
         Quadric q = DaramFunction[User.level1];
         q.x = Daram.FindByType("",1);
-        q.a = 9 + userCount[User.level1] / 500;
-        q.max = 5 + Daram.VarietyModifier / 2.0f;
-        q.min = -5;
-        q.solution = 10 * Daram.VarietyModifier + q.a / 10;
+        q.a = 9.0f + (float)userCount[User.level1] / 500.0f;
+        q.max = 5.0f + Daram.VarietyModifier / 2.0f;
+        q.min = -5.0f;
+        q.solution = 10.0f * Daram.VarietyModifier + q.a / 10.0f;
 
         if(!isInterRound) fame += (int) q.value;
     }
@@ -492,10 +492,10 @@ public class GameManager : MonoBehaviour {
         // IsInterRound가 true이면 인기도는 변하지 않아도 함수는 작동함
         Quadric q = DaramFunction[User.level2];
         q.x = Daram.FindByType("", 2);
-        q.a = 5 + userCount[User.level2] / 500 + userCount[User.level1] / 2000;
-        q.max = 2 + Daram.VarietyModifier / 3.0f;
-        q.min = -3;
-        q.solution = 5 * Daram.VarietyModifier + q.a / 10;
+        q.a = 5.0f + (float)userCount[User.level2] / 500.0f + (float)userCount[User.level1] / 2000.0f;
+        q.max = 2.0f + Daram.VarietyModifier / 3.0f;
+        q.min = -3.0f;
+        q.solution = 5.0f * Daram.VarietyModifier + q.a / 10.0f;
 
         if(!isInterRound) fame += (int) q.value;
     }
@@ -505,9 +505,9 @@ public class GameManager : MonoBehaviour {
         float sum = 0.0f;
         foreach(BugUser bu in BugUser.Bugs)
         {
-            sum += 3*Mathf.Log10(1+bu.LiveTime());
+            sum += 3.0f * Mathf.Log10(1+bu.LiveTime());
         }
-        sum *= 10;     //이 수치는 추후 조정할 것.
+        sum *= 10.0f;     //이 수치는 추후 조정할 것.
         if (!isInterRound) fame -= (int)Mathf.Round(sum);
     }
 
@@ -522,11 +522,11 @@ public class GameManager : MonoBehaviour {
 
         if (FameDelta > 0)
         {
-            userLevel1Increase = (int)(12 * Mathf.Log(fame + 1));     // y = k * log(x + 1)
+            userLevel1Increase = (int)(12.0f * Mathf.Log(fame + 1));     // y = k * log(x + 1)
             userCount[User.level1] += userLevel1Increase;
         }
         else
-            userCount[User.level1] -= (int)(10 * Mathf.Log((-1) * FameDelta + 1));   // 인기도가 감소중이면 적당히 줄어들게 함
+            userCount[User.level1] -= (int)(3.0f * Mathf.Log((-1) * FameDelta + 1));   // 인기도가 감소중이면 적당히 줄어들게 함
 
         PrevFame = fame;
     }
@@ -538,9 +538,9 @@ public class GameManager : MonoBehaviour {
         int LevelUp = 0;
 
         if (FameDelta > 0)
-            LevelUp = 5 + userCount[User.level1] / 1500;
+            LevelUp = (int)(5.0f + (float)userCount[User.level1] / 1500.0f);
         else
-            LevelUp = userCount[User.level1] / 3000;
+            LevelUp = (int)((float)userCount[User.level1] / 3000.0f);
         userCount[User.level1] -= LevelUp;
         userCount[User.level2] += LevelUp;  // 일단 level2유저는 감소하지 않는걸로
     }
@@ -556,7 +556,7 @@ public class GameManager : MonoBehaviour {
         {
             if(isInterRound == false)
                 for (int i = 0; i < User.Count; i++)
-                    userCount[i] = (int) (userCount[i] * 0.999832f);   // 전체 유저가 초당 1% 감소
+                    userCount[i] = (int) ((float)userCount[i] * 0.999832f);   // 전체 유저가 초당 1% 감소
             fame = 0;
         }
     }
