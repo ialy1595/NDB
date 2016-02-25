@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 
 public class Inventory : MonoBehaviour {
 
@@ -16,10 +17,10 @@ public class Inventory : MonoBehaviour {
 
     private ItemDatabase database;
     private int inventorySize;
-    public bool showInventory = false;
+    public bool showInventory = true;
 
-    private float slotPosX = 40f;
-    private float slotPosY = 40f;
+    private float slotPosX = 745f;
+    private float slotPosY = 0f;
 
     private bool showTooltip = false;
     private string tooltip;
@@ -45,22 +46,39 @@ public class Inventory : MonoBehaviour {
         database = GameObject.Find("Database").GetComponent<ItemDatabase>();
 	}
 
-    void OnLevelsWasLoaded(int level)
+    void OnLevelWasLoaded(int level)
     {
-        showInventory = false;
+        if (SceneManager.GetActiveScene().name == "Stage1" || SceneManager.GetActiveScene().name == "Stage2")
+        {
+            showInventory = false;
+            slotPosX = 745f;
+            slotPosY = 0f;
+        }
+        else if (SceneManager.GetActiveScene().name == "InterRound")
+        {
+            showInventory = false;
+            slotPosX = 40f;
+            slotPosY = 40f;
+        }
+        else showInventory = false;
     }
 
     void Update()
     {
-        if ((Input.GetButtonDown("Inventory") && !GameManager.gm.isInterRound))
+        if (/*Input.GetButtonDown("Inventory") && */!GameManager.gm.isInterRound && !GameManager.gm.isPaused)
         {
-            showInventory = !showInventory;
+            showInventory = true;
         }
 
-        else if (GameManager.gm.isInterRound)
+        else if (GameManager.gm.isInterRound && SceneManager.GetActiveScene().name == "InterRound")
         {
             showInventory = inventoryButtonClicked;
         }
+        else if (GameManager.gm.isInterRound && !(SceneManager.GetActiveScene().name == "InterRound"))
+        {
+            showInventory = false;
+        }
+        else if (GameManager.gm.isPaused) showInventory = false;
     }
 
     void OnGUI()
@@ -89,7 +107,7 @@ public class Inventory : MonoBehaviour {
     void DrawInventory()
     {
         int i = 0;
-        GUI.DrawTexture(new Rect(slotPosX / 2f + 0f, slotPosY / 2f + 0f, (float)((50 + 8) * slotX) + slotPosX, (float)((50 + 8) * slotY) + slotPosY), inventorySprite.texture);
+        GUI.DrawTexture(new Rect(slotPosX / 2f + 0f, slotPosY / 2f + 0f, (float)((50 + 8) * slotX) + 22f, (float)((50 + 8) * slotY) + 22f), inventorySprite.texture);
 
 
         //GUI.Box(new Rect(slotPosX/2 + 0f, slotPosY/2 + 0f, ((50+8) * slotX) + slotPosX, ((50+8) * slotY) + slotPosY), "", skin.GetStyle("InventoryBackground"));
@@ -98,7 +116,7 @@ public class Inventory : MonoBehaviour {
             for (int x = 0; x < slotX; x++)
             {
 
-                Rect slotRect = new Rect(slotPosX + x * 60, slotPosY + y * 60, 50, 50);
+                Rect slotRect = new Rect(slotPosX / 2f + 15f + x * 58, slotPosY / 2f + 15f + y * 58, 50f, 50f);
                 GUI.Box(slotRect, "", skin.GetStyle("Slots"));
 
                 slots[i] = inventory[i];

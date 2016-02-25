@@ -28,7 +28,7 @@ public class AddBasicDaram : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
     private bool pointerOn;
     //private int DaramCost;
     private int DaramHP;
-    private float DeveloperTime = 0;
+    //private float DeveloperTime = 0;
     private int DaramAmount = 1;
 
     void Start() {
