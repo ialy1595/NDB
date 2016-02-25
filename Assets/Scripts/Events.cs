@@ -131,6 +131,10 @@ public class Events : MonoBehaviour {
             gm.UserChange += gm.UserLevel2;
             gm.EventCheck += UserChat.uc.Daram2Number;
             Unlockables.SetBool("UnlockBasic2", true);
+
+            UpgradeDatabase ud = GameObject.Find("Database").GetComponent<UpgradeDatabase>();
+            ud.upgradeDatabase.Add(new Upgrade("Lv.2 기본 다람쥐 체력 증가", 2, 2000, 1, "Basic Lv.2 다람쥐의 체력을 250 증가시킵니다.", "Basic2Health", "현재 최대 체력", 250, 2000.0f));
+            ud.upgradeDatabase.Add(new Upgrade("Lv.2 기본 다람쥐 많이 뿌리기", 4, 5000, 1, "Basic Lv.2 다람쥐를 한번에 10마리씩 뿌릴 수 있는 능력이 추가됩니다.", "UnlockBasic2_Amount10"));
             
         }
     }
