@@ -17,6 +17,7 @@ public class Events : MonoBehaviour {
     public GameObject SlimeParty_Box;
     public GameObject SlimeParty_Box2;
     public GameObject SlimeParty_Slime;
+    public GameObject UnlockTokki_Box;
 
     public GameObject GodLaunch_Box;
     public GameObject GodTaunt_Box;
@@ -106,6 +107,7 @@ public class Events : MonoBehaviour {
             gm.EventCheck += ViolenceTest;
             gm.EventCheck += FreeServer;
             gm.EventCheck += CheckConstantDecrease;
+            gm.EventCheck += UnlockTokki;
 
             gm.RoundStartEvent += GodLaunch;
 
@@ -133,7 +135,7 @@ public class Events : MonoBehaviour {
             Unlockables.SetBool("UnlockBasic2", true);
 
             UpgradeDatabase ud = GameObject.Find("Database").GetComponent<UpgradeDatabase>();
-            ud.upgradeDatabase.Add(new Upgrade("Lv.2 기본 다람쥐 체력 증가", 2, 2000, 1, "Basic Lv.2 다람쥐의 체력을 250 증가시킵니다.", "Basic2Health", "현재 최대 체력", 250, 2000.0f));
+            ud.upgradeDatabase.Add(new Upgrade("Lv.2 기본 다람쥐 체력 증가", 3, 2000, 1, "Basic Lv.2 다람쥐의 체력을 250 증가시킵니다.", "Basic2Health", "현재 최대 체력", 250, 2000.0f));
             ud.upgradeDatabase.Add(new Upgrade("Lv.2 기본 다람쥐 많이 뿌리기", 4, 5000, 1, "Basic Lv.2 다람쥐를 한번에 10마리씩 뿌릴 수 있는 능력이 추가됩니다.", "UnlockBasic2_Amount10"));
             
         }
@@ -610,6 +612,24 @@ public class Events : MonoBehaviour {
             Instantiate(GodDemo_Box);
             LogText.WriteLog("갓나무 유저들의 불만이 증가하고 있다.");
             GDThreshold++;
+        }
+    }
+
+    void UnlockTokki()
+    {
+        if (GameManager.gm.fame >= 25000)
+        {
+            GameManager.gm.EventCheck -= UnlockTokki;
+
+            Instantiate(UnlockTokki_Box);
+            LogText.WriteLog("초심으로 돌아가 토끼 다람쥐를 개발했다!");
+
+            Unlockables.SetBool("UnlockTokki1", true);
+            Unlockables.SetBool("UnlockTokki1_Amount10", true);
+            Unlockables.SetBool("UnlockTokki2", true);
+            Unlockables.SetBool("UnlockTokki2_Amount10", true);
+
+
         }
     }
 

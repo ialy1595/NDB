@@ -193,6 +193,8 @@ public class GameManager : MonoBehaviour {
             {
                 LogText.WriteLog("드디어 새 게임을 출시했다! 다람쥐를 뿌려 유저 수를 늘려보자.");
             }
+            if (currentStageScene == "Stage1") LogText.WriteLog("목표 : 유저 수 15000 달성");
+            else if (currentStageScene == "Stage2") LogText.WriteLog("목표 : 경쟁작보다 먼저 인기도 40000 달성");
             LogText.WriteLog("10초 후 유저 로그인이 활성화됩니다.");
 
             if (isEmergency)

@@ -12,6 +12,7 @@ public class ItemCheckup : MonoBehaviour {
     public int numOfShowingTotalItem = 3;
 
     private GameObject itemPanel;
+    private GameObject itemPanel2;
     private GameObject itemScrollPanel;
     private RectTransform itemscrollPanelrect;
     private Text itemStatusText;
@@ -31,6 +32,7 @@ public class ItemCheckup : MonoBehaviour {
         inventory = GameManager.gm.GetComponentInChildren<Inventory>();
         database = GameManager.gm.GetComponentInChildren<ItemDatabase>();
         itemPanel = GameObject.Find("ItemPanel");
+        itemPanel2 = GameObject.Find("ItemPanel2");
         itemScrollPanel = GameObject.Find("ItemScrollPanel");
         itemStatusText = GameObject.Find("ItemStatus").GetComponentInChildren<Text>();
         itemscrollPanelrect = itemScrollPanel.GetComponent<RectTransform>();
@@ -89,14 +91,14 @@ public class ItemCheckup : MonoBehaviour {
     public void ShowItems()
     {
         //이유는 모르겠지만 처음에 위치 조정을 안해주면 스크롤바랑 이미지 표시가 이상해짐
-        itemPanel.GetComponent<ScrollRect>().verticalScrollbar.value = 0;
+        itemPanel2.GetComponent<ScrollRect>().verticalScrollbar.value = 0;
         itemscrollPanelrect.localPosition = new Vector2(itemscrollPanelrect.localPosition.x, -itemscrollPanelrect.rect.height / 2f);
         itemPanel.SetActive(true);
         itemStatusText.text = "남은 돈 : " + GameManager.gm.Money();
     }
 
     void SetListSize(RectTransform rect) {
-        rect.sizeDelta = new Vector2(rect.rect.width, numOfShowingTotalItem * 120f + 70f);
+        rect.sizeDelta = new Vector2(rect.rect.width, numOfShowingTotalItem * 120f + 20f);
     }
 
     public void RefreshTooltip()

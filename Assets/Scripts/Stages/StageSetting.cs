@@ -28,6 +28,8 @@ public class StageSetting : MonoBehaviour {
         Unlockables.SetInt("Rainbow2Health", 1000);
         Unlockables.SetInt("Slime1Health", 700);
         Unlockables.SetInt("Mush2Health", 2000);
+        Unlockables.SetInt("Tokki1Health", 1000);
+        Unlockables.SetInt("Tokki2Health", 3500);
 
         gm.bugResponeTimeMin = 8.0f;
         gm.bugResponeTimeMax = 12.0f;
@@ -79,10 +81,15 @@ public class StageSetting : MonoBehaviour {
         Vector2 pos = GameManager.gm.RandomPosition();
 
         UpgradeDatabase ud = GameObject.Find("Database").GetComponent<UpgradeDatabase>();
+        ud.RemoveUpgrade(2);
         ud.RemoveUpgrade(3);
         ud.RemoveUpgrade(4);
         ud.RemoveUpgrade(5);
         ud.RemoveUpgrade(6);
+
+        ud.upgradeDatabase.Add(new Upgrade("Lv.2 기본 다람쥐 체력 증가", 2, 2000, 1, "Basic Lv.2 다람쥐의 체력을 250 증가시킵니다.", "Basic2Health", "현재 최대 체력", 250, 2000.0f));
+        ud.upgradeDatabase.Add(new Upgrade("Lv.1 무지개 다람쥐 체력 증가", 3, 1500, 1, "Rainbow Lv.1 다람쥐의 체력을 100 증가시킵니다.", "Rainbow1Health", "현재 최대 체력", 100, 1500.0f));
+        ud.upgradeDatabase.Add(new Upgrade("Lv.2 무지개 다람쥐 체력 증가", 4, 3000, 1, "Rainbow Lv.2 다람쥐의 체력을 400 증가시킵니다.", "Rainbow2Health", "현재 최대 체력", 400, 3000.0f));
     }
 
 }
