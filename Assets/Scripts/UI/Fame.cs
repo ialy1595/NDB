@@ -7,6 +7,8 @@ public class Fame : MonoBehaviour {
     private Slider slider;
     public Image background;
     public Image fill;
+    private Text fameName;
+    private Text fameValue;
 
     Color white = new Color(1f, 1f, 1f, 1f);
     Color red = new Color(1f, 0f, 0f, 1f);
@@ -26,12 +28,15 @@ public class Fame : MonoBehaviour {
     {
         slider = GetComponent<Slider>();
         maxValue = (int)slider.maxValue;
-        GetComponentInChildren<Text>().text = "<"+ GameManager.gm.GameName + ">\n인기도";
+        fameName = GameObject.Find("FameNameText").GetComponent<Text>();
+        fameValue = GameObject.Find("FameText").GetComponent<Text>();
+        fameName.text = "<"+ GameManager.gm.GameName + ">\n인기도";
     }
 
     void Update()
     {
         // 인기도가 슬라이더의 최댓값을 넘을 때마다 색이 바뀌면서 다시 차오름
+        fameValue.text = "" + GameManager.gm.fame;
         slider.value = GameManager.gm.fame % maxValue;
         if (GameManager.gm.fame / maxValue < 1)
         {

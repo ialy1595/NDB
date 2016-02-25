@@ -45,6 +45,11 @@ public class Inventory : MonoBehaviour {
         database = GameObject.Find("Database").GetComponent<ItemDatabase>();
 	}
 
+    void OnLevelsWasLoaded(int level)
+    {
+        showInventory = false;
+    }
+
     void Update()
     {
         if ((Input.GetButtonDown("Inventory") && !GameManager.gm.isInterRound))

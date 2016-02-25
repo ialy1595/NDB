@@ -28,6 +28,7 @@ public class Events : MonoBehaviour {
     public GameObject NormalMessage_Box;
 
     public static GameObject InterRoundTutorialBox;
+    public static GameObject DaramUpgradeTutorialBox;
     public static GameObject FirstEmergencyBox;
     public static GameObject BugTutorialBox;
     private bool[] isStageOnceLoaded = new bool[2];
@@ -37,6 +38,7 @@ public class Events : MonoBehaviour {
     public GameObject Tutorial2_Box;
     public GameObject BugTutorial_Box;
     public GameObject InterRoundTutorial_Box;
+    public GameObject DaramUpgradeTutorial_Box;
     public GameObject EmergencyTutorial_Box;
     public GameObject VarietyTutorial_Box;
 
@@ -45,6 +47,7 @@ public class Events : MonoBehaviour {
     {
         gm = GameManager.gm;
         BugTutorialBox = BugTutorial_Box;
+        DaramUpgradeTutorialBox = DaramUpgradeTutorial_Box;
         InterRoundTutorialBox = InterRoundTutorial_Box;
         FirstEmergencyBox = FirstEmergency_Box;
 
@@ -279,6 +282,7 @@ public class Events : MonoBehaviour {
         if (gm.UserAllCount() >= 10000 && gm.roundCount != ETRound)
         {
             Unlockables.SetBool("UnlockRainbow1", true);
+            Unlockables.SetBool("UnlockRainbow2", true);
             Instantiate(VarietyTutorial_Box);
             gm.EventCheck -= VarietyTutorial;
             gm.EventCheck += Stage1Clear;

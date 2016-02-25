@@ -48,6 +48,7 @@ public class ItemDatabase : MonoBehaviour {
         }
         isItemUsing[item.itemID] = true;
         StartCoroutine(item.itemfunc(item));
+        GameManager.gm.SetSE((int)SE.SEType.ItemUse);
         return true;
 
     }

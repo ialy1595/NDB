@@ -14,6 +14,7 @@ public class SE : MonoBehaviour
         Click_Clean = 5,
         Dingaling = 6,
         Notification = 7,
+        ItemUse = 8,
     };
 
     //public static SE se;

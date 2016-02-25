@@ -6,7 +6,19 @@ public class Macro : MonoBehaviour {
     private float ActivityEnd;
     private float NextActivity = 0;
 
-    public void KillMacro()
+    public void KillMacroByMoney()
+    {
+        if (GameManager.gm.Money() >= 3000)
+        {
+            GameManager.gm.ChangeMoneyInRound(-3000);
+            GameManager.gm.fame += 1000;
+            GetComponentInParent<EventBox>().OnClick();
+            LogText.WriteLog("돈을 투입해 열심히 매크로를 잡았다.");
+        }
+        else
+            GameManager.gm.ShowMessageBox("돈이 부족합니다.");
+    }
+    public void KillMacroByGM()
     {
         // 버그 담당 GM이 일할 곳. 수정바람.
         if (GameManager.gm.Money() >= 3000)
@@ -14,10 +26,10 @@ public class Macro : MonoBehaviour {
             GameManager.gm.ChangeMoneyInRound(-3000);
             GameManager.gm.fame += 1000;
             GetComponentInParent<EventBox>().OnClick();
-            LogText.WriteLog("버그 담당 GM을 시켜 열심히 매크로를 잡았다.");
+            LogText.WriteLog("돈을 투입해 열심히 매크로를 잡았다.");
         }
         else
-            LogText.WriteLog("돈이 부족합니다.");
+            GameManager.gm.ShowMessageBox("돈이 부족합니다.");
     }
 
     public void KeepMacro()
@@ -36,7 +48,7 @@ public class Macro : MonoBehaviour {
         if (GameManager.gm.time >= ActivityEnd)
         {
             GameManager.gm.DaramDeath -= MacroActivity;
-            LogText.WriteLog("매크로가 잡혔다.");
+            GameManager.gm.ShowMessageBox("매크로가 잡혔다.");
         }
         if (GameManager.gm.time >= NextActivity)
         {

@@ -12,14 +12,23 @@ public class StageSetting : MonoBehaviour {
 
     void CommonSettings()   // 스테이지 공통 설정
     {
+        gm = GameManager.gm;
+
         Unlockables.SetBool("UnlockBasic1", true);
         Unlockables.SetBool("UnlockBasic1_Amount1", true);
         Unlockables.SetBool("UnlockBasic2_Amount1", true);
         Unlockables.SetBool("UnlockRainbow1_Amount1", true);
+        Unlockables.SetBool("UnlockRainbow2_Amount2", true);
 
         Unlockables.SetInt("Basic1Health", 100);
         Unlockables.SetInt("Basic2Health", 500);
         Unlockables.SetInt("Rainbow1Health", 100);
+        Unlockables.SetInt("Rainbow2Health", 500);
+
+        gm.bugResponeTimeMin = 8.0f;
+        gm.bugResponeTimeMax = 12.0f;
+
+
     }
 
     public void Stage1Start()
@@ -29,10 +38,7 @@ public class StageSetting : MonoBehaviour {
 
         Unlockables.SetInt("Server", 1);
         Unlockables.SetInt("ServerEff", 5000);
-
-        gm.bugResponeTimeMin = 8;
-        gm.bugResponeTimeMax = 12;
-
+        
     }
 
     public void Stage2Start()
@@ -62,8 +68,6 @@ public class StageSetting : MonoBehaviour {
         gm.FameChange += gm.FameDaram2;
         gm.UserChange += gm.UserLevel2;
         gm.EventCheck += UserChat.uc.Daram2Number;
-        gm.bugResponeTimeMin = 3;
-        gm.bugResponeTimeMax = 6;
         Vector2 pos = GameManager.gm.RandomPosition();
 
         UpgradeDatabase ud = GameObject.Find("Database").GetComponent<UpgradeDatabase>();
