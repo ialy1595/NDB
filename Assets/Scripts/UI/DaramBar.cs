@@ -113,12 +113,12 @@ public class DaramBar : MonoBehaviour {
         if (UserLevel == User.level1)
         {
             if (DaramType == "Basic") UnlockKey = "UnlockBasic1";
-            else if (DaramType == "Rainbow") UnlockKey = "UnlockRainbow1";
+            //else if (DaramType == "Rainbow") UnlockKey = "UnlockRainbow1";
         }
         else if (UserLevel == User.level2)
         {
             if (DaramType == "Basic") UnlockKey = "UnlockBasic2";
-            else if(DaramType == "Rainbow") UnlockKey = "UnlockRainbow2";
+            //else if(DaramType == "Rainbow") UnlockKey = "UnlockRainbow2";
         }
     }
 }
