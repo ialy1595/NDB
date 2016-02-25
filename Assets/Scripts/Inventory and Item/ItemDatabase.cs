@@ -3,6 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class ItemDatabase : MonoBehaviour {
+
+    public int attackItemUseCount;
+
     public List<Item> itemDatabase = new List<Item>();
     public List<Item> rivalItemDatabase = new List<Item>();
     private List<Item> specialItemDatabase = new List<Item>();
@@ -12,7 +15,7 @@ public class ItemDatabase : MonoBehaviour {
     //아이템 데이터베이스는 여기에 추가
     void Start()
     {
-
+        attackItemUseCount = 0;
         //itemDatabase.Add(new Item("아이템이름", ID, 가격, 지속시간, "설명", 함수명));
 
         //normal Item
@@ -46,6 +49,8 @@ public class ItemDatabase : MonoBehaviour {
         }
         isItemUsing[item.itemID] = true;
         StartCoroutine(item.itemfunc(item));
+
+        if (item.itemID >= itemDatabase.Count) attackItemUseCount++;
         GameManager.gm.SetSE((int)SE.SEType.ItemUse);
         return true;
 

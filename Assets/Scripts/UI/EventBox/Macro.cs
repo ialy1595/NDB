@@ -6,14 +6,21 @@ public class Macro : MonoBehaviour {
     private float ActivityEnd;
     private float NextActivity = 0;
 
+    public GameObject MacroWork;
+
+    void Start()
+    {
+        GetComponent<EventBox>().DisableHotkey = true;
+    }
+
     public void KillMacroByMoney()
     {
         if (GameManager.gm.Money() >= 3000)
         {
             GameManager.gm.ChangeMoneyInRound(-3000);
             GameManager.gm.fame += 1000;
-            GetComponentInParent<EventBox>().OnClick();
             LogText.WriteLog("돈을 투입해 열심히 매크로를 잡았다.");
+            GetComponentInParent<EventBox>().OnClick();   
         }
         else
             GameManager.gm.ShowMessageBox("돈이 부족합니다.");
@@ -21,16 +28,17 @@ public class Macro : MonoBehaviour {
     public void KillMacroByGM()
     {
         // 버그 담당 GM이 일할 곳. 수정바람.
-        if (GameManager.gm.Money() >= 3000)
+        Post modifyingDeveloper = Developer.dev.FindPostByPostID(Developer.dev.FindPostIDByName("Debugging"));
+        if (Developer.dev.UseDeveloper(modifyingDeveloper))
         {
-            GameManager.gm.ChangeMoneyInRound(-3000);
-            GameManager.gm.fame += 1000;
-            GetComponentInParent<EventBox>().OnClick();
-            LogText.WriteLog("돈을 투입해 열심히 매크로를 잡았다.");
+            LogText.WriteLog("버그gm을 투입해 열심히 매크로를 잡는중...(10초 소요)");
+            Instantiate(MacroWork).GetComponent<MacroWork>().modifyingDeveloper = modifyingDeveloper; 
         }
         else
-            GameManager.gm.ShowMessageBox("돈이 부족합니다.");
+            GameManager.gm.ShowMessageBox("버그gm이 부족합니다.");
     }
+
+
 
     public void KeepMacro()
     {
