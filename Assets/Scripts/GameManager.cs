@@ -142,7 +142,7 @@ public class GameManager : MonoBehaviour {
     void Start()
     {
         gm.time = Time.time;
-        SetBGM(0);
+        SetBGM(1);
         if (GMCreated == true)  // GM 중복생성 방지
             return;
         GMCreated = true;
