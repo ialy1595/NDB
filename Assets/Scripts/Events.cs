@@ -397,12 +397,20 @@ public class Events : MonoBehaviour {
         if (CCDCool > gm.time)
             return;
 
-        if (deltafame < -2)
+        if (deltafame < -6)
+            count += 2;
+        else if (deltafame < -3)
             count++;
+        else if (deltafame < 2)
+            count--;
+        else if (deltafame < 5)
+            count -= 3;
         else
             count = 0;
+        if (count < 0)
+            count = 0;
 
-        if (count == 300)
+        if (count >= 600)
         {
             Instantiate(NewClassChoice_Box);
             count = 0;
