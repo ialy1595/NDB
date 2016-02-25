@@ -7,7 +7,7 @@ public class State : MonoBehaviour {
     public static State state;
     private Text moneyText;
     private Text developerText;
-    private Text upgradeText;
+    private static Text upgradeText;
     private Text title;
 
 	// Use this for initialization

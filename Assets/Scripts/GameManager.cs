@@ -274,7 +274,7 @@ public class GameManager : MonoBehaviour {
 
     void DebugFunc()
     {
-       
+        print("Bug : " + BugUser.Bugs.Count);
     }
 
     void DebugStatFunc()
@@ -283,6 +283,7 @@ public class GameManager : MonoBehaviour {
         print("Level 2 : " + userCount[User.level2]);
         print("다람쥐 개수 : " + Daram.All.Count);
         print("경쟁작 인기도 : " + enemyFame);
+
     }
     /*
     // GameManager를 리셋합니다
@@ -367,7 +368,7 @@ public class GameManager : MonoBehaviour {
     public void SetBugResponeTime()
     {
         bugResponTime = Random.Range(roundBugResponeTimeMin, roundBugResponeTimeMax);
-        Debug.Log(bugResponTime);
+        //Debug.Log(bugResponTime);
     }
 
     public void SetRoundBugResponeTime()
@@ -499,7 +500,8 @@ public class GameManager : MonoBehaviour {
         {
             sum += 3*Mathf.Log10(1+bu.LiveTime());
         }
-        sum *= 10;     //이 수치는 추후 조정할 것.
+        //print("sum = " + sum);
+        sum *= 5;     //이 수치는 추후 조정할 것.
         if (!isInterRound) fame -= (int)Mathf.Round(sum);
     }
 
@@ -707,7 +709,9 @@ public class GameManager : MonoBehaviour {
              * */
             if (EventCheck != null)
                 EventCheck();
-            
+
+            BugUser.Bugs.Clear();
+
             Instantiate(resultScene); // 결과창을 Instantiate하는 방법으로 변경
             // 방법을 변경한 이유는 결과창이 맨 위에 뜨도록 하기 위해서임.
         }

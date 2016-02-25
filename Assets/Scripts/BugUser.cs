@@ -61,6 +61,7 @@ public class BugUser : MonoBehaviour {
         if (fixing) return 0;
         int nowTime = GameManager.gm.timeLeft;
         return startTime - nowTime;
+        //return 1;
     }
 
 }
