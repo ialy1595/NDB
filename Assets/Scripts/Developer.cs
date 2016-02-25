@@ -157,7 +157,7 @@ public class Developer : MonoBehaviour {
     //라운드 시작할 때 사용 가능한 개발자 수 맞춰주는거
     public void InitiateUseableDeveloper()
     {
-        for (int i = 0; i < dev.postDatabase.Count; i++)
+        for(int i = 0; i < dev.postDatabase.Count; i++)
         {
             useableDeveloperCount[i] = developerCount[i];
         }
@@ -182,6 +182,7 @@ public class Developer : MonoBehaviour {
     {
         useableDeveloperCount[post.postID]++;
     }
+    
 
 
     /*

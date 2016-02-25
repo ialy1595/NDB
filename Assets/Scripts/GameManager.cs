@@ -168,7 +168,7 @@ public class GameManager : MonoBehaviour {
                 SetBugResponeTime();
             }
             InitiateMoney();
-
+            Developer.dev.InitiateUseableDeveloper();
 
 
             StartCoroutine("UserChangeCall");
