@@ -14,6 +14,7 @@ public class Events : MonoBehaviour {
     public GameObject GettingFamous_Box;
     public GameObject DaramUpDownTutorial_Box;
     public GameObject SlimeParty_Box;
+    public GameObject SlimeParty_Box2;
     public GameObject SlimeParty_Slime;
     public GameObject GodFreedom_Box;
     public GameObject GodBug_Box;
@@ -107,7 +108,7 @@ public class Events : MonoBehaviour {
     }
 
     void UserLimitExcess() {
-        if (GameManager.gm.UserAllCount() > Unlockables.GetInt("UserLimit")) {
+        if (GameManager.gm.UserAllCount() > Unlockables.GetInt("UserLimit") + 50) {
 
             Instantiate(UserLimitExcess_Box);
             LogText.WriteLog("서버가 게임의 인기를 감당하지 못하고 폭파되었습니다.");
@@ -179,37 +180,51 @@ public class Events : MonoBehaviour {
         }
     }
 
-    private bool SPStarted = false;
+    
     void SlimeParty()
     {
-        if(gm.roundCount == 4)
+        if(gm.roundCount == 3)
         {
             // 다람쥐와 슬라임을 스왑함
+            SlimeParty_Slime.GetComponent<Daram>().Type = "Basic";
             GameObject temp = GameObject.Find("AddBasicDaram").GetComponent<AddBasicDaram>().daram;
             GameObject.Find("AddBasicDaram").GetComponent<AddBasicDaram>().daram = SlimeParty_Slime;
             SlimeParty_Slime = temp;
 
             LogText.WriteLog("정기점검 중 뭔가 문제가 있었던 것 같습니다..");
             Instantiate(SlimeParty_Box);
-            SPStarted = true;
+            gm.EventCheck += SlimeParty2;
+            gm.RoundStartEvent -= SlimeParty;
         }
-        if (SPStarted == true && gm.isInterRound == false)
+    }
+
+    private bool SP2Started = false;
+    void SlimeParty2()
+    {
+        if (SP2Started == false && gm.isInterRound == false)
         {
             UserChat.CreateChat("아니 이게 무슨..!", 2);
             UserChat.CreateChat("메이플 하고싶다", 3);
             UserChat.CreateChat(UserChat.BadChat("내 다람쥐 어디갔어!!"), 2);
-            SPStarted = false;
+            SP2Started = true;
         }
-        if(gm.roundCount == 5)  // 5라운드에 해제
+        if (gm.timeLeft <= 1)
         {
             // 다람쥐와 슬라임을 스왑함
             GameObject temp = GameObject.Find("AddBasicDaram").GetComponent<AddBasicDaram>().daram;
             GameObject.Find("AddBasicDaram").GetComponent<AddBasicDaram>().daram = SlimeParty_Slime;
             SlimeParty_Slime = temp;
+            SlimeParty_Slime.GetComponent<Daram>().Type = "Slime";
 
-            gm.RoundStartEvent -= SlimeParty;
+            gm.EventCheck -= SlimeParty2;
+            Instantiate(SlimeParty_Box2);
+
+            Unlockables.SetBool("UnlockSlime1", true);
+            Unlockables.SetBool("UnlockSlime1_Amount10", true);
+            Unlockables.SetBool("UnlockMush2", true);
+            Unlockables.SetBool("UnlockMush2_Amount10", true);
+
         }
-            
     }
  
     /* Tutorials */

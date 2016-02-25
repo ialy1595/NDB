@@ -53,10 +53,10 @@ public class GameManager : MonoBehaviour {
     //                public string roundEventName = ""; // 그 라운드에 적용된 행사
 
     
-    [HideInInspector] public float fieldCenterX;
-    [HideInInspector] public float fieldCenterY;
-    [HideInInspector] public float fieldWidth;
-    [HideInInspector] public float fieldHeight;
+    public float fieldCenterX;
+    public float fieldCenterY;
+    public float fieldWidth;
+    public float fieldHeight;
 
     public bool[] isTutorialCleared = new bool[100];
 
@@ -361,7 +361,16 @@ public class GameManager : MonoBehaviour {
             bugMaking = true;
             preBugResponTime = nowTime;
             SetBugResponeTime();
-            Vector2 pos = GameManager.gm.RandomPosition();
+
+            // 버그가 왼쪽위에 끼여서 안보이는 경우가 있음
+            Vector2 pos;
+            while (true)
+            {
+                pos = GameManager.gm.RandomPosition();
+                if (pos.y < fieldCenterY + (fieldHeight - 1) / 2f)
+                    break;
+            }
+
             Instantiate(bug, pos, Quaternion.identity);
             if (isTutorialCleared[4] /*bug = 4 */ == false && gm.currentStageScene == "Stage1")
             {
