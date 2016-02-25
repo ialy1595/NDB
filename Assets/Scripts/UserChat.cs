@@ -30,7 +30,7 @@ public class UserChat : MonoBehaviour {
         if (_Canvas == null)
             _Canvas = GameObject.Find("Canvas");
         GameObject obj = (GameObject) Instantiate(_ChatText, Vector3.zero, Quaternion.identity);
-        obj.transform.SetParent(_Canvas.transform, false);
+        obj.transform.SetParent(_Canvas.transform, true);
         obj.GetComponent<RectTransform>().position = pos;
         obj.GetComponent<Text>().text = text;
         obj.GetComponent<SelfDestroyScript>().ChangeFate(lifetime);
@@ -47,7 +47,7 @@ public class UserChat : MonoBehaviour {
                     CreateChat(BadChat("다람쥐가 하나도 없잖아!!"), 4);
                 else
                     CreateChat(BadChat("넥슨은 다람쥐를 뿌려라!"), 2);
-                NDCool = gm.time + Random.Range(2, 4);
+                //NDCool = gm.time + Random.Range(2, 4);
             }
     }
 

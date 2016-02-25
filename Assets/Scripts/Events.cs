@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
+using UnityEngine.SceneManagement;
 
 public class Events : MonoBehaviour {
 
@@ -63,7 +64,7 @@ public class Events : MonoBehaviour {
 
     void OnLevelWasLoaded(int level)
     {
-
+        if (SceneManager.GetActiveScene().name == "MainMenu" || SceneManager.GetActiveScene().name == "ChooseStages" || SceneManager.GetActiveScene().name == "Credit") return;
         if (gm.currentStageScene == "Stage1" && !isStageOnceLoaded[0])
         {
             gm.EventCheck += TreeOfSavior;
