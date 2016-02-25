@@ -18,12 +18,16 @@ public class StageSetting : MonoBehaviour {
         Unlockables.SetBool("UnlockBasic1_Amount1", true);
         Unlockables.SetBool("UnlockBasic2_Amount1", true);
         Unlockables.SetBool("UnlockRainbow1_Amount1", true);
-        Unlockables.SetBool("UnlockRainbow2_Amount2", true);
+        Unlockables.SetBool("UnlockRainbow2_Amount1", true);
+        Unlockables.SetBool("UnlockSlime1_Amount1", true);
+        Unlockables.SetBool("UnlockMush2_Amount1", true);
 
         Unlockables.SetInt("Basic1Health", 100);
         Unlockables.SetInt("Basic2Health", 500);
-        Unlockables.SetInt("Rainbow1Health", 100);
-        Unlockables.SetInt("Rainbow2Health", 500);
+        Unlockables.SetInt("Rainbow1Health", 300);
+        Unlockables.SetInt("Rainbow2Health", 1000);
+        Unlockables.SetInt("Slime1Health", 700);
+        Unlockables.SetInt("Mush2Health", 2000);
 
         gm.bugResponeTimeMin = 8.0f;
         gm.bugResponeTimeMax = 12.0f;
@@ -48,12 +52,14 @@ public class StageSetting : MonoBehaviour {
         
         Unlockables.SetBool("UnlockBasic2", true);
         Unlockables.SetBool("UnlockRainbow1", true);
+        Unlockables.SetBool("UnlockRainbow2", true);
         Unlockables.SetBool("UnlockBasic1_Amount10", true);
         Unlockables.SetBool("UnlockBasic2_Amount10", true);
         Unlockables.SetBool("UnlockRainbow1_Amount10", true);
+        Unlockables.SetBool("UnlockRainbow2_Amount10", true);
         Unlockables.SetBool("Emergency", true);
 
-        Unlockables.SetInt("Basic1Health", 300);
+        Unlockables.SetInt("Basic1Health", 200);
         Unlockables.SetInt("Basic2Health", 750);
 
         Unlockables.SetInt("Server", 5);
@@ -74,6 +80,7 @@ public class StageSetting : MonoBehaviour {
         ud.RemoveUpgrade(3);
         ud.RemoveUpgrade(4);
         ud.RemoveUpgrade(5);
+        ud.RemoveUpgrade(6);
     }
 
 }
