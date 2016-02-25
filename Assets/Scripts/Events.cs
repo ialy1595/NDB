@@ -521,9 +521,10 @@ public class Events : MonoBehaviour {
             Instantiate(GodPassedBy_Box);
             LogText.WriteLog("갓나무가 " + gm.GameName + "의 인기를 위협합니다!");
             UserChat.CreateChat(gm.GameName + "보다 갓나무가 더 재밌다던데?", 4);
+            gm.EventCheck -= GodPassedBy;
+            gm.EventCheck += GodKiri;
         }
-        gm.EventCheck -= GodPassedBy;
-        gm.EventCheck += GodKiri;
+
     }
 
     void GodKiri()
@@ -537,9 +538,10 @@ public class Events : MonoBehaviour {
             UserChat.CreateChat(gm.GameName + " 계속 해야겠네", 3);
 
             gm.enemyFame -= enemyMinusFame;
+            gm.EventCheck -= GodKiri;
+            gm.EventCheck += GodLifeGoesOn;
         }
-        gm.EventCheck -= GodKiri;
-        gm.EventCheck += GodLifeGoesOn;
+
     }
 
     void GodLifeGoesOn()
@@ -547,9 +549,10 @@ public class Events : MonoBehaviour {
         if (gm.fame - gm.enemyFame < -10000 || gm.enemyFame > 50000)
         {
             Instantiate(GodLifeGoesOn_Box);
+            gm.EventCheck -= GodLifeGoesOn;
+            gm.EventCheck -= Stage2Clear;
         }
-        gm.EventCheck -= GodLifeGoesOn;
-        gm.EventCheck -= Stage2Clear;
+
     }
 
     void GodDdos()
