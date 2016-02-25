@@ -8,6 +8,8 @@ public class UpgradeDatabase : MonoBehaviour {
 
     private GameManager gm;
 
+    private string upName;
+
     //업그레이드 데이터베이스는 여기에 추가
     void Start()
     {
@@ -37,6 +39,8 @@ public class UpgradeDatabase : MonoBehaviour {
             if (upgrade.upgradeQuantity == 0)
             {
                 Unlockables.SetBool(upgrade.upgradeInternalName, !Unlockables.GetBool(upgrade.upgradeInternalName));   // bool 값을 반전시킴
+                upName = upgrade.upgradeName;
+                State.state.refreshUpgrade(upName);
                 int tempID = upgrade.upgradeID;
                 upgradeDatabase.Remove(upgrade);
                 //upgradeDatabase.Remove(upgrade);
@@ -51,7 +55,7 @@ public class UpgradeDatabase : MonoBehaviour {
         }
     }
 
-    // 업그레이드 삭제(추가) 후 빈 자리를 메워주는 함수
+    // 업그레이드 삭제 후 빈 자리를 메워주는 함수
     private void reSorting(int blankID){
         for (int i = blankID; i < upgradeDatabase.Count; i++)
         {

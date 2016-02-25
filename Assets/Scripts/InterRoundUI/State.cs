@@ -4,14 +4,18 @@ using UnityEngine.UI;
 
 public class State : MonoBehaviour {
 
+    public static State state;
     private Text moneyText;
     private Text developerText;
+    private Text upgradeText;
     private Text title;
 
 	// Use this for initialization
 	void Start () {
+        state = this;
         moneyText = GameObject.Find("MoneyState").GetComponent<Text>();
         developerText = GameObject.Find("DeveloperState").GetComponent<Text>();
+        upgradeText = GameObject.Find("UpgradeState").GetComponent<Text>();
         title = GameObject.Find("MainTitle").GetComponent<Text>();
     }
 	
@@ -26,4 +30,11 @@ public class State : MonoBehaviour {
         else
             title.text = "정기 점검";
 	}
+    public void refreshUpgrade(string upgrade)
+    {
+        if (upgradeText.text == "<없음>")
+            upgradeText.text = upgrade;
+        else
+            upgradeText.text += "\n" + upgrade;
+    }
 }
