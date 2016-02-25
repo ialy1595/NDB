@@ -6,14 +6,16 @@ public class Macro : MonoBehaviour {
     private float ActivityEnd;
     private float NextActivity = 0;
 
+    public GameObject MacroWork;
+
     public void KillMacroByMoney()
     {
         if (GameManager.gm.Money() >= 3000)
         {
             GameManager.gm.ChangeMoneyInRound(-3000);
             GameManager.gm.fame += 1000;
-            GetComponentInParent<EventBox>().OnClick();
             LogText.WriteLog("돈을 투입해 열심히 매크로를 잡았다.");
+            GetComponentInParent<EventBox>().OnClick();   
         }
         else
             GameManager.gm.ShowMessageBox("돈이 부족합니다.");
@@ -27,15 +29,13 @@ public class Macro : MonoBehaviour {
         {
             LogText.WriteLog("버그gm을 투입해 열심히 매크로를 잡는중...(10초 소요)");
             startTime = GameManager.gm.time;
-            while(GameManager.gm.time - startTime < 10) {}
-            GameManager.gm.fame += 1000;
-            GetComponentInParent<EventBox>().OnClick();
-            LogText.WriteLog("버그gm을 투입해 열심히 매크로를 잡았다.");
-            Developer.dev.FinishDeveloper(modifyingDeveloper);
+            
         }
         else
             GameManager.gm.ShowMessageBox("버그gm이 부족합니다.");
     }
+
+
 
     public void KeepMacro()
     {
