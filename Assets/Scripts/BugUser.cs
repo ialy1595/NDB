@@ -16,6 +16,7 @@ public class BugUser : MonoBehaviour {
 
      void Start () {
         Hotkey = RandomKey();
+        GetComponent<AudioSource>().Play();
         GetComponentInChildren<TextMesh>().text = Hotkey.ToUpper();
         Anim = GetComponent<Animator>();
         startTime = GameManager.gm.timeLeft;

@@ -47,7 +47,7 @@ public class UserChat : MonoBehaviour {
                     CreateChat(BadChat("다람쥐가 하나도 없잖아!!"), 4);
                 else
                     CreateChat(BadChat("넥슨은 다람쥐를 뿌려라!"), 2);
-                //NDCool = gm.time + Random.Range(2, 4);
+                NDCool = gm.time + Random.Range(2, 4);
             }
     }
 

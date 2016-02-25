@@ -264,6 +264,7 @@ public class GameManager : MonoBehaviour {
                     FameChange();
                 if (UserChat != null)
                     UserChat();
+
                 RoundEndCheck();
                 MakeBug();
             }
@@ -281,7 +282,10 @@ public class GameManager : MonoBehaviour {
 
     void DebugFunc()
     {
-        print("Bug : " + BugUser.Bugs.Count);
+        Debug.Log("max : " + bugResponeTimeMax);
+        Debug.Log("min : " + bugResponeTimeMin);
+        Debug.Log("roundmax : " + roundBugResponeTimeMax);
+        Debug.Log("roundmin : " + roundBugResponeTimeMin);
     }
 
     void DebugStatFunc()
@@ -370,7 +374,7 @@ public class GameManager : MonoBehaviour {
             bugMaking = true;
             preBugResponTime = nowTime;
             SetBugResponeTime();
-            SetSE((int)SE.SEType.Bug_Appear);
+            //SetSE((int)SE.SEType.Bug_Appear);
             // 버그가 왼쪽위에 끼여서 안보이는 경우가 있음
             Vector2 pos;
             while (true)

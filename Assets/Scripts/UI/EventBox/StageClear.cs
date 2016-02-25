@@ -5,6 +5,11 @@ using System.Text.RegularExpressions;
 
 public class StageClear : MonoBehaviour {
 
+    void Start()
+    {
+        GetComponent<AudioSource>().Play();
+    }
+
     public void OnClick()
     {
         string text = GameManager.gm.currentStageScene;

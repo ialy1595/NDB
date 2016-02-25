@@ -36,6 +36,7 @@ public class Events : MonoBehaviour {
     public GameObject ViolenceTest_Box;
     public GameObject FreeServer_Box;
     public GameObject Stage1Clear_Box;
+    public GameObject Stage2Clear_Box;
 
     public GameObject NormalMessage_Box;
 
@@ -103,6 +104,8 @@ public class Events : MonoBehaviour {
             gm.RoundStartEvent += GodLaunch;
 
             gm.RoundStartEvent += SlimeParty;
+
+            gm.EventCheck += Stage2Clear;
 
             isStageOnceLoaded[1] = !isStageOnceLoaded[1];
         }
@@ -388,13 +391,16 @@ public class Events : MonoBehaviour {
     IEnumerator GodLaunch_Effect() // 특정 시간 동안 정해진 시간마다 유저 수 하락, 갓나무 인기도 증가율 향상
     {
         float startTime = gm.time;
-        float duration = 5f;
+        float duration = 15f;
         int minusUser = 10;
         int fameIncrease = 20;
         while (true)
         {
-            gm.userCount[User.level1] = Mathf.Max(gm.userCount[User.level1] - minusUser, 0);
-            gm.enemyFame += fameIncrease;
+            if (!gm.isPaused && !gm.isInterRound)
+            {
+                gm.userCount[User.level1] = Mathf.Max(gm.userCount[User.level1] - minusUser, 0);
+                gm.enemyFame += fameIncrease;
+            }
             yield return new WaitForSeconds(0.1f);
 
             if (gm.time - startTime > duration) break;
@@ -430,7 +436,8 @@ public class Events : MonoBehaviour {
         int fameIncrease = 10;
         while (true)
         {
-            gm.enemyFame += fameIncrease;
+            if(!gm.isPaused && !gm.isInterRound)
+                gm.enemyFame += fameIncrease;
             yield return new WaitForSeconds(0.1f);
 
             if (gm.time - startTime > duration) break;
@@ -457,7 +464,8 @@ public class Events : MonoBehaviour {
 
         while (true)
         {
-            gm.enemyFame += fameIncrease;
+            if(!gm.isPaused && !gm.isInterRound)
+                gm.enemyFame += fameIncrease;
             yield return new WaitForSeconds(0.1f);
 
             if (gm.time - startTime > duration) break;
@@ -467,7 +475,7 @@ public class Events : MonoBehaviour {
 
     void GodPassedBy()
     {
-        if (gm.fame - gm.enemyFame > 0)
+        if (gm.fame - gm.enemyFame < 0)
         {
             Instantiate(GodPassedBy_Box);
             LogText.WriteLog("갓나무가 " + gm.GameName + "의 인기를 위협합니다!");
@@ -480,7 +488,7 @@ public class Events : MonoBehaviour {
     void GodKiri()
     {
         int enemyMinusFame = 3000;
-        if (gm.fame - gm.enemyFame > 5000)
+        if (gm.fame - gm.enemyFame < -5000)
         {
             Instantiate(GodKiri_Box);
             LogText.WriteLog("갓나무의 인기도가 하락하고 있습니다.");
@@ -495,24 +503,23 @@ public class Events : MonoBehaviour {
 
     void GodLifeGoesOn()
     {
-        if (gm.fame - gm.enemyFame > 10000)
+        if (gm.fame - gm.enemyFame < -10000 || gm.enemyFame > 50000)
         {
             Instantiate(GodLifeGoesOn_Box);
         }
         gm.EventCheck -= GodLifeGoesOn;
+        gm.EventCheck -= Stage2Clear;
     }
 
     void GodDdos()
     {
-        if (gm.fame - gm.enemyFame < -5000)
+        if (gm.fame - gm.enemyFame > 20000)
         {
             Instantiate(GodDdos_Box);
-            GameManager.gm.bugResponeTimeMin *= 0.75f;
-            GameManager.gm.bugResponeTimeMax *= 0.75f;
-
+            gm.EventCheck -= GodDdos;
             StartCoroutine(GodDdos_Effect());
         }
-        gm.EventCheck -= GodDdos;
+
     }
 
     IEnumerator GodDdos_Effect()
@@ -539,9 +546,9 @@ public class Events : MonoBehaviour {
         if (gm.GetComponentInChildren<ItemDatabase>().attackItemUseCount >= 5)
         {
             Instantiate(GodAttackCount_Box);
+            gm.EventCheck -= GodAttackCount;
+            StartCoroutine(GodDdos_Effect());
         }
-
-        StartCoroutine(GodDdos_Effect());
     }
 
 
@@ -555,6 +562,15 @@ public class Events : MonoBehaviour {
             Instantiate(GodDemo_Box);
             LogText.WriteLog("갓나무 유저들의 불만이 증가하고 있다.");
             GDThreshold++;
+        }
+    }
+
+    void Stage2Clear()
+    {
+        if (gm.fame > 50000)
+        {
+            Instantiate(Stage2Clear_Box);
+            gm.EventCheck -= Stage2Clear;
         }
     }
 }

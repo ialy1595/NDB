@@ -35,7 +35,7 @@ public class ItemDatabase : MonoBehaviour {
 
         specialItemDatabase.Add(new Item("용마제구검", 0, 0, 0f, "인스타에 찍어서 올리자!\n #겜스타그램#좋아요.", DragonSword));
 
-        isItemUsing = new bool[itemDatabase.Count];
+        isItemUsing = new bool[itemDatabase.Count + rivalItemDatabase.Count];
         isItemUsing.Initialize();
     }
 
@@ -50,8 +50,10 @@ public class ItemDatabase : MonoBehaviour {
         isItemUsing[item.itemID] = true;
         StartCoroutine(item.itemfunc(item));
 
-        if (item.itemID >= itemDatabase.Count) attackItemUseCount++;
+        if (item.itemID >= itemDatabase.Count)
+            attackItemUseCount++;
         GameManager.gm.SetSE((int)SE.SEType.ItemUse);
+
         return true;
 
     }

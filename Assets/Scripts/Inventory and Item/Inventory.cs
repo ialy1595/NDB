@@ -206,9 +206,19 @@ public class Inventory : MonoBehaviour {
                 Debug.Log("null");
                 for (int j = 0; j < database.itemDatabase.Count; j++)
                 {
-                    if (database.itemDatabase[j].itemID == item.itemID)
+                    if (database.itemDatabase[j].itemName == item.itemName)
                     {
                         inventory[i] = database.itemDatabase[j];
+                        GameManager.gm.ChangeMoneyInterRound(-item.itemPrice);
+                        break;
+                    }
+                }
+
+                for (int j = 0; j < database.rivalItemDatabase.Count; j++)
+                {
+                    if (database.rivalItemDatabase[j].itemName == item.itemName)
+                    {
+                        inventory[i] = database.rivalItemDatabase[j];
                         GameManager.gm.ChangeMoneyInterRound(-item.itemPrice);
                         break;
                     }
