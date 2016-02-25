@@ -250,9 +250,7 @@ public class GameManager : MonoBehaviour {
 
         if (!isPaused)
         {
-            if (isInterRound)
-                if (FameChange != null)
-                    FameChange();
+            CalculateQuadric();
             if (!isInterRound)
             {
                 // 순서 바꾸지 마세요 코드 엉킴
@@ -495,31 +493,38 @@ public class GameManager : MonoBehaviour {
         enemyFame += (int)enemyFameOuterConstant;
     }
 
-    public void FameDaram1()
+    void CalculateQuadric()
     {
-        // IsInterRound가 true이면 인기도는 변하지 않아도 함수는 작동함
         Quadric q = DaramFunction[User.level1];
-        q.x = Daram.FindByType("",1);
+        q.x = Daram.FindByType("", 1);
         q.a = 9.0f + (float)userCount[User.level1] / 500.0f;
         q.max = 5.0f + Daram.VarietyModifier / 2.0f;
         q.min = -5.0f;
         q.solution = 10.0f * Daram.VarietyModifier + q.a / 10.0f;
 
-        if(!isInterRound) fame += (int) q.value;
-    }
-
-    //lv2 다람쥐가 해금되면 실행됨
-    public void FameDaram2()
-    {
-        // IsInterRound가 true이면 인기도는 변하지 않아도 함수는 작동함
-        Quadric q = DaramFunction[User.level2];
+        q = DaramFunction[User.level2];
         q.x = Daram.FindByType("", 2);
         q.a = 5.0f + (float)userCount[User.level2] / 500.0f + (float)userCount[User.level1] / 2000.0f;
         q.max = 2.0f + Daram.VarietyModifier / 3.0f;
         q.min = -3.0f;
         q.solution = 5.0f * Daram.VarietyModifier + q.a / 10.0f;
+    }
 
-        if(!isInterRound) fame += (int) q.value;
+    public void FameDaram1()
+    {
+        CalculateQuadric();
+        Quadric q = DaramFunction[User.level1];
+
+        fame += (int) q.value;
+    }
+
+    //lv2 다람쥐가 해금되면 실행됨
+    public void FameDaram2()
+    {
+        CalculateQuadric();
+        Quadric q = DaramFunction[User.level2];
+
+        fame += (int) q.value;
     }
 
     public void FameBug()
