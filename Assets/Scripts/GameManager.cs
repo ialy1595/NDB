@@ -172,7 +172,7 @@ public class GameManager : MonoBehaviour {
             }
             InitiateMoney();
             Developer.dev.InitiateUseableDeveloper();
-
+            BugUser.Bugs.Clear();
 
             StartCoroutine("UserChangeCall");
             StartCoroutine(MoneyGainByFame());
