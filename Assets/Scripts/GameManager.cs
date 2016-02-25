@@ -382,7 +382,7 @@ public class GameManager : MonoBehaviour {
                     break;
             }
 
-            Instantiate(bug, pos, Quaternion.identity);
+            Instantiate(bug, new Vector3(pos.x, pos.y, -1), Quaternion.identity);
             if (isTutorialCleared[4] /*bug = 4 */ == false && gm.currentStageScene == "Stage1")
             {
                 Instantiate(Events.BugTutorialBox);
