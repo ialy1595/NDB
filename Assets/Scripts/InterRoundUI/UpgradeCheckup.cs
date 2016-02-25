@@ -41,7 +41,7 @@ public class UpgradeCheckup : MonoBehaviour {
         SetListSize(upgradeScrollPanelrect);
         foreach (Upgrade Upgrade in database.upgradeDatabase)
         {
-            GameObject newupgrade = Instantiate(UpgradeListTemplate, new Vector3(0f, (upgradeScrollPanelrect.rect.height / 2) - 120f * Upgrade.upgradeID - 20f, 0f), Quaternion.identity) as GameObject;
+            GameObject newupgrade = Instantiate(UpgradeListTemplate, new Vector3(0f, (upgradeScrollPanelrect.rect.height / 2f) - 120f * (float)Upgrade.upgradeID - 20f, 0f), Quaternion.identity) as GameObject;
             newupgrade.name = Upgrade.upgradeName;
 
             /* 다른 children이 추가되면 아래 코드에서 에러가 발생할 수도? */
@@ -60,7 +60,7 @@ public class UpgradeCheckup : MonoBehaviour {
     {
         //이유는 모르겠지만 처음에 위치 조정을 안해주면 스크롤바랑 이미지 표시가 이상해짐
         upgradePanel2.GetComponent<ScrollRect>().verticalScrollbar.value = 0;
-        upgradeScrollPanelrect.localPosition = new Vector2(upgradeScrollPanelrect.localPosition.x, -upgradeScrollPanelrect.rect.height / 2);
+        upgradeScrollPanelrect.localPosition = new Vector2(upgradeScrollPanelrect.localPosition.x, -upgradeScrollPanelrect.rect.height / 2f);
         upgradePanel.SetActive(true);
         RefreshTooltip();
     }

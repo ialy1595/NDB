@@ -89,7 +89,7 @@ public class Inventory : MonoBehaviour {
     void DrawInventory()
     {
         int i = 0;
-        GUI.DrawTexture(new Rect(slotPosX / 2 + 0f, slotPosY / 2 + 0f, ((50 + 8) * slotX) + slotPosX, ((50 + 8) * slotY) + slotPosY), inventorySprite.texture);
+        GUI.DrawTexture(new Rect(slotPosX / 2f + 0f, slotPosY / 2f + 0f, (float)((50 + 8) * slotX) + slotPosX, (float)((50 + 8) * slotY) + slotPosY), inventorySprite.texture);
 
 
         //GUI.Box(new Rect(slotPosX/2 + 0f, slotPosY/2 + 0f, ((50+8) * slotX) + slotPosX, ((50+8) * slotY) + slotPosY), "", skin.GetStyle("InventoryBackground"));

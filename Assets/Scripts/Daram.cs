@@ -105,10 +105,10 @@ public class Daram : MonoBehaviour {
     void CheckIfCantMove() {
         float xPos = gameObject.transform.position.x;
         float yPos = gameObject.transform.position.y;
-        if (Mathf.Abs(xPos-GameManager.gm.fieldCenterX) >= GameManager.gm.fieldWidth/2f && dir.x != 0)
+        if (Mathf.Abs(xPos-GameManager.gm.fieldCenterX) >= GameManager.gm.fieldWidth/2f && dir.x != 0 && xPos!=0)
             dir.x = (dir.x == xPos / Mathf.Abs(xPos)) ? 0 : dir.x;
 
-        if (Mathf.Abs(yPos-GameManager.gm.fieldCenterY) >= GameManager.gm.fieldHeight/2f && dir.y != 0)
+        if (Mathf.Abs(yPos-GameManager.gm.fieldCenterY) >= GameManager.gm.fieldHeight/2f && dir.y != 0 && yPos!=0)
             dir.y = (dir.y == yPos / Mathf.Abs(yPos)) ? 0 : dir.y;
     }
 
@@ -153,7 +153,7 @@ public class Daram : MonoBehaviour {
         foreach (DaramDatabase dd in db)
             if (dd.num > max)
                 max = dd.num;
-        VarietyModifier = Mathf.Max(Daram.All.Count / max, 1.0f);
+        VarietyModifier = Mathf.Max((float)Daram.All.Count / max, 1.0f);
     }
 
     //All.Remove()를 쓰기 위해 비교연산자가 필요함.

@@ -93,7 +93,7 @@ public class ItemDatabase : MonoBehaviour {
             if (GameManager.gm.time - startTime > item.itemDuration) break;
         }
         for (int i = 0; i < User.Count; i++)
-            GameManager.gm.userDamagePerLevel[i] /= 2;
+            GameManager.gm.userDamagePerLevel[i] /= 2f;
 
         isItemUsing[item.itemID] = false;
     }

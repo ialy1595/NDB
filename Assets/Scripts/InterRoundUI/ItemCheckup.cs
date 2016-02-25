@@ -51,7 +51,7 @@ public class ItemCheckup : MonoBehaviour {
             Item item = database.itemDatabase[randomItemID[randomID]];
             randomItemID.RemoveAt(randomID);
 
-            GameObject newItem = Instantiate(itemListTemplate, new Vector3(0f, (itemscrollPanelrect.rect.height / 2) - 120f * i - 20f, 0f), Quaternion.identity) as GameObject;
+            GameObject newItem = Instantiate(itemListTemplate, new Vector3(0f, (itemscrollPanelrect.rect.height / 2f) - 120f * (float)i - 20f, 0f), Quaternion.identity) as GameObject;
             newItem.name = item.itemName;
 
             /* 다른 children이 추가되면 아래 코드에서 에러가 발생할 수도? */
@@ -69,7 +69,7 @@ public class ItemCheckup : MonoBehaviour {
     {
         //이유는 모르겠지만 처음에 위치 조정을 안해주면 스크롤바랑 이미지 표시가 이상해짐
         itemPanel.GetComponent<ScrollRect>().verticalScrollbar.value = 0;
-        itemscrollPanelrect.localPosition = new Vector2(itemscrollPanelrect.localPosition.x, -itemscrollPanelrect.rect.height / 2);
+        itemscrollPanelrect.localPosition = new Vector2(itemscrollPanelrect.localPosition.x, -itemscrollPanelrect.rect.height / 2f);
         itemPanel.SetActive(true);
         itemStatusText.text = "남은 돈 : " + GameManager.gm.Money();
     }

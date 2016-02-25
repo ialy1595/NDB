@@ -189,7 +189,7 @@ public class Events : MonoBehaviour {
             GameObject.Find("AddBasicDaram").GetComponent<AddBasicDaram>().daram = SlimeParty_Slime;
             SlimeParty_Slime = temp;
 
-            LogText.WriteLog("점기점검 중 뭔가 문제가 있었던 것 같습니다..");
+            LogText.WriteLog("정기점검 중 뭔가 문제가 있었던 것 같습니다..");
             Instantiate(SlimeParty_Box);
             SPStarted = true;
         }
@@ -291,7 +291,7 @@ public class Events : MonoBehaviour {
 
     void ShutDownJe()
     {
-        if (Random.value < 1 / 7201f)
+        if (Random.value < 1f / 7201f)
         {
             gm.ChangeMoneyInRound(-3000);
             LogText.WriteLog("게임에 셧다운제가 도입되었습니다.");
@@ -304,7 +304,7 @@ public class Events : MonoBehaviour {
 
     void ViolenceTest()
     {
-        if (Random.value < 1 / 7201f)
+        if (Random.value < 1f / 7201f)
         {
             gm.fame += 5000;
             gm.userCount[User.level1] += 1000;
@@ -318,7 +318,7 @@ public class Events : MonoBehaviour {
 
     void FreeServer()
     {
-        if (gm.userCount[User.level2] > 10000 && Random.value < 1 / 7201f)
+        if (gm.userCount[User.level2] > 10000 && Random.value < 1f / 7201f)
         {
             gm.fame -= 5000;
             gm.userCount[User.level2] -= 4000;
@@ -341,7 +341,7 @@ public class Events : MonoBehaviour {
 
     void GodFreedom()
     {
-        if (Random.value < 1 / 12001f)
+        if (Random.value < 1f / 12001f)
         {
             gm.fame += 3000;
             Instantiate(GodFreedom_Box);
@@ -353,7 +353,7 @@ public class Events : MonoBehaviour {
     void GodBug()
     {
         int diff = gm.fame - gm.enemyFame;
-        if (diff > 8000 && Random.value < 1 / (float)(50001 - 3 * diff))
+        if (diff > 8000 && Random.value < 1f / (float)(50001 - 3 * diff))
         {
             gm.enemyFame = gm.fame - 6000;
             Instantiate(GodBug_Box);
@@ -366,7 +366,7 @@ public class Events : MonoBehaviour {
     void GodDemo()
     {
         int diff = gm.enemyFame - gm.fame;
-        if (diff > 2000 + 2000*GDThreshold && Random.value < 1 / (float)(55501 + 10000 * GDThreshold - 5 * diff))
+        if (diff > 2000 + 2000*GDThreshold && Random.value < 1f / (float)(55501 + 10000 * GDThreshold - 5 * diff))
         {
             gm.enemyFame = gm.fame + 1000 * GDThreshold;
             Instantiate(GodDemo_Box);
