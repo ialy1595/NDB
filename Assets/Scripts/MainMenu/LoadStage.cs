@@ -10,6 +10,8 @@ public class LoadStage : MonoBehaviour {
         GameManager.gm.currentStageScene = stageName;
         GameManager.gm.SetSE((int)SE.SEType.Click_Cute);
         //GameManager.ResetGM();
+        if (GameManager.gm.roundCount != 0) // 팅~
+            Application.Quit();
         if (stageName == "Stage1")
             GameManager.gm.GetComponentInChildren<StageSetting>().Stage1Start();
         else

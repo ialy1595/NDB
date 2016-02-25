@@ -20,8 +20,9 @@ public class UpgradeDatabase : MonoBehaviour {
         upgradeDatabase.Add(new Upgrade("Lv.2 기본 다람쥐 체력 증가", 2, 2000, 1, "Basic Lv.2 다람쥐의 체력을 250 증가시킵니다.", "Basic2Health", "현재 최대 체력", 250, 4.0f));
         upgradeDatabase.Add(new Upgrade("Lv.1 기본 다람쥐 많이 뿌리기", 3, 3000, 1, "Basic Lv.1 다람쥐를 한번에 10마리씩 뿌릴 수 있는 능력이 추가됩니다.", "UnlockBasic1_Amount10"));
         upgradeDatabase.Add(new Upgrade("Lv.2 기본 다람쥐 많이 뿌리기", 4, 5000, 1, "Basic Lv.2 다람쥐를 한번에 10마리씩 뿌릴 수 있는 능력이 추가됩니다.", "UnlockBasic2_Amount10"));
-        upgradeDatabase.Add(new Upgrade("LV.1 무지개 다람쥐 많이 뿌리기", 5, 3000, 1, "Rainbow Lv.1 다람쥐를 한번에 10마리씩 뿌릴 수 있는 능력이 추가됩니다.", "UnlockRainbow1_Amount10"));
-        upgradeDatabase.Add(new Upgrade("LV.2 무지개 다람쥐 많이 뿌리기", 6, 5000, 1, "Rainbow Lv.2 다람쥐를 한번에 10마리씩 뿌릴 수 있는 능력이 추가됩니다.", "UnlockRainbow2_Amount10"));
+        //무지개다람쥐 해금하는 이벤트에 넣습니다 (아니면 그 이전에도 보임)
+        //upgradeDatabase.Add(new Upgrade("LV.1 무지개 다람쥐 많이 뿌리기", 5, 3000, 1, "Rainbow Lv.1 다람쥐를 한번에 10마리씩 뿌릴 수 있는 능력이 추가됩니다.", "UnlockRainbow1_Amount10"));
+        //upgradeDatabase.Add(new Upgrade("LV.2 무지개 다람쥐 많이 뿌리기", 6, 5000, 1, "Rainbow Lv.2 다람쥐를 한번에 10마리씩 뿌릴 수 있는 능력이 추가됩니다.", "UnlockRainbow2_Amount10"));
     }
 
     // 시간이 없으니 대충 만들게요
@@ -31,6 +32,8 @@ public class UpgradeDatabase : MonoBehaviour {
         u.upgradeID = ID;
         upgradeDatabase.Remove(u);
     }
+
+
 
 
     //itemDatabase와는 달리 다른 script(e.g. inventory)가 없어 이곳에 함수를 넣음 나중에 다른 적절한 script가 생기면 옮기자.
