@@ -203,12 +203,15 @@ public class GameManager : MonoBehaviour {
         }
         else
         {
-            if (roundCount == 1)
-               Instantiate(Events.InterRoundTutorialBox);
-            if (isEmergency == true && FirstEmergency)
+            if (currentStageScene == "Stage1")
             {
-                Instantiate(Events.FirstEmergencyBox);
-                FirstEmergency = false;
+                if (roundCount == 1)
+                    Instantiate(Events.InterRoundTutorialBox);
+                if (isEmergency == true && FirstEmergency)
+                {
+                    Instantiate(Events.FirstEmergencyBox);
+                    FirstEmergency = false;
+                }
             }
         }
     }
@@ -441,10 +444,10 @@ public class GameManager : MonoBehaviour {
         // IsInterRound가 true이면 인기도는 변하지 않아도 함수는 작동함
         Quadric q = DaramFunction[User.level1];
         q.x = Daram.FindByType("",1);
-        q.a = 9 + userCount[User.level1] / 1000;
+        q.a = 9 + userCount[User.level1] / 500;
         q.max = 5 + Daram.VarietyModifier / 2.0f;
-        q.min = -5 - Daram.DaramVariety;
-        q.solution = 10 * Daram.VarietyModifier;
+        q.min = -5;
+        q.solution = 10 * Daram.VarietyModifier + q.a / 10;
 
         if(!isInterRound) fame += (int) q.value;
     }
@@ -457,8 +460,8 @@ public class GameManager : MonoBehaviour {
         q.x = Daram.FindByType("", 2);
         q.a = 5 + userCount[User.level2] / 500 + userCount[User.level1] / 2000;
         q.max = 2 + Daram.VarietyModifier / 3.0f;
-        q.min = -3 - Daram.DaramVariety / 2.0f;
-        q.solution = 5 * Daram.VarietyModifier;
+        q.min = -3;
+        q.solution = 5 * Daram.VarietyModifier + q.a / 10;
 
         if(!isInterRound) fame += (int) q.value;
     }
@@ -497,7 +500,13 @@ public class GameManager : MonoBehaviour {
     //lv2 다람쥐가 해금되면 실행됨
     public void UserLevel2()
     {
-        int LevelUp = 10 + userCount[User.level1] / 1000;
+        int FameDelta = fame - PrevFame;
+        int LevelUp = 0;
+
+        if (FameDelta > 0)
+            LevelUp = 5 + userCount[User.level1] / 1500;
+        else
+            LevelUp = userCount[User.level1] / 3000;
         userCount[User.level1] -= LevelUp;
         userCount[User.level2] += LevelUp;  // 일단 level2유저는 감소하지 않는걸로
     }

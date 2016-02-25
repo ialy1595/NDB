@@ -21,6 +21,14 @@ public class UpgradeDatabase : MonoBehaviour {
         upgradeDatabase.Add(new Upgrade("무지개 다람쥐 많이 뿌리기", 5, 3000, 1, "Rainbow Lv.1 다람쥐를 한번에 10마리씩 뿌릴 수 있는 능력이 추가됩니다.", "UnlockRainbow1_Amount10"));
     }
 
+    // 시간이 없으니 대충 만들게요
+    public void RemoveUpgrade(int ID)
+    {
+        Upgrade u = new Upgrade();
+        u.upgradeID = ID;
+        upgradeDatabase.Remove(u);
+    }
+
 
     //itemDatabase와는 달리 다른 script(e.g. inventory)가 없어 이곳에 함수를 넣음 나중에 다른 적절한 script가 생기면 옮기자.
     public void AddUpgrade(Upgrade upgrade)
