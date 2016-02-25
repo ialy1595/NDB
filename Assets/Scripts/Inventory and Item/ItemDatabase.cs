@@ -53,6 +53,7 @@ public class ItemDatabase : MonoBehaviour {
         if (item.itemID >= itemDatabase.Count)
             attackItemUseCount++;
         GameManager.gm.SetSE((int)SE.SEType.ItemUse);
+        LogText.WriteLog(item.itemName+"를 사용하였습니다.");
 
         return true;
 
@@ -126,7 +127,7 @@ public class ItemDatabase : MonoBehaviour {
 
     IEnumerator AssaGodory(Item item)
     {
-        GameManager.gm.fame += Random.Range(-1000, 1000);
+        GameManager.gm.fame += Random.Range(-2000, 4000);
         yield return new WaitForSeconds(0f);
 
         isItemUsing[item.itemID] = false;
@@ -140,11 +141,13 @@ public class ItemDatabase : MonoBehaviour {
         {
             //팡파레sound
             Debug.Log("성공");
+            GameManager.gm.ShowMessageBox("용마제구검 제작 성공!!");
             GameManager.gm.GetComponentInChildren<Inventory>().AddItem(specialItemDatabase[0]); // 용마제구검
         }
         else
         {
             //깨지는Sound;
+            GameManager.gm.ShowMessageBox("제작 실패!");
             Debug.Log("실패");
         }
         yield return new WaitForSeconds(item.itemDuration);

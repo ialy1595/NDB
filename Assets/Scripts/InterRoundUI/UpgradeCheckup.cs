@@ -86,7 +86,7 @@ public class UpgradeCheckup : MonoBehaviour {
                 else
                     tooltip += "<color=#000000>" + Upgrade.upgradeDescription + "</color>\n\n";
                 tooltip += "<color=#990282>" + "가격 : " + Upgrade.upgradePrice + "</color>\t\t";
-                tooltip += "<color=#990282>" + "필요 개발자 수 : " + Upgrade.upgradeRequiredDev + "</color>\t\t";
+                //tooltip += "<color=#990282>" + "필요 개발자 수 : " + Upgrade.upgradeRequiredDev + "</color>\t\t";
                 if (Upgrade.upgradeQuantity != 0)
                     tooltip += "<color=#990282>" + Upgrade.upgradeQuantityName + " : "+ Unlockables.GetInt(Upgrade.upgradeTooltipName) + "</color>";
                 go.GetComponentInChildren<Text>().text = tooltip;

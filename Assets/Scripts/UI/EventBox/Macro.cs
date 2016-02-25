@@ -31,11 +31,12 @@ public class Macro : MonoBehaviour {
         Post modifyingDeveloper = Developer.dev.FindPostByPostID(Developer.dev.FindPostIDByName("Debugging"));
         if (Developer.dev.UseDeveloper(modifyingDeveloper))
         {
-            LogText.WriteLog("버그gm을 투입해 열심히 매크로를 잡는중...(10초 소요)");
-            Instantiate(MacroWork).GetComponent<MacroWork>().modifyingDeveloper = modifyingDeveloper; 
+            LogText.WriteLog("버그GM을 투입해 열심히 매크로를 잡는중...(10초 소요)");
+            Instantiate(MacroWork).GetComponent<MacroWork>().modifyingDeveloper = modifyingDeveloper;
+            GetComponentInParent<EventBox>().OnClick();   
         }
         else
-            GameManager.gm.ShowMessageBox("버그gm이 부족합니다.");
+            GameManager.gm.ShowMessageBox("버그GM이 부족합니다.");
     }
 
 
