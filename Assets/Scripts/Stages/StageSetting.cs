@@ -47,9 +47,14 @@ public class StageSetting : MonoBehaviour {
         CommonSettings();
         
         Unlockables.SetBool("UnlockBasic2", true);
+        Unlockables.SetBool("UnlockRainbow1", true);
         Unlockables.SetBool("UnlockBasic1_Amount10", true);
         Unlockables.SetBool("UnlockBasic2_Amount10", true);
+        Unlockables.SetBool("UnlockRainbow1_Amount10", true);
         Unlockables.SetBool("Emergency", true);
+
+        Unlockables.SetInt("Basic1Health", 300);
+        Unlockables.SetInt("Basic2Health", 750);
 
         Unlockables.SetInt("Server", 5);
         Unlockables.SetInt("ServerEff", 5000);
@@ -64,6 +69,11 @@ public class StageSetting : MonoBehaviour {
         gm.UserChange += gm.UserLevel2;
         gm.EventCheck += UserChat.uc.Daram2Number;
         Vector2 pos = GameManager.gm.RandomPosition();
+
+        UpgradeDatabase ud = GameObject.Find("Database").GetComponent<UpgradeDatabase>();
+        ud.RemoveUpgrade(3);
+        ud.RemoveUpgrade(4);
+        ud.RemoveUpgrade(5);
     }
 
 }

@@ -15,6 +15,9 @@ public class Events : MonoBehaviour {
     public GameObject DaramUpDownTutorial_Box;
     public GameObject SlimeParty_Box;
     public GameObject SlimeParty_Slime;
+    public GameObject GodFreedom_Box;
+    public GameObject GodBug_Box;
+    public GameObject GodDemo_Box;
 
     public GameObject FirstEmergency_Box;
     public GameObject ShutDownJe_Box;
@@ -48,30 +51,40 @@ public class Events : MonoBehaviour {
         InterRoundTutorialBox = InterRoundTutorial_Box;
         FirstEmergencyBox = FirstEmergency_Box;
 
-        gm.EventCheck += UserLimitExcess;
+        gm.UserChange += UserLimitExcess;   // 하드리밋보다는 조금 여유롭게 하기 위해 1초에 한번 체크 (버그도 있음)
         //gm.EventCheck += RivalGameRelease; //갓나무 하나만
         gm.EventCheck += MacroEvent;
-        gm.EventCheck += TreeOfSavior;
+        
         gm.EventCheck += GettingFamous;
-        gm.EventCheck += ShutDownJe;
-        gm.EventCheck += ViolenceTest;
-        gm.EventCheck += FreeServer;
-
-        gm.RoundStartEvent += SlimeParty;
+        
 
     }
 
     void OnLevelWasLoaded(int level)
     {
-        
+
         if (gm.currentStageScene == "Stage1" && !isStageOnceLoaded[0])
         {
+            gm.EventCheck += TreeOfSavior;
             gm.EventCheck += UnlockUpBasic;
             gm.EventCheck += EmergencyTutorial;
             gm.RoundStartEvent += DaramUpDownTutorial;
             gm.RoundStartEvent += Tutorial1;
 
             isStageOnceLoaded[0] = !isStageOnceLoaded[0];
+        }
+        else if (gm.currentStageScene == "Stage2" && !isStageOnceLoaded[1])
+        {
+            gm.EventCheck += GodFreedom;
+            gm.EventCheck += GodBug;
+            gm.EventCheck += GodDemo;
+
+            gm.EventCheck += ViolenceTest;
+            gm.EventCheck += FreeServer;
+
+            gm.RoundStartEvent += SlimeParty;
+
+            isStageOnceLoaded[1] = !isStageOnceLoaded[1];
         }
     }
 
@@ -127,7 +140,7 @@ public class Events : MonoBehaviour {
 
     void MacroEvent()
     {
-        if (gm.UserAllCount() >= 10000 && Random.value < 1f/4201f)
+        if (gm.UserAllCount() >= 10000 && Random.value < 1f/6001f)
             Instantiate(MacroEvent_Box);
     }
 
@@ -169,7 +182,7 @@ public class Events : MonoBehaviour {
     private bool SPStarted = false;
     void SlimeParty()
     {
-        if(false) //if (gm.roundCount == 2)  // 2스테이지 어딘가에 쓸 예정
+        if(gm.roundCount == 4)
         {
             // 다람쥐와 슬라임을 스왑함
             GameObject temp = GameObject.Find("AddBasicDaram").GetComponent<AddBasicDaram>().daram;
@@ -187,7 +200,7 @@ public class Events : MonoBehaviour {
             UserChat.CreateChat(UserChat.BadChat("내 다람쥐 어디갔어!!"), 2);
             SPStarted = false;
         }
-        if(false) //if(gm.roundCount == 3)  // 3라운드에 해제
+        if(gm.roundCount == 5)  // 5라운드에 해제
         {
             // 다람쥐와 슬라임을 스왑함
             GameObject temp = GameObject.Find("AddBasicDaram").GetComponent<AddBasicDaram>().daram;
@@ -278,7 +291,7 @@ public class Events : MonoBehaviour {
 
     void ShutDownJe()
     {
-        if (false)
+        if (Random.value < 1 / 7201f)
         {
             gm.ChangeMoneyInRound(-3000);
             LogText.WriteLog("게임에 셧다운제가 도입되었습니다.");
@@ -291,7 +304,7 @@ public class Events : MonoBehaviour {
 
     void ViolenceTest()
     {
-        if (false)
+        if (Random.value < 1 / 7201f)
         {
             gm.fame += 5000;
             gm.userCount[User.level1] += 1000;
@@ -299,16 +312,16 @@ public class Events : MonoBehaviour {
             UserChat.CreateChat("이게 그 유명한 " + gm.GameName + "인가요??", 3);
             Instantiate(ViolenceTest_Box);
             gm.EventCheck -= ViolenceTest;
+            gm.EventCheck += ShutDownJe;
         }
     }
 
     void FreeServer()
     {
-        if (false)
+        if (gm.userCount[User.level2] > 10000 && Random.value < 1 / 7201f)
         {
             gm.fame -= 5000;
-            if(gm.userCount[User.level2] > 2000)
-                gm.userCount[User.level2] -= 2000;
+            gm.userCount[User.level2] -= 4000;
             LogText.WriteLog("프리서버가 생겼다는 소문이 퍼지고 있다.");
             UserChat.CreateChat("여러분 현질 필요없는 게임이 생겼대요!!", 3);
             UserChat.CreateChat(UserChat.BadChat("슬슬 이 게임도 뜰 때가 됬나.."), 4);
@@ -323,6 +336,42 @@ public class Events : MonoBehaviour {
         {
             Instantiate(Stage1Clear_Box);
             gm.EventCheck -= Stage1Clear;
+        }
+    }
+
+    void GodFreedom()
+    {
+        if (Random.value < 1 / 12001f)
+        {
+            gm.fame += 3000;
+            Instantiate(GodFreedom_Box);
+            LogText.WriteLog("갓나무가 방대한 자유도로 인기를 끌고 있다.");
+            gm.EventCheck -= GodFreedom;
+        }
+    }
+
+    void GodBug()
+    {
+        int diff = gm.fame - gm.enemyFame;
+        if (diff > 8000 && Random.value < 1 / (float)(50001 - 3 * diff))
+        {
+            gm.enemyFame = gm.fame - 6000;
+            Instantiate(GodBug_Box);
+            LogText.WriteLog("갓나무가 버그의 발생에도 불구하고 인기를 끌고 있다.");
+            gm.EventCheck -= GodBug;
+        }
+    }
+
+    private int GDThreshold = 1;
+    void GodDemo()
+    {
+        int diff = gm.enemyFame - gm.fame;
+        if (diff > 2000 + 2000*GDThreshold && Random.value < 1 / (float)(55501 + 10000 * GDThreshold - 5 * diff))
+        {
+            gm.enemyFame = gm.fame + 1000 * GDThreshold;
+            Instantiate(GodDemo_Box);
+            LogText.WriteLog("갓나무 유저들의 불만이 증가하고 있다.");
+            GDThreshold++;
         }
     }
 }
