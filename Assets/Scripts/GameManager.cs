@@ -204,7 +204,21 @@ public class GameManager : MonoBehaviour {
         else
         {
             if (roundCount == 1)
-               Instantiate(Events.InterRoundTutorialBox);
+            {
+                //돈 없어서 못 진행하는 것 방지
+                if (Money() < 5000) money = 5000;
+                Instantiate(Events.InterRoundTutorialBox);
+            }
+
+
+            if (UserAllCount() > 6000 && roundCount > 1 && isTutorialCleared[50] == false)
+            {
+                Instantiate(Events.DaramUpgradeTutorialBox);
+                //돈 없어서 못 진행하는 것 방지
+                if (Money() < 1000) money = 1000;
+                
+            }
+
             if (isEmergency == true && FirstEmergency)
             {
                 Instantiate(Events.FirstEmergencyBox);
