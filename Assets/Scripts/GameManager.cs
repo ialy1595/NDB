@@ -52,9 +52,7 @@ public class GameManager : MonoBehaviour {
     [HideInInspector] public string GameName = "";      // 우리가 운영하는 게임의 이름
     //                public string roundEventName = ""; // 그 라운드에 적용된 행사
 
-    [HideInInspector] public int bugResponeTimeMin;
-    [HideInInspector] public int bugResponeTimeMax;     //min~max 사이 초 후에 나옴
-
+    
     [HideInInspector] public float fieldCenterX;
     [HideInInspector] public float fieldCenterY;
     [HideInInspector] public float fieldWidth;
@@ -79,9 +77,14 @@ public class GameManager : MonoBehaviour {
     //public void pause(bool pause);
     //public int UserAllCount();
 
-    private int preBugResponTime;   //이전에 버그가 생성되었던 시간
-    private int bugResponTime;      // 버그 생성 텀
+    [HideInInspector] public float bugResponeTimeMin;
+    [HideInInspector] public float bugResponeTimeMax;
+    private float preBugResponTime;   //이전에 버그가 생성되었던 시간
+    private float bugResponTime;      // 버그 생성 텀
     private bool bugMaking = false;
+    private float roundBugResponeTimeMin;
+    private float roundBugResponeTimeMax;     //min~max 사이 초 후에 나옴
+
 
 
     private Music mus;
@@ -164,8 +167,9 @@ public class GameManager : MonoBehaviour {
             if (!isEmergency)
             {
                 SetRoundTime();
-                preBugResponTime = timeLeft-5;
+                SetRoundBugResponeTime();
                 SetBugResponeTime();
+                preBugResponTime = gm.time+5.0f;
             }
             InitiateMoney();
             Developer.dev.InitiateUseableDeveloper();
@@ -328,16 +332,14 @@ public class GameManager : MonoBehaviour {
     //버그 생성
     public void MakeBug()
     {
-        int nowTime = timeLeft;
-        if (bugMaking == false && preBugResponTime - nowTime >= bugResponTime)
+        float nowTime = gm.time;
+        if (bugMaking == false && nowTime- preBugResponTime >= bugResponTime)
         {
             bugMaking = true;
             preBugResponTime = nowTime;
-
             SetBugResponeTime();
             Vector2 pos = GameManager.gm.RandomPosition();
             Instantiate(bug, pos, Quaternion.identity);
-            Debug.Log(preBugResponTime);
             if (isTutorialCleared[4] /*bug = 4 */ == false)
             {
                 Instantiate(Events.BugTutorialBox);
@@ -350,10 +352,19 @@ public class GameManager : MonoBehaviour {
     //버그 생성 텀 셋
     public void SetBugResponeTime()
     {
-        bugResponTime = Random.Range(bugResponeTimeMin, bugResponeTimeMax + 1);
+        bugResponTime = Random.Range(roundBugResponeTimeMin, roundBugResponeTimeMax);
+        Debug.Log(bugResponTime);
     }
 
-#endregion
+    public void SetRoundBugResponeTime()
+    {
+        roundBugResponeTimeMin = 2.0f * bugResponeTimeMin / (1.0f + (float)roundCount);
+        roundBugResponeTimeMax = 2.0f * bugResponeTimeMax / (1.0f + (float)roundCount);
+
+    }
+
+
+    #endregion
 
     #region 게임 시뮬레이션 관련 함수입니다
 
@@ -469,13 +480,13 @@ public class GameManager : MonoBehaviour {
 
     public void FameBug()
     {
-        int sum = 0;
+        float sum = 0.0f;
         foreach(BugUser bu in BugUser.Bugs)
         {
-            sum += bu.LiveTime();
+            sum += 3*Mathf.Log10(1+bu.LiveTime());
         }
         sum *= 10;     //이 수치는 추후 조정할 것.
-        if (!isInterRound) fame -= sum;
+        if (!isInterRound) fame -= (int)Mathf.Round(sum);
     }
 
     //                      //
@@ -669,6 +680,8 @@ public class GameManager : MonoBehaviour {
         // 라운드 또는 스테이지별로 진행 시간을 바꾸고 싶으면 라운드가 끝난 직후에 다음 라운드의 basicTime 값을 직접 설정해주세요.
         // (개발자 월급 시스템과 연관되어 있습니다.)
     }
+
+   
 
     private void RoundEndCheck() {
         if (timeLeft <= -1) {   // 0으로 하면 마지막 1초가 보여지지 않아서 -1로 수정
