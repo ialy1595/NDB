@@ -15,6 +15,7 @@ public class SE : MonoBehaviour
         Dingaling = 6,
         Notification = 7,
         ItemUse = 8,
+        Bug_Appear = 9,
     };
 
     //public static SE se;

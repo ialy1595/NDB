@@ -370,7 +370,7 @@ public class GameManager : MonoBehaviour {
             bugMaking = true;
             preBugResponTime = nowTime;
             SetBugResponeTime();
-
+            SetSE((int)SE.SEType.Bug_Appear);
             // 버그가 왼쪽위에 끼여서 안보이는 경우가 있음
             Vector2 pos;
             while (true)
