@@ -31,6 +31,7 @@ public class StageSetting : MonoBehaviour {
 
         gm.bugResponeTimeMin = 8.0f;
         gm.bugResponeTimeMax = 12.0f;
+        gm.roundCount = 0;
 
 
     }
@@ -39,7 +40,6 @@ public class StageSetting : MonoBehaviour {
     {
         CommonSettings();
         gm = GameManager.gm;
-
         Unlockables.SetInt("Server", 1);
         Unlockables.SetInt("ServerEff", 5000);
         Unlockables.SetBool("RivalGameOn", false);

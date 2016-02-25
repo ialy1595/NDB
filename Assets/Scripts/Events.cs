@@ -19,8 +19,16 @@ public class Events : MonoBehaviour {
     public GameObject SlimeParty_Slime;
 
     public GameObject GodLaunch_Box;
+    public GameObject GodTaunt_Box;
     public GameObject GodFreedom_Box;
     public GameObject GodBug_Box;
+    public GameObject GodPassedBy_Box;
+    public GameObject GodKiri_Box;
+    public GameObject GodLifeGoesOn_Box;
+    public GameObject GodDdos_Box;
+    public GameObject GodAttackCount_Box;
+
+
     public GameObject GodDemo_Box;
 
     public GameObject FirstEmergency_Box;
@@ -79,14 +87,21 @@ public class Events : MonoBehaviour {
         }
         else if (gm.currentStageScene == "Stage2" && !isStageOnceLoaded[1])
         {
+            gm.enemyFame = 0;
+
+            gm.EventCheck += GodTaunt;
             gm.EventCheck += GodFreedom;
             gm.EventCheck += GodBug;
             gm.EventCheck += GodDemo;
+            gm.EventCheck += GodDdos;
+            gm.EventCheck += GodAttackCount;
+            gm.EventCheck += GodPassedBy;
 
             gm.EventCheck += ViolenceTest;
             gm.EventCheck += FreeServer;
 
             gm.RoundStartEvent += GodLaunch;
+
             gm.RoundStartEvent += SlimeParty;
 
             isStageOnceLoaded[1] = !isStageOnceLoaded[1];
@@ -362,30 +377,173 @@ public class Events : MonoBehaviour {
     void GodLaunch()
     {
         Instantiate(GodLaunch_Box);
+        LogText.WriteLog("경쟁작 갓나무가 런칭했다.");
+        UserChat.CreateChat("새로 나온 게임이 있다던데요?", 5);
+        UserChat.CreateChat("갓나무 하러 갑시다", 5);
         gm.RoundStartEvent -= GodLaunch;
+
+        StartCoroutine(GodLaunch_Effect());
     }
+
+    IEnumerator GodLaunch_Effect() // 특정 시간 동안 정해진 시간마다 유저 수 하락, 갓나무 인기도 증가율 향상
+    {
+        float startTime = gm.time;
+        float duration = 5f;
+        int minusUser = 10;
+        int fameIncrease = 20;
+        while (true)
+        {
+            gm.userCount[User.level1] = Mathf.Max(gm.userCount[User.level1] - minusUser, 0);
+            gm.enemyFame += fameIncrease;
+            yield return new WaitForSeconds(0.1f);
+
+            if (gm.time - startTime > duration) break;
+        }
+        LogText.WriteLog("갓나무 신규 런칭 이벤트가 종료되었습니다.");
+    }
+
+    void GodTaunt()
+    {
+        if (gm.timeLeft < 5)
+        {
+            Instantiate(GodTaunt_Box);
+            gm.EventCheck -= GodTaunt;
+        }
+    }
+
     void GodFreedom()
     {
-        if (Random.value < 1f / 12001f)
+        if (gm.roundCount == 2 && gm.timeLeft < 20)
         {
-            gm.enemyFame += 3000;
             Instantiate(GodFreedom_Box);
             LogText.WriteLog("갓나무가 방대한 자유도로 인기를 끌고 있다.");
             gm.EventCheck -= GodFreedom;
+
+            StartCoroutine(GodFreedom_Effect());
+        }
+    }
+
+    IEnumerator GodFreedom_Effect()
+    {
+        float startTime = gm.time;
+        float duration = 5f;
+        int fameIncrease = 10;
+        while (true)
+        {
+            gm.enemyFame += fameIncrease;
+            yield return new WaitForSeconds(0.1f);
+
+            if (gm.time - startTime > duration) break;
         }
     }
 
     void GodBug()
     {
-        int diff = gm.fame - gm.enemyFame;
-        if (diff > 8000 && Random.value < 1f / (float)(50001 - 3 * diff))
+        if (gm.roundCount == 3 && gm.timeLeft < 15)
         {
-            gm.enemyFame = gm.fame - 6000;
             Instantiate(GodBug_Box);
             LogText.WriteLog("갓나무가 버그의 발생에도 불구하고 인기를 끌고 있다.");
             gm.EventCheck -= GodBug;
+
+            StartCoroutine(GodBug_Effect());
         }
     }
+
+    IEnumerator GodBug_Effect()
+    {
+        float startTime = gm.time;
+        float duration = 10f;
+        int fameIncrease = 15;
+
+        while (true)
+        {
+            gm.enemyFame += fameIncrease;
+            yield return new WaitForSeconds(0.1f);
+
+            if (gm.time - startTime > duration) break;
+        }
+
+    }
+
+    void GodPassedBy()
+    {
+        if (gm.fame - gm.enemyFame > 0)
+        {
+            Instantiate(GodPassedBy_Box);
+            LogText.WriteLog("갓나무가 " + gm.GameName + "의 인기를 위협합니다!");
+            UserChat.CreateChat(gm.GameName + "보다 갓나무가 더 재밌다던데?", 4);
+        }
+        gm.EventCheck -= GodPassedBy;
+        gm.EventCheck += GodKiri;
+    }
+
+    void GodKiri()
+    {
+        int enemyMinusFame = 3000;
+        if (gm.fame - gm.enemyFame > 5000)
+        {
+            Instantiate(GodKiri_Box);
+            LogText.WriteLog("갓나무의 인기도가 하락하고 있습니다.");
+            UserChat.CreateChat("헐 갓나무 왜 저럼?", 3);
+            UserChat.CreateChat(gm.GameName + " 계속 해야겠네", 3);
+
+            gm.enemyFame -= enemyMinusFame;
+        }
+        gm.EventCheck -= GodKiri;
+        gm.EventCheck += GodLifeGoesOn;
+    }
+
+    void GodLifeGoesOn()
+    {
+        if (gm.fame - gm.enemyFame > 10000)
+        {
+            Instantiate(GodLifeGoesOn_Box);
+        }
+        gm.EventCheck -= GodLifeGoesOn;
+    }
+
+    void GodDdos()
+    {
+        if (gm.fame - gm.enemyFame < -5000)
+        {
+            Instantiate(GodDdos_Box);
+            GameManager.gm.bugResponeTimeMin *= 0.75f;
+            GameManager.gm.bugResponeTimeMax *= 0.75f;
+
+            StartCoroutine(GodDdos_Effect());
+        }
+        gm.EventCheck -= GodDdos;
+    }
+
+    IEnumerator GodDdos_Effect()
+    {
+        float startTime = gm.time;
+        float duration = 15f;
+        float multiConstant = 0.75f;
+
+        GameManager.gm.bugResponeTimeMin *= multiConstant;
+        GameManager.gm.bugResponeTimeMax *= multiConstant;
+
+        while (true)
+        {
+            yield return new WaitForSeconds(0.1f);
+            if (gm.time - startTime > duration) break;
+        }
+
+        GameManager.gm.bugResponeTimeMin *= 1.0f / multiConstant;
+        GameManager.gm.bugResponeTimeMax *= 1.0f / multiConstant;
+    }
+
+    void GodAttackCount()
+    {
+        if (gm.GetComponentInChildren<ItemDatabase>().attackItemUseCount >= 5)
+        {
+            Instantiate(GodAttackCount_Box);
+        }
+
+        StartCoroutine(GodDdos_Effect());
+    }
+
 
     private int GDThreshold = 1;
     void GodDemo()

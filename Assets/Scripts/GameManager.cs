@@ -210,7 +210,7 @@ public class GameManager : MonoBehaviour {
         {
             if (currentStageScene == "Stage1")
             {
-                if (roundCount == 1)
+                if (roundCount == 1 && isTutorialCleared[51] == false)
                 {
                     //돈 없어서 못 진행하는 것 방지
                     if (Money() < 5000) money = 5000;
