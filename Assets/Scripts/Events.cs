@@ -53,6 +53,7 @@ public class Events : MonoBehaviour {
 
     public GameObject Tutorial1_Box;
     public GameObject Tutorial2_Box;
+    public GameObject S2_Tutorial1_Box;
     public GameObject BugTutorial_Box;
     public GameObject InterRoundTutorial_Box;
     public GameObject DaramUpgradeTutorial_Box;
