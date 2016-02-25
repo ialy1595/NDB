@@ -167,9 +167,7 @@ public class GameManager : MonoBehaviour {
             if (!isEmergency)
             {
                 SetRoundTime();
-                SetRoundBugResponeTime();
-                SetBugResponeTime();
-                preBugResponTime = gm.time+5.0f;
+                SetBug();
             }
             InitiateMoney();
             Developer.dev.InitiateUseableDeveloper();
@@ -353,6 +351,16 @@ public class GameManager : MonoBehaviour {
 
 #region 버그관련함수들   
     //버그 생성
+
+    //버그 초기화 관련 함수들
+    public void SetBug()
+    {
+        SetRoundBugResponeTime();
+        SetBugResponeTime();
+        preBugResponTime = gm.time + 5.0f;
+        BugUser.Bugs.Clear();
+    }
+
     public void MakeBug()
     {
         float nowTime = gm.time;
@@ -390,8 +398,8 @@ public class GameManager : MonoBehaviour {
 
     public void SetRoundBugResponeTime()
     {
-        roundBugResponeTimeMin = 2.0f * bugResponeTimeMin / (1.0f + (float)roundCount);
-        roundBugResponeTimeMax = 2.0f * bugResponeTimeMax / (1.0f + (float)roundCount);
+        roundBugResponeTimeMin = 3.0f * bugResponeTimeMin / (2.0f + (float)roundCount);
+        roundBugResponeTimeMax = 3.0f * bugResponeTimeMax / (2.0f + (float)roundCount);
 
     }
 
