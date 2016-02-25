@@ -9,7 +9,7 @@ public class ItemCheckup : MonoBehaviour {
     public static ItemCheckup itemChkup;
 
     public int numOfShowingNormalItem = 3;
-    public int numOfShowingTotalItem;
+    public int numOfShowingTotalItem = 3;
 
     private GameObject itemPanel;
     private GameObject itemScrollPanel;
@@ -38,13 +38,12 @@ public class ItemCheckup : MonoBehaviour {
         itemPanel.SetActive(false);
         MakeItemList();
         itemStatusText.text = "남은 돈 : " + GameManager.gm.Money();
-        numOfShowingTotalItem = numOfShowingNormalItem;
+        //numOfShowingTotalItem = numOfShowingNormalItem;
     }
 
     void MakeItemList()
     {
         SetRandomItemID();
-
         if (Unlockables.GetBool("RivalGameOn")) numOfShowingTotalItem = numOfShowingNormalItem + 1;
 
         SetListSize(itemscrollPanelrect);

@@ -12,6 +12,8 @@ public class DaramBar : MonoBehaviour {
     public bool DetailedInfo = true;
     public bool ArrowDirection;
 
+    private Image arrowImage;
+
     private const int BarHeight = 140;
     private Slider slider;
     //private RectTransform rect;
@@ -21,6 +23,7 @@ public class DaramBar : MonoBehaviour {
 
     void Start()
     {
+        arrowImage = GetComponent<Image>();
         slider = GetComponent<Slider>();
         //rect = PositiveArea.GetComponent<RectTransform>();
         arrowrect = Arrow.GetComponent<RectTransform>();
@@ -57,10 +60,13 @@ public class DaramBar : MonoBehaviour {
             if (DaramFunc.diff >= 0) // 다람쥐 수가 적정 수준 이상이면 화살표가 아래를 향함
             {
                 arrowrect.localScale = new Vector3(1, -1, 1);
+                arrowImage.color = new Color(0, 0, 255, 255);
+
             }
             else // 다람쥐 수가 적정 수준보다 적으면 화살표가 위를 향함
             {
                 arrowrect.localScale = new Vector3(1, 1, 1);
+                arrowImage.color = new Color(255, 255, 255, 255);
             }
 
             float tempValue;

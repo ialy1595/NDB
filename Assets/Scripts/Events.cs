@@ -608,7 +608,7 @@ public class Events : MonoBehaviour {
 
     void Stage2Clear()
     {
-        if (gm.fame > 50000)
+        if (gm.fame > 40000)
         {
             Instantiate(Stage2Clear_Box);
             gm.EventCheck -= Stage2Clear;
