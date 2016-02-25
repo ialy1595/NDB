@@ -18,13 +18,17 @@ public class StageSetting : MonoBehaviour {
         Unlockables.SetBool("UnlockBasic1_Amount1", true);
         Unlockables.SetBool("UnlockBasic2_Amount1", true);
         Unlockables.SetBool("UnlockRainbow1_Amount1", true);
+        Unlockables.SetBool("UnlockRainbow2_Amount2", true);
 
         Unlockables.SetInt("Basic1Health", 100);
         Unlockables.SetInt("Basic2Health", 500);
         Unlockables.SetInt("Rainbow1Health", 100);
+        Unlockables.SetInt("Rainbow2Health", 500);
 
         gm.bugResponeTimeMin = 8.0f;
         gm.bugResponeTimeMax = 12.0f;
+
+
     }
 
     public void Stage1Start()
