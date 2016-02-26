@@ -15,6 +15,7 @@ public class NewClassChoice : MonoBehaviour {
     private EventBox box;
     void Start()
     {
+        MoneyPanel.Hide(false);
         gm = GameManager.gm;
         box = GetComponent<EventBox>();
         box.DisableHotkey = true;
@@ -28,13 +29,15 @@ public class NewClassChoice : MonoBehaviour {
             gm.ChangeMoneyInRound(-NewClassCost);
             NewClassCost += 5000;
             Instantiate(YesBox);
-            box.OnClick();
+            
+            MoneyPanel.Hide(true);
             gm.FameChange += FameUp_NewClass1;
             gm.FameChange -= gm.FameBug;
             gm.RoundStartEvent += NewClassCreated;
             LogText.WriteLog("개발팀이 신직업 개발에 착수했다!!");
             LogText.WriteLog("신직업이 나온다는 소식만으로 게임의 인기가 상승하고 있다.");
             UserChat.CreateChat("신직업 빨리 나오게 해주세요 ㅠㅠ", 3);
+            box.OnClick();
         }
         else
             LogText.WriteLog("돈이 부족합니다.");
@@ -44,7 +47,9 @@ public class NewClassChoice : MonoBehaviour {
     {
         Instantiate(NoBox);
         LogText.WriteLog(gm.GameName + "은(는) 신직업이 없을 것이라고 밝혔다.");
+        MoneyPanel.Hide(true);
         box.OnClick();
+        
     }
 
     

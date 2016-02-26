@@ -90,6 +90,8 @@ public class ItemCheckup : MonoBehaviour {
 
     public void ShowItems()
     {
+        if (EndInterRound.CheckTutorial())
+            return;
         //이유는 모르겠지만 처음에 위치 조정을 안해주면 스크롤바랑 이미지 표시가 이상해짐
         itemPanel2.GetComponent<ScrollRect>().verticalScrollbar.value = 0;
         itemscrollPanelrect.localPosition = new Vector2(itemscrollPanelrect.localPosition.x, -itemscrollPanelrect.rect.height / 2f);

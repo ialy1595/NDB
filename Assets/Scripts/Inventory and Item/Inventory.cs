@@ -52,8 +52,8 @@ public class Inventory : MonoBehaviour {
         if (SceneManager.GetActiveScene().name == "Stage1" || SceneManager.GetActiveScene().name == "Stage2")
         {
             showInventory = false;
-            slotPosX = 1341f;
-            slotPosY = 1020f;
+            slotPosX = 2010f;
+            slotPosY = 1530f;
         }
         else if (SceneManager.GetActiveScene().name == "InterRound")
         {
