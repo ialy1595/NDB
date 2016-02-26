@@ -28,9 +28,9 @@ public class EventBox : MonoBehaviour {
         if (!GameManager.gm.isPaused)
         {
             GameManager.gm.Pause(true);
-            if (Input.GetKeyDown(KeyCode.KeypadEnter) == true && DisableHotkey == false)
-                OnClick();
         }
+        if (Input.GetKeyDown(KeyCode.Return) == true && DisableHotkey == false)
+            OnClick();
     }
 
     public void OnClick()
