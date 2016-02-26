@@ -552,11 +552,14 @@ public class Events : MonoBehaviour {
 
     void GodLifeGoesOn()
     {
-        if (gm.fame - gm.enemyFame < -10000 || gm.enemyFame > 50000)
+        if (gm.fame - gm.enemyFame < -15000 || gm.enemyFame > 50000)
         {
-            Instantiate(GodLifeGoesOn_Box);
-            gm.EventCheck -= GodLifeGoesOn;
-            gm.EventCheck -= Stage2Clear;
+            if (famecleared == false)
+            {
+                Instantiate(GodLifeGoesOn_Box);
+                gm.EventCheck -= GodLifeGoesOn;
+                gm.EventCheck -= Stage2Clear;
+            }
         }
 
     }
@@ -633,9 +636,14 @@ public class Events : MonoBehaviour {
         }
     }
 
+    private bool famecleared = false;
     void Stage2Clear()
     {
-        if (gm.fame > 40000)
+        if (gm.fame > 50000)
+        {
+            famecleared = true;
+        }
+        if(famecleared && gm.UserAllCount() > 40000)
         {
             Instantiate(Stage2Clear_Box);
             gm.EventCheck -= Stage2Clear;
