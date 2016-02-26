@@ -152,25 +152,20 @@ public class Inventory : MonoBehaviour {
                                 isOneClicked = false;
                             }
 
-                            if (Input.GetMouseButtonUp(0) && !isOneClicked)
-                            {
-                                isOneClicked = true;
-                                prevClickTime = Time.time;
-                            }
+ 
 
-                            //더블클릭(아이템 사용)
-                            if (Input.GetMouseButtonDown(0) && isOneClicked && !GameManager.gm.isInterRound)
+                            //클릭(아이템 사용)
+                            if (Input.GetMouseButtonDown(0) && !GameManager.gm.isInterRound)
                             {
                                 clickedItem = slots[i];
                                 clickedItemIndex = i;
 
-                                if (Time.time - prevClickTime < doubleClickTime)
-                                {
+               
                                     Debug.Log("doubleClicked");
 
                                     if(database.useItem(clickedItem) == true)
                                         RemoveItem(clickedItemIndex);
-                                }
+                  
 
                                 isOneClicked = false;
                             }
