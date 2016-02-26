@@ -12,6 +12,8 @@ public class DeveloperHireButton : MonoBehaviour {
     */
     public void Hire()
     {
+        if (EndInterRound.CheckTutorial())
+            return;
         Developer.dev.HireDeveloper(modifyingDeveloper);
         //DeveloperCheckup.devChkup.RefreshPostTooltip();
     }

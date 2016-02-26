@@ -11,6 +11,7 @@ public class Macro : MonoBehaviour {
     void Start()
     {
         GetComponent<EventBox>().DisableHotkey = true;
+        MoneyPanel.Hide(false);
     }
 
     public void KillMacroByMoney()
@@ -20,6 +21,7 @@ public class Macro : MonoBehaviour {
             GameManager.gm.ChangeMoneyInRound(-3000);
             GameManager.gm.fame += 1000;
             LogText.WriteLog("돈을 투입해 열심히 매크로를 잡았다.");
+            MoneyPanel.Hide(true);
             GetComponentInParent<EventBox>().OnClick();   
         }
         else
@@ -33,6 +35,7 @@ public class Macro : MonoBehaviour {
         {
             LogText.WriteLog("버그GM을 투입해 열심히 매크로를 잡는중...(10초 소요)");
             Instantiate(MacroWork).GetComponent<MacroWork>().modifyingDeveloper = modifyingDeveloper;
+            MoneyPanel.Hide(true);
             GetComponentInParent<EventBox>().OnClick();   
         }
         else
@@ -50,6 +53,7 @@ public class Macro : MonoBehaviour {
         Debug.Log(GameManager.gm.time);
         GameManager.gm.DaramDeath += MacroActivity;
         LogText.WriteLog("매크로가 게임에 판을 치고 있다.");
+        MoneyPanel.Hide(true);
     }
     
     void MacroActivity()

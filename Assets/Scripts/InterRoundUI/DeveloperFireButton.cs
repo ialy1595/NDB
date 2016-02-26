@@ -12,6 +12,8 @@ public class DeveloperFireButton : MonoBehaviour {
 
     public void Fire()
     {
+        if (EndInterRound.CheckTutorial())
+            return;
         Developer.dev.FireDeveloper(modifyingDeveloper);
         //DeveloperCheckup.devChkup.RefreshPostTooltip();
     }
