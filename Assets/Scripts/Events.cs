@@ -175,7 +175,7 @@ public class Events : MonoBehaviour {
 
     void MacroEvent()
     {
-        if (gm.UserAllCount() >= 10000 && Random.value < 1f/6001f)
+        if (gm.UserAllCount() >= 10000 && Random.value < 1f/5001f)
             Instantiate(MacroEvent_Box);
     }
 
@@ -344,7 +344,7 @@ public class Events : MonoBehaviour {
 
     void ShutDownJe()
     {
-        if (Random.value < 1f / 7201f)
+        if (Random.value < 1f / 5001f)
         {
             gm.ChangeMoneyInRound(-3000);
             LogText.WriteLog("게임에 셧다운제가 도입되었습니다.");
@@ -357,7 +357,7 @@ public class Events : MonoBehaviour {
 
     void ViolenceTest()
     {
-        if (Random.value < 1f / 7201f)
+        if (Random.value < 1f / 4001f)
         {
             gm.fame += 5000;
             gm.userCount[User.level1] += 1000;
@@ -371,7 +371,7 @@ public class Events : MonoBehaviour {
 
     void FreeServer()
     {
-        if (gm.userCount[User.level2] > 10000 && Random.value < 1f / 7201f)
+        if (gm.userCount[User.level2] > 10000 && Random.value < 1f / 6001f)
         {
             gm.fame -= 5000;
             gm.userCount[User.level2] -= 4000;
@@ -552,7 +552,7 @@ public class Events : MonoBehaviour {
 
     void GodLifeGoesOn()
     {
-        if (gm.fame - gm.enemyFame < -15000 || gm.enemyFame > 50000)
+        if (gm.fame - gm.enemyFame < -15000 || gm.enemyFame > 60000)
         {
             if (famecleared == false)
             {
@@ -639,11 +639,11 @@ public class Events : MonoBehaviour {
     private bool famecleared = false;
     void Stage2Clear()
     {
-        if (gm.fame > 50000)
+        if (gm.fame > 60000)
         {
             famecleared = true;
         }
-        if(famecleared && gm.UserAllCount() > 40000)
+        if(famecleared && gm.UserAllCount() > 50000)
         {
             Instantiate(Stage2Clear_Box);
             gm.EventCheck -= Stage2Clear;

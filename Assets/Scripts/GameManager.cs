@@ -196,8 +196,8 @@ public class GameManager : MonoBehaviour {
             if (currentStageScene == "Stage1") LogText.WriteLog("목표 : 유저 수 15000 달성");
             else if (currentStageScene == "Stage2")
             {
-                LogText.WriteLog("목표 : 경쟁작보다 먼저 인기도 50000 달성");
-                LogText.WriteLog("목표 : 유저 수 40000 달성");
+                LogText.WriteLog("목표 : 경쟁작보다 먼저 인기도 60000 달성");
+                LogText.WriteLog("목표 : 유저 수 50000 달성");
             }
             LogText.WriteLog("10초 후 유저 로그인이 활성화됩니다.");
 
