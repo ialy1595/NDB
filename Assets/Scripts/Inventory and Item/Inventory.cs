@@ -52,8 +52,8 @@ public class Inventory : MonoBehaviour {
         if (SceneManager.GetActiveScene().name == "Stage1" || SceneManager.GetActiveScene().name == "Stage2")
         {
             showInventory = false;
-            slotPosX = 2010f;
-            slotPosY = 1530f;
+            slotPosX = 1920f;
+            slotPosY = 1460f;
         }
         else if (SceneManager.GetActiveScene().name == "InterRound")
         {
@@ -109,7 +109,7 @@ public class Inventory : MonoBehaviour {
     {
         int i = 0;
         if (!(SceneManager.GetActiveScene().name == "InterRound"))
-            GUI.DrawTexture(new Rect(slotPosX / 2f + 0f, slotPosY / 2f + 0f, (float)((54 + 10) * slotX) + 32f, (float)((54 + 10) * slotY) + 32f), inventorySprite.texture);
+            GUI.DrawTexture(new Rect(slotPosX / 2f + 0f, slotPosY / 2f + 0f, (float)((80 + 15) * slotX) + 35f, (float)((80 + 15) * slotY) + 35f), inventorySprite.texture);
         else GUI.DrawTexture(new Rect(slotPosX / 2f + 0f, slotPosY / 2f + 0f, (float)((40 + 6) * slotX) + 18f, (float)((40 + 6) * slotY) + 18f), inventorySprite.texture);
 
 
@@ -120,7 +120,7 @@ public class Inventory : MonoBehaviour {
             {
                 Rect slotRect;
                 if(!(SceneManager.GetActiveScene().name == "InterRound"))
-                    slotRect = new Rect(slotPosX / 2f + 21f + x * 64f, slotPosY / 2f + 21f + y * 64f, 54f, 54f);
+                    slotRect = new Rect(slotPosX / 2f + 25f + x * 95f, slotPosY / 2f + 25f + y * 95f, 80f, 80f);
                 else slotRect = new Rect(slotPosX / 2f + 12f + x * 46f, slotPosY / 2f + 12f + y * 46f, 40f, 40f);
                 GUI.Box(slotRect, "", skin.GetStyle("Slots"));
 
