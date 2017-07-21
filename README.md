@@ -1,3 +1,7 @@
-README를 만들어줄 잉여를 구합니다
-
-사실 편집 양식을 모름
+# NDB
+###### Nexon Dream Members Projrct, UPnL
+---
+### Game Management Tycoon Game
+### How to run
+ * run NDB.exe
+ * it needs NDB_Data folder.
