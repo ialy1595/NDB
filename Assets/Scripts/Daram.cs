@@ -33,8 +33,6 @@ public class Daram : MonoBehaviour {
 
     protected Animator Anim;
 
-    protected Animator Anim;
-
 
     // *중요*
     // Daram 하위 클래스의 Start()에 "base.Start();" 를 넣어주세요.
