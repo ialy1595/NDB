@@ -3,41 +3,63 @@ using UnityEngine.SceneManagement;
 using System.Collections;
 using UnityEngine.UI;
 using System.Linq;
+using System.ComponentModel;
 
 public class GameManager : MonoBehaviour {
 
     public static GameManager gm;
 
-    public GameObject resultScene; 
+    /// <summary>
+    /// GameManager 리셋시에만 사용됩니다
+    /// </summary>
+    public GameObject Gamemanager;
+    public static GameObject _Gamemanager;
+    ///
+
+    public GameObject resultScene;
+
+    public GameObject bug;
 
     private int money = 10000;         // initialMoney, earnedMoney, usedMoney가 실시간으로 반영된 돈
     [HideInInspector] public int earnedMoney = 0;   // 라운드 중에 번 돈(해고로 받은 돈 포함)
     [HideInInspector] public float earnedMoneyModifier = 1.0f;  // 번돈 의 계수 (긴급점검 등으로 낮아짐)
     [HideInInspector] public int initialMoney = 0;  // 라운드 시작 시의 돈
     [HideInInspector] public int usedMoney = 0;     // GM이 라운드 중에 사용한 돈
-    [HideInInspector] public int salaryMoney = 0;   // 라운드 중 나가는 개발자 월급
+    //                public int salaryMoney = 0;   // 라운드 중 나가는 개발자 월급
     [HideInInspector] public float timePerEarnedMoney = 1f; //돈이 벌리는 시간 간격
     [HideInInspector] public float time = 0;        // 일시정지를 보정한 시간
-    [HideInInspector] public int basicTime = 40;
+    [HideInInspector] public int basicTime;
     [HideInInspector] public int fame = 0;
+
+    [HideInInspector]
+    public int enemyFame = 0;
+    public float enemyDifficulty = 1;
+    public bool isenemyFameIncresing = true; // 아이템 등 외부 요인에 따라 오르고 안 오르고를 조정
+    public float enemyFameOuterConstant = 0; // 아이템 등 외부 요인에 따른 변경 상수
+
     [HideInInspector] public int userLevel1Increase;
     [HideInInspector] public int[] userCount;
     [HideInInspector] public float[] userDamagePerLevel; // 각 레벨(초보, 중수)의 유저의 수에 비례한 데미지 곱(나눗셈) 값
     [HideInInspector] public Quadric[] DaramFunction;    // 적정 다람쥐 계산하는 함수
     [HideInInspector] public int roundCount = 0;
+    [HideInInspector] public int clearedLevel = 0;
     [HideInInspector] public int timeLeft = 1;
     [HideInInspector] public string currentStageScene;
     [HideInInspector] public bool isPaused = false;
-    [HideInInspector] public bool isRoundEventOn = false;
+    //                public bool isRoundEventOn = false;
     //                public bool isInterRound;         // InterRound때 일시정지는 되어 있음, 대기시간 10초도 InterRound 취급
     [HideInInspector] public bool isEmergency = false;  // 긴급점검일때 true
     [HideInInspector] public string GameName = "";      // 우리가 운영하는 게임의 이름
-    [HideInInspector] public string roundEventName = ""; // 그 라운드에 적용된 행사
+    [HideInInspector] public string appliedUpgrades = "";
+    //                public string roundEventName = ""; // 그 라운드에 적용된 행사
 
-    [HideInInspector] public float fieldCenterX;
-    [HideInInspector] public float fieldCenterY;
-    [HideInInspector] public float fieldWidth;
-    [HideInInspector] public float fieldHeight;
+    
+    public float fieldCenterX;
+    public float fieldCenterY;
+    public float fieldWidth;
+    public float fieldHeight;
+
+    public bool[] isTutorialCleared = new bool[100];
 
     public GameObject StartScene;
 
@@ -56,12 +78,25 @@ public class GameManager : MonoBehaviour {
     //public void pause(bool pause);
     //public int UserAllCount();
 
-    private Developer dev;
-    
+    [HideInInspector] public float bugResponeTimeMin;
+    [HideInInspector] public float bugResponeTimeMax;
+    private float preBugResponTime;   //이전에 버그가 생성되었던 시간
+    private float bugResponTime;      // 버그 생성 텀
+    private bool bugMaking = false;
+    private float roundBugResponeTimeMin;
+    private float roundBugResponeTimeMax;     //min~max 사이 초 후에 나옴
+
+
+
+    private Music mus;
+    private SE se;
+
+    private bool FirstEmergency = true;    //튜토리얼용
     private static bool GMCreated = false;
 
     void Awake()
     {
+
         if (GMCreated == true)  // GM 중복생성 방지
         {
             Destroy(gameObject);
@@ -72,8 +107,12 @@ public class GameManager : MonoBehaviour {
         DontDestroyOnLoad(this);    // 씬이 넘어가도 파괴되지 않음
 
         gm = this;
+        _Gamemanager = Gamemanager;
         if (SceneManager.GetActiveScene().name == "Test")
             currentStageScene = "Test";
+
+        mus = GetComponentInChildren<Music>();
+        se = GetComponentInChildren<SE>();
 
         //UserCount, UserDamagePerLevel 초기화
         userCount = Enumerable.Repeat(0, User.Count).ToArray();
@@ -91,10 +130,13 @@ public class GameManager : MonoBehaviour {
 
         DaramDeath += DaramDeath1;
         DaramDeath += DaramDeath2;
+        DaramDeath += EnemyFameChange;  // 인기도 계산 전에 실행되야 함
+        FameChange += Daram.CalculateDaramVariety;
         FameChange += FameDaram1;
+        FameChange += FameBug;
         UserChange += UserLevel1;
         FameChange += CheckFameZero;
-        RoundStartEvent += CheckDaramDeveloper;
+        //RoundStartEvent += CheckDaramDeveloper;
 
 
 
@@ -103,31 +145,38 @@ public class GameManager : MonoBehaviour {
 
     void Start()
     {
-        dev = Developer.dev;
         gm.time = Time.time;
-
+        SetBGM(1);
         if (GMCreated == true)  // GM 중복생성 방지
             return;
         GMCreated = true;
 
-        if(SceneManager.GetActiveScene().name == "Test")
+        if (SceneManager.GetActiveScene().name == "Test")
             OnLevelWasLoaded(0);    // Start 대신 저 안에 써주세요
 
+
         Random.seed = (int)Time.time;
+        isTutorialCleared.Initialize();
     }
 
     void OnLevelWasLoaded(int level)
     {
+        SetBGM(level);
         // 라운드 시작시마다 실행
         if (isInterRound == false)
         {
-            if(!isEmergency)
+            if (!isEmergency)
+            {
                 SetRoundTime();
+                SetBug();
+            }
             InitiateMoney();
+            Developer.dev.InitiateUseableDeveloper();
+            BugUser.Bugs.Clear();
 
             StartCoroutine("UserChangeCall");
             StartCoroutine(MoneyGainByFame());
-            StartCoroutine(MoneyLoseBySalary());
+            //StartCoroutine(MoneyLoseBySalary());
 
             if (StartScene != null)
                 Instantiate(StartScene);
@@ -144,10 +193,17 @@ public class GameManager : MonoBehaviour {
             {
                 LogText.WriteLog("드디어 새 게임을 출시했다! 다람쥐를 뿌려 유저 수를 늘려보자.");
             }
+            if (currentStageScene == "Stage1") LogText.WriteLog("목표 : 유저 수 15000 달성");
+            else if (currentStageScene == "Stage2")
+            {
+                LogText.WriteLog("목표 : 경쟁작보다 먼저 인기도 60000 달성");
+                LogText.WriteLog("목표 : 유저 수 50000 달성");
+            }
             LogText.WriteLog("10초 후 유저 로그인이 활성화됩니다.");
 
             if (isEmergency)
             {
+                FameChange -= Events.EmergencyFame;
                 DaramDeath -= Events.EmergencyDeath;    // 튜토리얼용 함수
                 basicTime = timeLeft += 10;
                 isEmergency = false;
@@ -156,8 +212,35 @@ public class GameManager : MonoBehaviour {
         }
         else
         {
-            if (roundCount == 1)
-               Instantiate(Events.InterRoundTutorialBox);
+            if (currentStageScene == "Stage1")
+            {
+                if (roundCount == 1 && isTutorialCleared[51] == false)
+                {
+                    //돈 없어서 못 진행하는 것 방지
+                    if (Money() < 5000) money = 5000;
+                    Instantiate(Events.InterRoundTutorialBox);
+                }
+
+
+                if (UserAllCount() > 6000 && roundCount > 1 && isTutorialCleared[50] == false)
+                {
+                    Instantiate(Events.DaramUpgradeTutorialBox);
+                    //돈 없어서 못 진행하는 것 방지
+                    if (Money() < 1000) money = 1000;
+                
+                }
+
+                if (isEmergency == true && FirstEmergency)
+                {
+                    if (roundCount == 1)
+                        Instantiate(Events.InterRoundTutorialBox);
+                    if (isEmergency == true && FirstEmergency)
+                    {
+                        Instantiate(Events.FirstEmergencyBox);
+                        FirstEmergency = false;
+                    }
+                }
+	        }
         }
     }
 
@@ -173,17 +256,21 @@ public class GameManager : MonoBehaviour {
 
         if (!isPaused)
         {
-            if (FameChange != null)
-                FameChange();
+            CalculateQuadric();
             if (!isInterRound)
             {
+                // 순서 바꾸지 마세요 코드 엉킴
                 if (EventCheck != null)
                     EventCheck();
                 if (DaramDeath != null)
                     DaramDeath();
+                if (FameChange != null)
+                    FameChange();
                 if (UserChat != null)
                     UserChat();
+
                 RoundEndCheck();
+                MakeBug();
             }
         }
 
@@ -199,7 +286,10 @@ public class GameManager : MonoBehaviour {
 
     void DebugFunc()
     {
-       
+        Debug.Log("max : " + bugResponeTimeMax);
+        Debug.Log("min : " + bugResponeTimeMin);
+        Debug.Log("roundmax : " + roundBugResponeTimeMax);
+        Debug.Log("roundmin : " + roundBugResponeTimeMin);
     }
 
     void DebugStatFunc()
@@ -207,9 +297,44 @@ public class GameManager : MonoBehaviour {
         print("Level 1 : " + userCount[User.level1]);
         print("Level 2 : " + userCount[User.level2]);
         print("다람쥐 개수 : " + Daram.All.Count);
+        print("경쟁작 인기도 : " + enemyFame);
+
+    }
+    /*
+    // GameManager를 리셋합니다
+    public static void ResetGM()
+    {
+        
+        GMCreated = false;
+        GameObject oldGM = gm.gameObject;
+        gm = ((GameObject)(Instantiate(_Gamemanager))).GetComponent<GameManager>();
+        Destroy(oldGM);
+        gm.gameObject.name = "GameManager";
+        
+    }
+    */
+
+    
+
+
+    public void SetBGM(int level)
+    {
+        if (mus == null) mus = GetComponentInChildren<Music>();
+
+        foreach (Music.MusicType mtype in System.Enum.GetValues(typeof(Music.MusicType)))
+        {
+            if (level == (int)mtype)
+            {
+                mus.setAudio(level);
+                break;
+            }
+        }
     }
 
-
+    public void SetSE(int index)
+    {
+        se.SetSE(index);
+    }
     
 
     public int UserAllCount()
@@ -233,8 +358,63 @@ public class GameManager : MonoBehaviour {
         }
     }
 
+#region 버그관련함수들   
+    //버그 생성
 
-#region 게임 시뮬레이션 관련 함수입니다
+    //버그 초기화 관련 함수들
+    public void SetBug()
+    {
+        SetRoundBugResponeTime();
+        SetBugResponeTime();
+        preBugResponTime = gm.time + 5.0f;
+        BugUser.Bugs.Clear();
+    }
+
+    public void MakeBug()
+    {
+        float nowTime = gm.time;
+        if (bugMaking == false && nowTime- preBugResponTime >= bugResponTime)
+        {
+            bugMaking = true;
+            preBugResponTime = nowTime;
+            SetBugResponeTime();
+            //SetSE((int)SE.SEType.Bug_Appear);
+            // 버그가 왼쪽위에 끼여서 안보이는 경우가 있음
+            Vector2 pos;
+            while (true)
+            {
+                pos = GameManager.gm.RandomPosition();
+                if (pos.y < fieldCenterY + (fieldHeight - 1) / 2f)
+                    break;
+            }
+
+            Instantiate(bug, new Vector3(pos.x, pos.y, -1), Quaternion.identity);
+            if (isTutorialCleared[4] /*bug = 4 */ == false && gm.currentStageScene == "Stage1")
+            {
+                Instantiate(Events.BugTutorialBox);
+            }
+
+            bugMaking = false;
+        }
+    }
+
+    //버그 생성 텀 셋
+    public void SetBugResponeTime()
+    {
+        bugResponTime = Random.Range(roundBugResponeTimeMin, roundBugResponeTimeMax);
+        //Debug.Log(bugResponTime);
+    }
+
+    public void SetRoundBugResponeTime()
+    {
+        roundBugResponeTimeMin = 3.0f * bugResponeTimeMin / (2.0f + (float)roundCount);
+        roundBugResponeTimeMax = 3.0f * bugResponeTimeMax / (2.0f + (float)roundCount);
+    }
+
+
+    #endregion
+
+    #region 게임 시뮬레이션 관련 함수입니다
 
     //                      //
     //  다람쥐가 죽는 정도   //
@@ -304,31 +484,64 @@ public class GameManager : MonoBehaviour {
     //        인기도        //
     //                      //
 
+    // 이 함수는 인기도 계산 전에 실행되기 위해 DaramChange 이벤트에 들어가 있습니다
+    public void EnemyFameChange()
+    {
+        if (isenemyFameIncresing)
+        {
+            enemyDifficulty += (1.0f + (float)fame / 50000.0f) / 12000.0f;
+
+            if (enemyFame < fame)
+                enemyFame += (int)(((float)(fame - enemyFame) / 6000.0f + 1.0f) * enemyDifficulty);
+            else
+                enemyFame += (int)((enemyDifficulty - 1.0f) - (float)(enemyFame - fame) / 12000.0f);
+        }
+        enemyFame += (int)enemyFameOuterConstant;
+    }
+
+    void CalculateQuadric()
+    {
+        Quadric q = DaramFunction[User.level1];
+        q.x = Daram.FindByType("", 1);
+        q.a = 9.0f + (float)userCount[User.level1] / 500.0f;
+        q.max = 5.0f + Daram.VarietyModifier / 2.0f;
+        q.min = -5.0f;
+        q.solution = 10.0f * Daram.VarietyModifier + q.a / 10.0f;
+
+        q = DaramFunction[User.level2];
+        q.x = Daram.FindByType("", 2);
+        q.a = 5.0f + (float)userCount[User.level2] / 500.0f + (float)userCount[User.level1] / 2000.0f;
+        q.max = 2.0f + Daram.VarietyModifier / 3.0f;
+        q.min = -3.0f;
+        q.solution = 5.0f * Daram.VarietyModifier + q.a / 10.0f;
+    }
+
     public void FameDaram1()
     {
-        // IsInterRound가 true이면 인기도는 변하지 않아도 함수는 작동함
+        CalculateQuadric();
         Quadric q = DaramFunction[User.level1];
-        q.k = 0.2f;
-        q.x = Daram.All.Count;
-        q.a = 10 + fame / 1000;
-        q.max = 5;
-        q.min = -5;
 
-        if(!isInterRound) fame += (int) q.value;
+        fame += (int) q.value;
     }
 
     //lv2 다람쥐가 해금되면 실행됨
     public void FameDaram2()
     {
-        // IsInterRound가 true이면 인기도는 변하지 않아도 함수는 작동함
+        CalculateQuadric();
         Quadric q = DaramFunction[User.level2];
-        q.k = 0.2f;
-        q.x = Daram.FindByType("Basic", 2);
-        q.a = 5 + userCount[User.level2] / 100 + userCount[User.level1] / 2000;
-        q.max = 2;
-        q.min = -3;
 
-        if(!isInterRound) fame += (int) q.value;
+        fame += (int) q.value;
+    }
+
+    public void FameBug()
+    {
+        float sum = 0.0f;
+        foreach(BugUser bu in BugUser.Bugs)
+        {
+            sum += 3.0f * Mathf.Log10(1+bu.LiveTime());
+        }
+        sum *= 3.0f;     //이 수치는 추후 조정할 것.
+        if (!isInterRound) fame -= (int)Mathf.Round(sum);
     }
 
     //                      //
@@ -342,12 +555,11 @@ public class GameManager : MonoBehaviour {
 
         if (FameDelta > 0)
         {
-            userLevel1Increase = (int)(12 * Mathf.Log(fame + 1));     // y = k * log(x + 1)
-            userLevel1Increase += (int)(userLevel1Increase * Developer.dev.userIncreasePerDeveloper * Developer.dev.developerCount[Developer.dev.FindPostIDByName("Publicity")]);
+            userLevel1Increase = (int)(12.0f * Mathf.Log(fame + 1));     // y = k * log(x + 1)
             userCount[User.level1] += userLevel1Increase;
         }
         else
-            userCount[User.level1] -= (int)(10 * Mathf.Log((-1) * FameDelta + 1));   // 인기도가 감소중이면 적당히 줄어들게 함
+            userCount[User.level1] -= (int)(3.0f * Mathf.Log((-1) * FameDelta + 1));   // 인기도가 감소중이면 적당히 줄어들게 함
 
         PrevFame = fame;
     }
@@ -355,10 +567,17 @@ public class GameManager : MonoBehaviour {
     //lv2 다람쥐가 해금되면 실행됨
     public void UserLevel2()
     {
-        int LevelUp = 10 + userCount[User.level1] / 1000;
+        int FameDelta = fame - PrevFame;
+        int LevelUp = 0;
+
+        if (FameDelta > 0)
+            LevelUp = (int)(5.0f + (float)userCount[User.level1] / 1000.0f);
+        else
+            LevelUp = (int)((float)userCount[User.level1] / 2000.0f);
         userCount[User.level1] -= LevelUp;
         userCount[User.level2] += LevelUp;  // 일단 level2유저는 감소하지 않는걸로
     }
+
 
     //                      //
     //       기타 함수      //
@@ -370,7 +589,7 @@ public class GameManager : MonoBehaviour {
         {
             if(isInterRound == false)
                 for (int i = 0; i < User.Count; i++)
-                    userCount[i] = (int) (userCount[i] * 0.999832f);   // 전체 유저가 초당 1% 감소
+                    userCount[i] = (int) ((float)userCount[i] * 0.999832f);   // 전체 유저가 초당 1% 감소
             fame = 0;
         }
     }
@@ -412,7 +631,7 @@ public class GameManager : MonoBehaviour {
         earnedMoney = 0;
         initialMoney = Money();
         usedMoney = 0;
-        salaryMoney = 0;
+        //salaryMoney = 0;
         earnedMoneyModifier = 1.0f;
     }
 
@@ -433,8 +652,10 @@ public class GameManager : MonoBehaviour {
             money += delta;
             usedMoney += Mathf.Abs(delta);
         }
+        
+        
     }
-
+    /*
     /// <summary>
     /// 현재 돈(gm.money)에 인자 delta만큼의 값을 더합니다.
     /// 월급은 돈의 감소이므로 delta에 음수를 넣어주세요.
@@ -445,6 +666,7 @@ public class GameManager : MonoBehaviour {
         money += delta;
         salaryMoney += Mathf.Abs(delta);
     }
+     * */
 
     /// <summary>
     /// 현재 돈(gm.money)에 인자 delta만큼의 값을 더합니다.
@@ -454,6 +676,7 @@ public class GameManager : MonoBehaviour {
     public void ChangeMoneyInterRound(int delta)
     {
         money += delta;
+        SetSE((int)SE.SEType.Perchase);
     }
 
     //인기도에 의해 정기적으로 버는 소득
@@ -468,7 +691,7 @@ public class GameManager : MonoBehaviour {
             yield return new WaitForSeconds(timePerEarnedMoney);
         }
     }
-
+    /*
     // 초당(per second) 지급되는 개발자 월급
     IEnumerator MoneyLoseBySalary()
     {
@@ -479,10 +702,10 @@ public class GameManager : MonoBehaviour {
                 Developer.dev.CalculateCost();
                 ChangeMoneyBySalary((-Developer.dev.salaryCost));
             }
-            yield return new WaitForSeconds(1f);
+            yield return new WaitForSeconds(2.0f); // 2.0f로 설정해야 1초에 한 번씩 나감(왜 그런지는 모르겠지만)
         }
     }
-
+    */
     public int CalculateMoney(float multiConstant)
     {
         return (int)(multiConstant * 2 * Mathf.Pow( Mathf.Log(fame + 1, 2f), 1.3f));
@@ -512,22 +735,27 @@ public class GameManager : MonoBehaviour {
     }
 
     public void SetRoundTime() {
-        timeLeft = basicTime;
+        timeLeft = basicTime = 40;
         roundCount++;
         // 실제 라운드가 진행되는 시간은 (basicTime - 10) 초입니다.
         // 라운드 또는 스테이지별로 진행 시간을 바꾸고 싶으면 라운드가 끝난 직후에 다음 라운드의 basicTime 값을 직접 설정해주세요.
         // (개발자 월급 시스템과 연관되어 있습니다.)
     }
 
+   
+
     private void RoundEndCheck() {
         if (timeLeft <= -1) {   // 0으로 하면 마지막 1초가 보여지지 않아서 -1로 수정
             //print("stageEnded");
             timeLeft = 0;
-
+            /*
             //라운드 행사 제거를 위해 한번 더 확인
             isRoundEventOn = false;
+             * */
             if (EventCheck != null)
                 EventCheck();
+
+            BugUser.Bugs.Clear();
 
             Instantiate(resultScene); // 결과창을 Instantiate하는 방법으로 변경
             // 방법을 변경한 이유는 결과창이 맨 위에 뜨도록 하기 위해서임.
@@ -585,19 +813,20 @@ public class GameManager : MonoBehaviour {
         GameObject messageBox = Instantiate(GetComponentInChildren<Events>().NormalMessage_Box) as GameObject;
         messageBox.GetComponentInChildren<Text>().text = boxText;
     }
-
+    /*
     // 매 라운드 시작시마다 호출됨
     void CheckDaramDeveloper()
     {
         if (roundCount == 1)    // 시작할때 developerCount 초기화가 안되어 있어서 예외처리함 
             return;
         
-        Unlockables.SetBool("UnlockDaram1_Amount10", dev.developerCount[dev.FindPostIDByName("DaramLv1")] >= 3);
-        Unlockables.SetBool("UnlockDaram1_Amount100", dev.developerCount[dev.FindPostIDByName("DaramLv1")] >= 9);
+        Unlockables.SetBool("UnlockBasic1_Amount10", dev.developerCount[dev.FindPostIDByName("DaramLv1")] >= 3);
+        Unlockables.SetBool("UnlockBasic1_Amount100", dev.developerCount[dev.FindPostIDByName("DaramLv1")] >= 9);
 
-        Unlockables.SetBool("UnlockDaram2_Amount10", dev.developerCount[dev.FindPostIDByName("DaramLv2")] >= 3);
-        Unlockables.SetBool("UnlockDaram2_Amount100", dev.developerCount[dev.FindPostIDByName("DaramLv2")] >= 9);
+        Unlockables.SetBool("UnlockBasic2_Amount10", dev.developerCount[dev.FindPostIDByName("DaramLv2")] >= 3);
+        Unlockables.SetBool("UnlockBasic2_Amount100", dev.developerCount[dev.FindPostIDByName("DaramLv2")] >= 9);
     }
+    */
 
 }
 

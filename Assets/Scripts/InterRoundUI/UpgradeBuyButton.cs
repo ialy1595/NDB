@@ -19,6 +19,6 @@ public class UpgradeBuyButton : MonoBehaviour
     public void OnClick()
     {
         database.AddUpgrade(buyingUpgrade);
-        UpgradeCheckup._this.RefreshTooltip();
+        UpgradeCheckup.upgradeChkup.RefreshTooltip();
     }
 }

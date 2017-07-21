@@ -2,7 +2,7 @@
 using System.Collections;
 
 public class DeveloperMoveToButton : MonoBehaviour {
-
+    /*
     private Post modifyingDeveloper;
     private Developer dev;
     private DeveloperCheckup devChkup;
@@ -26,4 +26,5 @@ public class DeveloperMoveToButton : MonoBehaviour {
         devChkup.RefreshPostTooltip();
         devChkup.RefreshPostButtons2();
     }
+     * */
 }

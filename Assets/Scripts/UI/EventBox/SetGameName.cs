@@ -14,11 +14,11 @@ public class SetGameName : MonoBehaviour {
     public void OnClick()
     {
         string name = GetComponentInChildren<InputField>().text;
-        if (name == null || name == "" || name.Length > 10)
+        if (name == null || name == "" || name.Length > 8)
             return;
         GameManager.gm.GameName = name;
-        GameManager.gm.currentStageScene = "Stage1";
-        SceneManager.LoadScene("Stage1");
+        SaveLoad.Save();
+        SceneManager.LoadScene("ChooseStages");
         Destroy(this);
     }
 

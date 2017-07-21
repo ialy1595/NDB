@@ -3,8 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 
 // 예시
-// 기본 다람쥐 해금 : Unlockables.SetBool("UnlockDaram1", true);
-// 기본 다람쥐 해금 확인 : Unlockables.GetBool("UnlockDaram1");
+// 기본 다람쥐 해금 : Unlockables.SetBool("UnlockBasic1", true);
+// 기본 다람쥐 해금 확인 : Unlockables.GetBool("UnlockBasic1");
 
 
 /// <summary>

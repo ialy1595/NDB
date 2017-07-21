@@ -10,6 +10,7 @@ public class RoundStartScene : MonoBehaviour {
         string str = Description.GetComponent<Text>().text;
         str = str.Replace("%title%", GameManager.gm.GameName);
         Description.GetComponent<Text>().text = str;
+        GetComponent<EventBox>().DisableHotkey = true;
     }
 
     public void OnClick()

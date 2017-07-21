@@ -25,12 +25,12 @@ public class UserChat : MonoBehaviour {
     private static GameObject _ChatText;
     public static GameObject CreateChat(string text, float lifetime)
     {
-        Vector3 pos = new Vector3(Random.Range(100, 500), Random.Range(300, 500), 0);   //화면 해상도에 따라 바꿀 것
+        Vector3 pos = new Vector3(Random.Range(100, 800), Random.Range(400, 900), 0);   //화면 해상도에 따라 바꿀 것
 
         if (_Canvas == null)
             _Canvas = GameObject.Find("Canvas");
         GameObject obj = (GameObject) Instantiate(_ChatText, Vector3.zero, Quaternion.identity);
-        obj.transform.SetParent(_Canvas.transform);
+        obj.transform.SetParent(_Canvas.transform, true);
         obj.GetComponent<RectTransform>().position = pos;
         obj.GetComponent<Text>().text = text;
         obj.GetComponent<SelfDestroyScript>().ChangeFate(lifetime);
@@ -80,32 +80,32 @@ public class UserChat : MonoBehaviour {
                 switch (Random.Range(0, 5))
                 {
                     case 0:
-                        CreateChat("사람이 다람쥐보다 많은듯..", 3);
+                        CreateChat(BadChat("사람이 다람쥐보다 많은듯.."), 3);
                         break;
                     case 1:
-                        CreateChat("일해라 GM!!", 3);
+                        CreateChat(BadChat("일해라 GM!!"), 3);
                         break;
                     case 2:
-                        CreateChat("다람쥐 멸종위기....", 3);
+                        CreateChat(BadChat("다람쥐 멸종위기...."), 3);
                         break;
                     case 3:
-                        CreateChat("넥슨은 다람쥐를 뿌려라!", 2);
+                        CreateChat(BadChat("넥슨은 다람쥐를 뿌려라!"), 2);
                         break;
                     case 4:
-                        CreateChat("다람쥐가 있어야 퀘스트를 하지...", 3);
+                        CreateChat(BadChat("다람쥐가 있어야 퀘스트를 하지..."), 3);
                         break;
                 }
             else
                 switch (Random.Range(0, 3))
                 {
                     case 0:
-                        CreateChat("다람쥐에 깔려죽겠다 ㅠㅠ", 3);
+                        CreateChat(BadChat("다람쥐에 깔려죽겠다 ㅠㅠ"), 3);
                         break;
                     case 1:
-                        CreateChat("이걸 다 언제잡아..", 3);
+                        CreateChat(BadChat("이걸 다 언제잡아.."), 3);
                         break;
                     case 2:
-                        CreateChat("공기반 다람쥐반이네..", 3);
+                        CreateChat(BadChat("공기반 다람쥐반이네.."), 3);
                         break;
                 }
 
@@ -208,12 +208,12 @@ public class UserChat : MonoBehaviour {
 
     }
 
-    public string BadChat(string str)
+    public static string BadChat(string str)
     {
         return "<color=#ff0069>" + str + "</color>";
     }
 
-    public string GoodChat(string str)
+    public static string GoodChat(string str)
     {
         return "<color=#76ff94>" + str + "</color>";
     }

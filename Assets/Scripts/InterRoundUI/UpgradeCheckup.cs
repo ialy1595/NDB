@@ -6,10 +6,12 @@ using System.Collections.Generic;
 public class UpgradeCheckup : MonoBehaviour {
 
     public GameObject UpgradeListTemplate;
-    static public UpgradeCheckup _this;
+    static public UpgradeCheckup upgradeChkup;
 
     private GameObject upgradePanel;
+    private GameObject upgradePanel2;
     private GameObject upgradeScrollPanel;
+    private Text upgradeStatusText;
     private UpgradeDatabase database;
     private RectTransform upgradeScrollPanelrect;
     private int imageIconSize = 256;
@@ -18,22 +20,29 @@ public class UpgradeCheckup : MonoBehaviour {
 
     void Start()
     {
-        _this = this;
+        upgradeChkup = this;
         database = GameManager.gm.GetComponentInChildren<UpgradeDatabase>();
         upgradePanel = GameObject.Find("UpgradePanel");
+        upgradePanel2 = GameObject.Find("UpgradePanel2");
         upgradeScrollPanel = GameObject.Find("UpgradeScrollPanel");
+        upgradeStatusText = GameObject.Find("UpgradeStatus").GetComponentInChildren<Text>();
         upgradeScrollPanelrect = upgradeScrollPanel.GetComponent<RectTransform>();
         upgradePanel.GetComponent<Transform>().localScale = new Vector3(1, 1, 1);
         upgradePanel.SetActive(false);
         MakeUpgradeList();
+        upgradeStatusText.text = "남은 돈 : " + GameManager.gm.Money();
     }
 
-    void MakeUpgradeList()
+    public void MakeUpgradeList()
     {
+        foreach (GameObject go in upgradeList)
+            Destroy(go);
+        upgradeList.Clear();
         SetListSize(upgradeScrollPanelrect);
+        int listcount = 0;
         foreach (Upgrade Upgrade in database.upgradeDatabase)
         {
-            GameObject newupgrade = Instantiate(UpgradeListTemplate, new Vector3(0f, (upgradeScrollPanelrect.rect.height / 2) - 120f * Upgrade.upgradeID - 20f, 0f), Quaternion.identity) as GameObject;
+            GameObject newupgrade = Instantiate(UpgradeListTemplate, new Vector3(0f, (upgradeScrollPanelrect.rect.height / 2f) - 120f * listcount - 20f, 0f), Quaternion.identity) as GameObject;
             newupgrade.name = Upgrade.upgradeName;
 
             /* 다른 children이 추가되면 아래 코드에서 에러가 발생할 수도? */
@@ -43,6 +52,7 @@ public class UpgradeCheckup : MonoBehaviour {
             newupgrade.GetComponentInChildren<UpgradeBuyButton>().SetUpgrade(Upgrade);
 
             upgradeList.Add(newupgrade);
+            listcount++;
 
         }
         RefreshTooltip();
@@ -51,8 +61,8 @@ public class UpgradeCheckup : MonoBehaviour {
     public void ShowUpgrades()
     {
         //이유는 모르겠지만 처음에 위치 조정을 안해주면 스크롤바랑 이미지 표시가 이상해짐
-        upgradePanel.GetComponent<ScrollRect>().verticalScrollbar.value = 0;
-        upgradeScrollPanelrect.localPosition = new Vector2(upgradeScrollPanelrect.localPosition.x, -upgradeScrollPanelrect.rect.height / 2);
+        upgradePanel2.GetComponent<ScrollRect>().verticalScrollbar.value = 0;
+        upgradeScrollPanelrect.localPosition = new Vector2(upgradeScrollPanelrect.localPosition.x, -upgradeScrollPanelrect.rect.height / 2f);
         upgradePanel.SetActive(true);
         RefreshTooltip();
     }
@@ -76,12 +86,13 @@ public class UpgradeCheckup : MonoBehaviour {
                 else
                     tooltip += "<color=#000000>" + Upgrade.upgradeDescription + "</color>\n\n";
                 tooltip += "<color=#990282>" + "가격 : " + Upgrade.upgradePrice + "</color>\t\t";
-                tooltip += "<color=#990282>" + "필요 개발자 수 : " + Upgrade.upgradeRequiredDev + "</color>\t\t";
+                //tooltip += "<color=#990282>" + "필요 개발자 수 : " + Upgrade.upgradeRequiredDev + "</color>\t\t";
                 if (Upgrade.upgradeQuantity != 0)
                     tooltip += "<color=#990282>" + Upgrade.upgradeQuantityName + " : "+ Unlockables.GetInt(Upgrade.upgradeTooltipName) + "</color>";
                 go.GetComponentInChildren<Text>().text = tooltip;
             }
         }
+        upgradeStatusText.text = "남은 돈 : " + GameManager.gm.Money();
     }
 
     void Update()

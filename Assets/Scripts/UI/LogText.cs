@@ -35,6 +35,7 @@ public class LogText : MonoBehaviour {
     {
         if (GameManager.gm.isInterRound == false && StartText == false)
         {
+            GameManager.gm.SetSE((int)SE.SEType.Dingaling);
             WriteLog("\n로그인 시작!");
             StartText = true;
         }

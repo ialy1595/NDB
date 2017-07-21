@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 public class RoundEventDatabase : MonoBehaviour {
+    /*
     public List<RoundEvent> roundEventDatabase = new List<RoundEvent>();
 
 
@@ -21,7 +22,7 @@ public class RoundEventDatabase : MonoBehaviour {
         roundEventDatabase.Add(new RoundEvent("명절 이벤트", "ItemDropIncrease", 3, 3000, 10, "초보 유저 유입이 증가합니다.\n 인기도 상승율이 증가합니다.", Holiday));
 
         /*roundEventDatabase.Add(new RoundEvent("약속과 믿음", "Kiri", 1, 777, 5, "유저 수 증가율이 감소합니다.",
-            delegate() { gm.UserChange += Kiri; } ));*/
+            delegate() { gm.UserChange += Kiri; } ));*//*
         //roundEventDatabase.Add(new RoundEvent("헤파이스토스", 1, 888, "유저가 감소합니다."));
     }
 
@@ -69,7 +70,7 @@ public class RoundEventDatabase : MonoBehaviour {
                 StopCoroutine(ExpEvent());
 
             gm.FameDaram1();
-            if (Unlockables.GetBool("UnlockDaram1") == true)
+            if (Unlockables.GetBool("UnlockBasic2") == true)
             {
                 gm.FameDaram2();
                 if (GiveDelay(1.0f, ref userUpdateTime))
@@ -134,7 +135,7 @@ public class RoundEventDatabase : MonoBehaviour {
             if (GiveDelay(1.0f, ref userUpdateTime))
             {
                 gm.userCount[User.level1] -= (int)(userLevel1Decrease * gm.userLevel1Increase);
-                if (Unlockables.GetBool("UnlockDaram1") == true)
+                if (Unlockables.GetBool("UnlockBasic2") == true)
                     gm.UserLevel2();
             }
 
@@ -154,7 +155,7 @@ public class RoundEventDatabase : MonoBehaviour {
                 gm.UserLevel1();
 
             gm.FameDaram1();
-            if (Unlockables.GetBool("UnlockDaram1") == true)
+            if (Unlockables.GetBool("UnlockBasic2") == true)
                 gm.FameDaram2();
 
             yield return StartCoroutine(WaitFor.Frames(1)); // 1프레임 당 한번 = 100%
@@ -169,11 +170,13 @@ public class RoundEventDatabase : MonoBehaviour {
         }
         else return false;
     }
+                                                        * */
 }
 
 
 public static class WaitFor
 {
+    /*
     public static IEnumerator Frames(int frameCount)
     {
 
@@ -183,5 +186,6 @@ public static class WaitFor
             yield return null;
         }
     }
+     * */
 }
 

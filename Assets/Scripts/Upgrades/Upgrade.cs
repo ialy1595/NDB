@@ -18,7 +18,7 @@ public class Upgrade
     public string upgradeTooltipName;  //서버때문에 필요함(다른 업그레이드에는 필요없을듯)
 
     //이미지는 업그레이드이름(upgradeName)과 똑같은 파일명을 가진 걸 자동으로 사용하도록 했음
-    public Upgrade(string name, int ID, int price, int dev, string desc, string unlockable, string quantityname = "", int quantity = 0, float modifier = 1.0f)
+    public Upgrade(string name, int ID, int price, int dev, string desc, string unlockable, string quantityname = "", int quantity = 0, float modifier = 0.0f)
     {
         upgradeName = name;
         upgradeID = ID;
@@ -30,7 +30,7 @@ public class Upgrade
         upgradeQuantityName = quantityname;
         upgradeQuantity = quantity;
         upgradeModifier = modifier;
-        upgradeTooltipName = upgradeQuantityName;
+        upgradeTooltipName = upgradeInternalName;
     }
 
     public Upgrade(string name, int ID, int price, int dev, string desc, string unlockable, string tooltipname, string quantityname,  int quantity = 0, float modifier = 1.0f)
@@ -51,5 +51,15 @@ public class Upgrade
     public Upgrade()
     {
 
+    }
+
+    public override bool Equals(object obj)
+    {
+        if (obj == null)
+            return false;
+        else if (((Upgrade)obj).upgradeID == upgradeID)
+            return true;
+        else
+            return false;
     }
 }

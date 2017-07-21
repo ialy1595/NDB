@@ -2,7 +2,7 @@
 using System.Collections;
 
 public class RoundEventBuyButton : MonoBehaviour {
-
+    /*
     private RoundEvent buyingEvent;
     private RoundEventDatabase database;
 
@@ -20,4 +20,5 @@ public class RoundEventBuyButton : MonoBehaviour {
     {
         database.AddRoundEvent(buyingEvent);
     }
+    */
 }
