@@ -3,5 +3,5 @@
 ---
 ### Game Management Tycoon Game
 ### How to run
- * run NDB.exe
- * it needs NDB_Data folder.
+ * Run NDB.exe
+ * It needs NDB_Data folder.
